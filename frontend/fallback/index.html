@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saarthi AI</title>
+<style>
+/* ── Base ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
+h1 { color: #14532d; margin-bottom: 4px; }
+.sub { color: #555; margin-top: 0; }
+label { display: block; margin-top: 16px; font-weight: 600; font-size: 14px; }
+input[type="number"], select, textarea {
+  width: 100%; padding: 10px; margin-top: 4px; font-size: 16px;
+  border: 1px solid #ccc; border-radius: 6px; font-family: inherit;
+}
+textarea { resize: vertical; min-height: 72px; }
+button {
+  margin-top: 20px; padding: 12px 24px; font-size: 16px;
+  background: #14532d; color: #fff; border: none; border-radius: 6px; cursor: pointer;
+}
+button:hover { background: #0f3d20; }
+button:disabled { background: #888; cursor: default; }
+.warn { color: #b45309; font-weight: 600; }
+.disclaimer { font-size: 12px; color: #888; margin-top: 40px; border-top: 1px solid #eee; padding-top: 12px; }
+
+/* ── NLP panel ─────────────────────────────────────────────────── */
+#nlp-section {
+  background: #f0fdf4; border: 1px solid #86efac;
+  border-radius: 8px; padding: 16px; margin-bottom: 24px;
+}
+#nlp-section label { margin-top: 0; color: #14532d; }
+#nlp-hint { font-size: 12px; color: #666; margin-top: 6px; margin-bottom: 0; }
+#parse-btn { margin-top: 12px; background: #166534; padding: 10px 20px; font-size: 15px; }
+#parse-btn:hover { background: #14532d; }
+
+/* ── Missing-field highlight ───────────────────────────────────── */
+.field-missing input, .field-missing select {
+  border-color: #f59e0b; background: #fffbeb;
+}
+.field-missing::after {
+  content: "Required \2014 please fill this in";
+  display: block; font-size: 12px; color: #b45309; margin-top: 4px; font-weight: 600;
+}
+
+/* ── Confirm button ────────────────────────────────────────────── */
+#confirm-btn { background: #1d4ed8; }
+#confirm-btn:hover { background: #1e40af; }
+#confirm-note { font-size: 13px; color: #555; margin-top: 8px; }
+
+/* ── Scheme cards ──────────────────────────────────────────────── */
+.scheme-card {
+  border: 1px solid #ddd; border-radius: 10px; padding: 18px 20px;
+  margin-top: 16px; cursor: pointer;
+  transition: border-color .18s, box-shadow .18s;
+}
+.scheme-card:hover { border-color: #14532d; box-shadow: 0 2px 12px rgba(20,83,45,.12); }
+.scheme-card h3 { margin: 0 0 6px; color: #14532d; font-size: 17px; }
+.scheme-card .card-meta { font-size: 14px; color: #444; line-height: 1.7; }
+.scheme-card .view-link {
+  display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600;
+  color: #14532d; text-decoration: none; border-bottom: 1px solid #86efac;
+}
+
+/* ── Modal overlay ─────────────────────────────────────────────── */
+#modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.45); z-index: 100;
+  align-items: flex-start; justify-content: center;
+  overflow-y: auto; padding: 32px 16px;
+}
+#modal-overlay.open { display: flex; }
+#modal-box {
+  background: #fff; border-radius: 14px; width: 100%; max-width: 580px;
+  padding: 32px 28px; position: relative;
+  animation: slideUp .22s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#modal-close {
+  position: absolute; top: 16px; right: 18px;
+  background: none; border: none; font-size: 22px; color: #666;
+  cursor: pointer; margin: 0; padding: 4px 8px; border-radius: 4px; line-height: 1;
+}
+#modal-close:hover { background: #f3f4f6; color: #111; }
+
+/* ── Modal scheme info ─────────────────────────────────────────── */
+#modal-scheme-name { margin: 0 0 6px; color: #14532d; font-size: 20px; }
+#modal-scheme-desc { color: #555; margin: 0 0 20px; font-size: 14px; line-height: 1.6; }
+.info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 20px;
+}
+.info-item { font-size: 14px; }
+.info-item .lbl { font-weight: 600; color: #374151; display: block; margin-bottom: 2px; }
+.info-item .val { color: #14532d; font-size: 15px; font-weight: 600; }
+.source-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: #1d4ed8; text-decoration: none; font-weight: 600;
+}
+.source-link:hover { text-decoration: underline; }
+
+/* ── Divider ───────────────────────────────────────────────────── */
+.modal-divider {
+  border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;
+}
+
+/* ── EMI calculator ────────────────────────────────────────────── */
+#emi-calc h2 { margin: 0 0 4px; font-size: 17px; color: #1a1a1a; }
+#emi-calc .calc-sub { font-size: 13px; color: #666; margin: 0 0 20px; }
+
+.slider-row { margin-bottom: 20px; }
+.slider-row .slider-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.slider-row .slider-lbl { font-weight: 600; font-size: 14px; }
+.slider-row .slider-val {
+  font-size: 15px; font-weight: 700; color: #14532d;
+  background: #f0fdf4; border-radius: 6px; padding: 2px 10px;
+}
+input[type="range"] {
+  width: 100%; accent-color: #14532d; height: 4px; cursor: pointer;
+}
+
+/* ── EMI result box ────────────────────────────────────────────── */
+#emi-result {
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 10px; padding: 18px 20px; margin-top: 8px;
+}
+.emi-main { font-size: 28px; font-weight: 700; color: #14532d; }
+.emi-main .emi-unit { font-size: 15px; font-weight: 400; color: #555; margin-left: 4px; }
+.emi-breakdown {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
+}
+.emi-stat .lbl { font-size: 12px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.emi-stat .val { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-top: 2px; }
+.moratorium-note {
+  margin-top: 14px; font-size: 13px; color: #374151;
+  background: #fff; border-radius: 6px; padding: 10px 12px; border: 1px solid #e5e7eb;
+}
+.moratorium-note strong { color: #14532d; }
+.emi-disclaimer {
+  margin-top: 16px; font-size: 12px; color: #888; line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<h1>&#x1F9ED; Saarthi AI</h1>
+<p class="sub">Find NSFDC financing schemes for Scheduled Caste entrepreneurs.</p>
+
+<!-- NLP panel -->
+<div id="nlp-section">
+  <label for="nlp-input">Describe your need in Hindi or English</label>
+  <textarea id="nlp-input" placeholder='e.g. "मुझे दर्जी की दुकान के लिए तीन लाख चाहिए, मेरी आय दो लाख है" or "I need three lakh for a tailoring shop, my income is two lakh"'></textarea>
+  <p id="nlp-hint">We will extract the details and fill the form for you. You can edit before confirming.</p>
+  <button id="parse-btn" onclick="parseText()">Auto-fill from description</button>
+</div>
+
+<!-- Main form -->
+<div id="main-form">
+  <div id="wrap-isSc">
+    <label for="isSc">Does the applicant belong to the Scheduled Caste community?</label>
+    <select id="isSc">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+  <div id="wrap-income">
+    <label for="income">Annual family income (Rs.)</label>
+    <input type="number" id="income" value="320000">
+  </div>
+  <div id="wrap-cost">
+    <label for="cost">Estimated project cost (Rs.)</label>
+    <input type="number" id="cost" value="300000">
+  </div>
+  <button id="confirm-btn" style="display:none" onclick="findSchemes()">Confirm and Find Schemes</button>
+  <p id="confirm-note" style="display:none">Review the auto-filled values above, edit if needed, then click Confirm.</p>
+  <button id="find-btn" onclick="findSchemes()">Find schemes</button>
+</div>
+
+<div id="results"></div>
+
+<p class="disclaimer">Prototype only &#8212; not a loan sanction. Final verification is done by NSFDC&#8217;s channel partners.</p>
+
+<!-- ── Modal ───────────────────────────────────────────────────── -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-scheme-name" onclick="handleOverlayClick(event)">
+  <div id="modal-box">
+    <button id="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
+
+    <!-- Scheme info -->
+    <h2 id="modal-scheme-name"></h2>
+    <p id="modal-scheme-desc"></p>
+
+    <div class="info-grid" id="modal-info-grid"></div>
+    <a id="modal-source-link" class="source-link" href="#" target="_blank" rel="noopener">
+      &#x1F517; Official NSFDC source
+    </a>
+
+    <hr class="modal-divider">
+
+    <!-- EMI calculator -->
+    <div id="emi-calc">
+      <h2>EMI Calculator</h2>
+      <p class="calc-sub">Personalised to your estimated loan amount &#8212; adjust sliders to explore.</p>
+
+      <div class="slider-row" id="loan-slider-row">
+        <div class="slider-header">
+          <span class="slider-lbl">Loan amount</span>
+          <span class="slider-val" id="loan-val-display">&#8212;</span>
+        </div>
+        <input type="range" id="loan-slider" oninput="recalc()">
+      </div>
+
+      <div class="slider-row" id="rate-slider-row" style="display:none">
+        <div class="slider-header">
+          <span class="slider-lbl">Interest rate</span>
+          <span class="slider-val" id="rate-val-display">&#8212;</span>
+        </div>
+        <input type="range" id="rate-slider" step="0.1" oninput="recalc()">
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <span class="slider-lbl">Tenure</span>
+          <span class="slider-val" id="tenure-val-display">&#8212;</span>
+        </div>
+        <input type="range" id="tenure-slider" min="1" step="1" oninput="recalc()">
+      </div>
+
+      <div id="emi-result">
+        <div id="emi-main-display" class="emi-main"></div>
+        <div class="emi-breakdown" id="emi-breakdown"></div>
+        <div class="moratorium-note" id="moratorium-note"></div>
+      </div>
+
+      <p class="emi-disclaimer">
+        This is an indicative estimate only and does not constitute a loan offer.
+        Actual EMI, interest, and repayment schedule may differ based on NSFDC&#8217;s
+        final assessment and the applicable scheme terms.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+var API_URL   = "http://127.0.0.1:5000/api/match";
+var PARSE_URL = "http://127.0.0.1:5000/api/parse";
+
+/* ── NLP parse ──────────────────────────────────────────────── */
+async function parseText() {
+  var text = document.getElementById("nlp-input").value.trim();
+  if (!text) return;
+  var btn = document.getElementById("parse-btn");
+  btn.disabled = true; btn.textContent = "Parsing...";
+  try {
+    var res = await fetch(PARSE_URL, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text }),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    autoFill(await res.json());
+  } catch (e) {
+    console.warn("parse failed, falling back:", e);
+    hideParseSectionGracefully();
+  } finally {
+    btn.disabled = false; btn.textContent = "Auto-fill from description";
+  }
+}
+
+function autoFill(data) {
+  clearHighlights();
+  if (data.is_sc      != null) document.getElementById("isSc").value   = String(data.is_sc);
+  if (data.annual_income != null) document.getElementById("income").value = data.annual_income;
+  if (data.project_cost  != null) document.getElementById("cost").value   = data.project_cost;
+  var missing = Array.isArray(data.missing_fields) ? data.missing_fields : [];
+  if (missing.length) highlightMissing(missing);
+  document.getElementById("find-btn").style.display     = "none";
+  document.getElementById("confirm-btn").style.display  = "";
+  document.getElementById("confirm-note").style.display = "";
+}
+
+function highlightMissing(fields) {
+  var map = { is_sc: "wrap-isSc", annual_income: "wrap-income", project_cost: "wrap-cost" };
+  fields.forEach(function(f) {
+    var id = map[f]; if (id) document.getElementById(id).classList.add("field-missing");
+  });
+}
+function clearHighlights() {
+  document.querySelectorAll(".field-missing").forEach(function(el) { el.classList.remove("field-missing"); });
+}
+function hideParseSectionGracefully() {
+  var s = document.getElementById("nlp-section"); if (s) s.style.display = "none";
+}
+
+/* ── Find schemes ───────────────────────────────────────────── */
+async function findSchemes() {
+  clearHighlights();
+  var resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = "<p>Checking...</p>";
+  var payload = {
+    is_sc:         document.getElementById("isSc").value === "true",
+    annual_income: Number(document.getElementById("income").value),
+    project_cost:  Number(document.getElementById("cost").value),
+  };
+  try {
+    var response = await fetch(API_URL, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    var data = await response.json();
+    if (!data.eligible) {
+      resultsDiv.innerHTML = "<p class='warn'>" + data.message + "</p>"; return;
+    }
+    renderSchemes(data);
+  } catch (err) {
+    resultsDiv.innerHTML = "<p class='warn'>Could not reach the backend. Is app.py running on port 5000? (" + err + ")</p>";
+  }
+}
+
+function renderSchemes(data) {
+  var resultsDiv = document.getElementById("results");
+  var html = "<p>" + data.message + "</p>";
+  data.schemes.forEach(function(s, i) {
+    html +=
+      "<div class='scheme-card' onclick='openModal(" + i + ")' tabindex='0' " +
+      "onkeydown='if(event.key==&quot;Enter&quot;)openModal(" + i + ")'>" +
+      "<h3>" + s.name + "</h3>" +
+      "<div class='card-meta'>" +
+      "<span><b>Estimated loan:</b> Rs. " + s.estimated_loan.toLocaleString("en-IN") + "</span><br>" +
+      "<span><b>Your contribution:</b> Rs. " + s.applicant_contribution.toLocaleString("en-IN") + "</span><br>" +
+      "<span><b>Interest rate:</b> " + s.interest_rate + " &nbsp;|&nbsp; <b>Repayment:</b> up to " + s.repayment_years + " years</span>" +
+      "</div>" +
+      "<span class='view-link'>View details &amp; EMI calculator &#8594;</span>" +
+      "</div>";
+  });
+  resultsDiv.innerHTML = html;
+  window._lastSchemes = data.schemes;
+}
+
+/* ── Modal ──────────────────────────────────────────────────── */
+var _activeScheme = null;
+
+function openModal(idx) {
+  var s = window._lastSchemes[idx];
+  _activeScheme = s;
+
+  document.getElementById("modal-scheme-name").textContent = s.name;
+  document.getElementById("modal-scheme-desc").textContent = s.description || "";
+
+  var rateLabel;
+  if (s.interest_rate_min === s.interest_rate_max) {
+    rateLabel = s.interest_rate_min + "% p.a.";
+  } else {
+    rateLabel = s.interest_rate_min + "% \u2013 " + s.interest_rate_max + "% p.a.";
+  }
+
+  var morLabel = s.moratorium_months
+    ? s.moratorium_months + " month" + (s.moratorium_months > 1 ? "s" : "")
+    : "None";
+
+  var maxLoanLabel = "Rs. " + (s.max_loan || s.estimated_loan).toLocaleString("en-IN");
+
+  document.getElementById("modal-info-grid").innerHTML =
+    infoItem("Max loan amount", maxLoanLabel) +
+    infoItem("Interest rate", rateLabel) +
+    infoItem("Repayment period", "Up to " + s.repayment_years + " years") +
+    infoItem("Moratorium period", morLabel);
+
+  var srcLink = document.getElementById("modal-source-link");
+  srcLink.href = s.source_url || "#";
+  if (!s.source_url) srcLink.style.display = "none"; else srcLink.style.display = "";
+
+  initSliders(s);
+
+  var overlay = document.getElementById("modal-overlay");
+  overlay.classList.add("open");
+  overlay.scrollTop = 0;
+  document.body.style.overflow = "hidden";
+  document.getElementById("modal-close").focus();
+}
+
+function infoItem(label, value) {
+  return "<div class='info-item'><span class='lbl'>" + label + "</span><span class='val'>" + value + "</span></div>";
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById("modal-overlay")) closeModal();
+}
+
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeModal(); });
+
+/* ── EMI sliders ────────────────────────────────────────────── */
+function initSliders(s) {
+  var maxLoan = s.max_loan || s.estimated_loan;
+  var defaultLoan = Math.min(s.estimated_loan, maxLoan);
+
+  var loanSlider = document.getElementById("loan-slider");
+  loanSlider.min   = 0;
+  loanSlider.max   = maxLoan;
+  loanSlider.step  = Math.max(1000, Math.round(maxLoan / 200));
+  loanSlider.value = defaultLoan;
+
+  var tenureSlider = document.getElementById("tenure-slider");
+  tenureSlider.max   = s.repayment_years;
+  tenureSlider.value = s.repayment_years;
+
+  var rateRow = document.getElementById("rate-slider-row");
+  if (s.interest_rate_min !== s.interest_rate_max) {
+    rateRow.style.display = "";
+    var rSlider = document.getElementById("rate-slider");
+    rSlider.min   = s.interest_rate_min;
+    rSlider.max   = s.interest_rate_max;
+    rSlider.step  = "0.1";
+    rSlider.value = ((s.interest_rate_min + s.interest_rate_max) / 2).toFixed(1);
+  } else {
+    rateRow.style.display = "none";
+  }
+
+  recalc();
+}
+
+function recalc() {
+  var s = _activeScheme; if (!s) return;
+
+  var loan = Number(document.getElementById("loan-slider").value);
+  var tenure = Number(document.getElementById("tenure-slider").value);
+
+  var annualRate;
+  if (s.interest_rate_min !== s.interest_rate_max) {
+    annualRate = Number(document.getElementById("rate-slider").value);
+  } else {
+    annualRate = s.interest_rate_min;
+  }
+
+  var morMonths = s.moratorium_months || 0;
+
+  /* Display labels */
+  document.getElementById("loan-val-display").textContent   = "Rs. " + loan.toLocaleString("en-IN");
+  document.getElementById("tenure-val-display").textContent = tenure + " yr" + (tenure !== 1 ? "s" : "");
+  if (s.interest_rate_min !== s.interest_rate_max) {
+    document.getElementById("rate-val-display").textContent = annualRate.toFixed(1) + "%";
+  }
+
+  /* EMI formula */
+  var payingMonths = (tenure * 12) - morMonths;
+  if (payingMonths <= 0) payingMonths = 1;
+
+  var monthlyRate = annualRate / 12 / 100;
+  var emi;
+  if (monthlyRate === 0) {
+    emi = loan / payingMonths;
+  } else {
+    var pow = Math.pow(1 + monthlyRate, payingMonths);
+    emi = loan * monthlyRate * pow / (pow - 1);
+  }
+
+  var totalPayable  = emi * payingMonths;
+  var totalInterest = totalPayable - loan;
+
+  document.getElementById("emi-main-display").innerHTML =
+    "Rs. " + Math.round(emi).toLocaleString("en-IN") +
+    "<span class='emi-unit'>/ month</span>";
+
+  document.getElementById("emi-breakdown").innerHTML =
+    emiStat("Total interest", "Rs. " + Math.round(totalInterest).toLocaleString("en-IN")) +
+    emiStat("Total payable",  "Rs. " + Math.round(totalPayable).toLocaleString("en-IN"));
+
+  var noteText;
+  if (morMonths > 0) {
+    noteText = "<strong>No EMI due</strong> for the first <strong>" + morMonths + " month" +
+      (morMonths > 1 ? "s" : "") + "</strong> (moratorium period). " +
+      "Monthly payments of <strong>Rs.\u00a0" + Math.round(emi).toLocaleString("en-IN") +
+      "</strong> begin from month " + (morMonths + 1) + ".";
+  } else {
+    noteText = "Payments begin from the first month. No moratorium period applies to this scheme.";
+  }
+  document.getElementById("moratorium-note").innerHTML = noteText;
+}
+
+function emiStat(label, val) {
+  return "<div class='emi-stat'><div class='lbl'>" + label + "</div><div class='val'>" + val + "</div></div>";
+}
+</script>
+</body>
+</html>
