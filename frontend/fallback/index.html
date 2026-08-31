@@ -1,494 +1,2793 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saarthi AI</title>
-<style>
-/* ── Base ─────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
-h1 { color: #14532d; margin-bottom: 4px; }
-.sub { color: #555; margin-top: 0; }
-label { display: block; margin-top: 16px; font-weight: 600; font-size: 14px; }
-input[type="number"], select, textarea {
-  width: 100%; padding: 10px; margin-top: 4px; font-size: 16px;
-  border: 1px solid #ccc; border-radius: 6px; font-family: inherit;
-}
-textarea { resize: vertical; min-height: 72px; }
-button {
-  margin-top: 20px; padding: 12px 24px; font-size: 16px;
-  background: #14532d; color: #fff; border: none; border-radius: 6px; cursor: pointer;
-}
-button:hover { background: #0f3d20; }
-button:disabled { background: #888; cursor: default; }
-.warn { color: #b45309; font-weight: 600; }
-.disclaimer { font-size: 12px; color: #888; margin-top: 40px; border-top: 1px solid #eee; padding-top: 12px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asha AI — National Scheduled Castes Finance & Development Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* ==========================================================================
+       CSS CUSTOM PROPERTIES & NATIONAL DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      /* Typography */
+      --font-latin: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-devanagari: 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
 
-/* ── NLP panel ─────────────────────────────────────────────────── */
-#nlp-section {
-  background: #f0fdf4; border: 1px solid #86efac;
-  border-radius: 8px; padding: 16px; margin-bottom: 24px;
-}
-#nlp-section label { margin-top: 0; color: #14532d; }
-#nlp-hint { font-size: 12px; color: #666; margin-top: 6px; margin-bottom: 0; }
-#parse-btn { margin-top: 12px; background: #166534; padding: 10px 20px; font-size: 15px; }
-#parse-btn:hover { background: #14532d; }
+      /* Primary Brand: Trustworthy Deep Navy */
+      --brand-navy-900: #0a1f3d;
+      --brand-navy-800: #0f2c52;
+      --brand-navy-700: #15396b;
+      --brand-navy-600: #1c4a87;
+      --brand-navy-100: #e6ecf5;
+      
+      /* Secondary Accent: Indian Government Saffron */
+      --brand-saffron-700: #b45f04;
+      --brand-saffron-600: #d9720a;
+      --brand-saffron-100: #fdf1dd;
+      
+      /* Semantic Signals: Reserved for Genuine State / Eligibility */
+      --semantic-success-700: #15803d;
+      --semantic-success-100: #dcfce7;
+      --semantic-error-700: #b91c1c;
+      --semantic-error-100: #fee2e2;
 
-/* ── Missing-field highlight ───────────────────────────────────── */
-.field-missing input, .field-missing select {
-  border-color: #f59e0b; background: #fffbeb;
-}
-.field-missing::after {
-  content: "Required \2014 please fill this in";
-  display: block; font-size: 12px; color: #b45309; margin-top: 4px; font-weight: 600;
-}
+      /* Accent Blue for Auxiliary Badges / Links */
+      --accent-blue: #1d4ed8;
+      --accent-blue-light: #eff6ff;
+      
+      /* Neutral Grays */
+      --gray-900: #0f172a;
+      --gray-800: #1e293b;
+      --gray-700: #334155;
+      --gray-600: #475569;
+      --gray-500: #64748b;
+      --gray-400: #94a3b8;
+      --gray-300: #cbd5e1;
+      --gray-200: #e2e8f0;
+      --gray-100: #f1f5f9;
+      --gray-50:  #f8fafc;
+      
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px -2px rgba(10,31,61,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 24px -4px rgba(10,31,61,0.12), 0 4px 8px -2px rgba(0,0,0,0.04);
+      --shadow-xl: 0 20px 36px -6px rgba(10,31,61,0.2);
+      
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-/* ── Confirm button ────────────────────────────────────────────── */
-#confirm-btn { background: #1d4ed8; }
-#confirm-btn:hover { background: #1e40af; }
-#confirm-note { font-size: 13px; color: #555; margin-top: 8px; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ── Scheme cards ──────────────────────────────────────────────── */
-.scheme-card {
-  border: 1px solid #ddd; border-radius: 10px; padding: 18px 20px;
-  margin-top: 16px; cursor: pointer;
-  transition: border-color .18s, box-shadow .18s;
-}
-.scheme-card:hover { border-color: #14532d; box-shadow: 0 2px 12px rgba(20,83,45,.12); }
-.scheme-card h3 { margin: 0 0 6px; color: #14532d; font-size: 17px; }
-.scheme-card .card-meta { font-size: 14px; color: #444; line-height: 1.7; }
-.scheme-card .view-link {
-  display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600;
-  color: #14532d; text-decoration: none; border-bottom: 1px solid #86efac;
-}
+    body {
+      font-family: var(--font-latin);
+      background: #f4f6f9;
+      color: var(--gray-800);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
+    }
 
-/* ── Modal overlay ─────────────────────────────────────────────── */
-#modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,.45); z-index: 100;
-  align-items: flex-start; justify-content: center;
-  overflow-y: auto; padding: 32px 16px;
-}
-#modal-overlay.open { display: flex; }
-#modal-box {
-  background: #fff; border-radius: 14px; width: 100%; max-width: 580px;
-  padding: 32px 28px; position: relative;
-  animation: slideUp .22s ease;
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-#modal-close {
-  position: absolute; top: 16px; right: 18px;
-  background: none; border: none; font-size: 22px; color: #666;
-  cursor: pointer; margin: 0; padding: 4px 8px; border-radius: 4px; line-height: 1;
-}
-#modal-close:hover { background: #f3f4f6; color: #111; }
+    /* Devanagari specific font class */
+    .hindi-text, .hindi-title, .devanagari {
+      font-family: var(--font-devanagari) !important;
+    }
 
-/* ── Modal scheme info ─────────────────────────────────────────── */
-#modal-scheme-name { margin: 0 0 6px; color: #14532d; font-size: 20px; }
-#modal-scheme-desc { color: #555; margin: 0 0 20px; font-size: 14px; line-height: 1.6; }
-.info-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 20px;
-}
-.info-item { font-size: 14px; }
-.info-item .lbl { font-weight: 600; color: #374151; display: block; margin-bottom: 2px; }
-.info-item .val { color: #14532d; font-size: 15px; font-weight: 600; }
-.source-link {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; color: #1d4ed8; text-decoration: none; font-weight: 600;
-}
-.source-link:hover { text-decoration: underline; }
+    /* Inline Lucide Icon Utility */
+    .lucide-icon {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
 
-/* ── Divider ───────────────────────────────────────────────────── */
-.modal-divider {
-  border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;
-}
+    /* Top National Header Bar */
+    .gov-strip {
+      background: #ffffff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 6px 24px;
+      font-size: 12px;
+      color: var(--gray-600);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .gov-strip .emblem-tag {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .gov-strip .tricolor-bar {
+      display: inline-flex;
+      height: 4px;
+      width: 32px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .tricolor-bar span:nth-child(1) { background: #FF9933; flex: 1; }
+    .tricolor-bar span:nth-child(2) { background: #FFFFFF; flex: 1; }
+    .tricolor-bar span:nth-child(3) { background: #138808; flex: 1; }
 
-/* ── EMI calculator ────────────────────────────────────────────── */
-#emi-calc h2 { margin: 0 0 4px; font-size: 17px; color: #1a1a1a; }
-#emi-calc .calc-sub { font-size: 13px; color: #666; margin: 0 0 20px; }
+    .backend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      transition: var(--transition);
+    }
+    .backend-badge.connected {
+      background: var(--semantic-success-100);
+      color: var(--semantic-success-700);
+    }
+    .backend-badge.disconnected {
+      background: var(--semantic-error-100);
+      color: var(--semantic-error-700);
+    }
+    .backend-badge .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
 
-.slider-row { margin-bottom: 20px; }
-.slider-row .slider-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-bottom: 6px;
-}
-.slider-row .slider-lbl { font-weight: 600; font-size: 14px; }
-.slider-row .slider-val {
-  font-size: 15px; font-weight: 700; color: #14532d;
-  background: #f0fdf4; border-radius: 6px; padding: 2px 10px;
-}
-input[type="range"] {
-  width: 100%; accent-color: #14532d; height: 4px; cursor: pointer;
-}
+    /* Main App Layout */
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 20px 24px;
+    }
 
-/* ── EMI result box ────────────────────────────────────────────── */
-#emi-result {
-  background: #f0fdf4; border: 1px solid #bbf7d0;
-  border-radius: 10px; padding: 18px 20px; margin-top: 8px;
-}
-.emi-main { font-size: 28px; font-weight: 700; color: #14532d; }
-.emi-main .emi-unit { font-size: 15px; font-weight: 400; color: #555; margin-left: 4px; }
-.emi-breakdown {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
-}
-.emi-stat .lbl { font-size: 12px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
-.emi-stat .val { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-top: 2px; }
-.moratorium-note {
-  margin-top: 14px; font-size: 13px; color: #374151;
-  background: #fff; border-radius: 6px; padding: 10px 12px; border: 1px solid #e5e7eb;
-}
-.moratorium-note strong { color: #14532d; }
-.emi-disclaimer {
-  margin-top: 16px; font-size: 12px; color: #888; line-height: 1.5;
-}
-</style>
+    /* Hero Header */
+    .hero-header {
+      text-align: center;
+      margin: 14px 0 26px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--brand-navy-100);
+      color: var(--brand-navy-700);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(21, 57, 107, 0.15);
+    }
+    .hero-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--brand-navy-900);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .hero-title span.hindi-title {
+      font-weight: 600;
+      font-size: 24px;
+      color: var(--brand-saffron-700);
+    }
+    .hero-desc {
+      color: var(--gray-600);
+      font-size: 14px;
+      max-width: 720px;
+      margin: 6px auto 0;
+    }
+
+    /* ==========================================================================
+       TWO-PANE SPLIT SCREEN GRID
+       ========================================================================== */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 960px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards Base */
+    .app-card {
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .app-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================================
+       LEFT PANE: CHATBOT CONTAINER
+       ========================================================================== */
+    .chat-card {
+      overflow: hidden;
+      border-top: 4px solid var(--brand-navy-700);
+      height: 640px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      padding: 14px 18px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-avatar {
+      width: 38px;
+      height: 38px;
+      background: var(--brand-navy-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-navy-700);
+      border: 1.5px solid var(--gray-300);
+    }
+    .chat-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chat-status {
+      font-size: 11.5px;
+      color: var(--brand-navy-700);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .chat-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--semantic-success-700);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .chat-reset-btn {
+      background: transparent;
+      border: 1px solid var(--gray-300);
+      color: var(--gray-600);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .chat-reset-btn:hover {
+      background: var(--gray-100);
+      color: var(--gray-900);
+    }
+
+    /* Message Stream Window */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f8fafc;
+      scroll-behavior: smooth;
+    }
+
+    /* Message Bubbles */
+    .message-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      animation: fadeInBubble 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeInBubble {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .message-row.user {
+      justify-content: flex-end;
+    }
+    .message-row.bot {
+      justify-content: flex-start;
+    }
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--brand-navy-100);
+      color: var(--brand-navy-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+      border: 1px solid var(--gray-300);
+    }
+    .msg-bubble {
+      max-width: 82%;
+      padding: 11px 15px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.48;
+      position: relative;
+      word-break: break-word;
+    }
+    .message-row.user .msg-bubble {
+      background: linear-gradient(135deg, var(--brand-navy-700) 0%, var(--brand-navy-800) 100%);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 6px rgba(10, 31, 61, 0.2);
+    }
+    .message-row.bot .msg-bubble {
+      background: #ffffff;
+      color: var(--gray-800);
+      border: 1px solid var(--gray-200);
+      border-bottom-left-radius: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+    .msg-time {
+      font-size: 10px;
+      color: var(--gray-400);
+      margin-top: 4px;
+      text-align: right;
+    }
+    .message-row.user .msg-time {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 14px;
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--brand-navy-600);
+      border-radius: 50%;
+      animation: typingBounce 1.2s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* In-Chat Interactive Scheme Trigger Card */
+    .chat-scheme-cta {
+      background: var(--brand-navy-100);
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin: 8px 0 4px;
+      box-shadow: var(--shadow-sm);
+    }
+    .chat-scheme-cta .cta-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand-navy-900);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .cta-pill {
+      font-size: 11px;
+      background: #ffffff;
+      border: 1px solid var(--gray-300);
+      color: var(--brand-navy-800);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .chat-find-schemes-btn {
+      width: 100%;
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(10, 31, 61, 0.2);
+      transition: var(--transition);
+    }
+    .chat-find-schemes-btn:hover {
+      background: var(--brand-navy-800);
+      transform: translateY(-1px);
+    }
+
+    /* Prompt Chips Inside Chat */
+    .chat-suggestions {
+      padding: 8px 16px;
+      background: #ffffff;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .chat-chip {
+      font-size: 11.5px;
+      background: var(--brand-navy-100);
+      border: 1px solid var(--gray-300);
+      color: var(--brand-navy-800);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chat-chip:hover {
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      border-color: var(--brand-navy-700);
+    }
+
+    /* Chat Input Bar */
+    .chat-input-bar {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .chat-input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: var(--transition);
+    }
+    .chat-input:focus {
+      border-color: var(--brand-navy-600);
+      box-shadow: 0 0 0 3px rgba(28, 74, 135, 0.12);
+    }
+    .chat-send-btn {
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .chat-send-btn:hover {
+      background: var(--brand-navy-800);
+    }
+    .chat-send-btn:disabled {
+      background: var(--gray-400);
+      cursor: not-allowed;
+    }
+
+    /* ==========================================================================
+       RIGHT PANE: STRUCTURED FORM & PARAMETERS
+       ========================================================================== */
+    .form-card {
+      padding: 20px 22px;
+    }
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-subtitle {
+      font-size: 11.5px;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-col-full {
+      grid-column: 1 / -1;
+    }
+    .form-group {
+      position: relative;
+    }
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 4px;
+    }
+    .form-label .sub-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+      font-family: var(--font-devanagari);
+    }
+
+    /* Purpose Selector Control */
+    .purpose-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .purpose-card {
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 8px 4px;
+      text-align: center;
+      cursor: pointer;
+      background: #ffffff;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .purpose-card .icon {
+      font-size: 16px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-navy-700);
+    }
+    .purpose-card .title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gray-700);
+      display: block;
+    }
+    .purpose-card .sub-title {
+      font-size: 9.5px;
+      color: var(--gray-500);
+      display: block;
+    }
+    .purpose-card:hover {
+      border-color: var(--brand-navy-600);
+      background: var(--brand-navy-100);
+    }
+    .purpose-card.selected {
+      border-color: var(--brand-navy-700);
+      background: var(--brand-navy-100);
+      box-shadow: 0 0 0 2px rgba(21, 57, 107, 0.15);
+    }
+    .purpose-card.selected .title {
+      color: var(--brand-navy-800);
+    }
+
+    /* Inputs */
+    .input-wrapper {
+      position: relative;
+    }
+    .input-prefix {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-500);
+      pointer-events: none;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--gray-900);
+      background: #ffffff;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+    .form-input.has-prefix {
+      padding-left: 24px;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--brand-navy-600);
+      box-shadow: 0 0 0 3px rgba(28, 74, 135, 0.12);
+    }
+
+    .currency-live-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand-navy-700);
+      margin-top: 3px;
+      min-height: 16px;
+    }
+
+    .quick-num-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .num-chip {
+      font-size: 10px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .num-chip:hover {
+      background: var(--gray-200);
+      color: var(--gray-900);
+    }
+
+    /* SC Toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+    }
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .toggle-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+    .toggle-desc {
+      font-size: 11px;
+      color: var(--gray-500);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--gray-300);
+      transition: .3s;
+      border-radius: 34px;
+    }
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+      box-shadow: var(--shadow-sm);
+    }
+    input:checked + .slider-toggle {
+      background-color: var(--brand-navy-700);
+    }
+    input:checked + .slider-toggle:before {
+      transform: translateX(20px);
+    }
+
+    /* Form Actions */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .primary-btn {
+      flex: 2;
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px 20px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(10, 31, 61, 0.2);
+      transition: var(--transition);
+    }
+    .primary-btn:hover {
+      background: var(--brand-navy-800);
+      transform: translateY(-1px);
+    }
+    .secondary-btn {
+      flex: 1;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 11px 14px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .secondary-btn:hover {
+      background: var(--gray-200);
+      color: var(--gray-900);
+    }
+
+    /* Missing Highlight */
+    .field-missing .form-input,
+    .field-missing .form-select,
+    .field-missing .toggle-row,
+    .field-missing .purpose-selector {
+      border-color: var(--brand-saffron-600) !important;
+      background-color: var(--brand-saffron-100) !important;
+    }
+
+    /* ==========================================================================
+       RESULTS SECTION & SCHEME CARDS
+       ========================================================================== */
+    #results-section {
+      margin-top: 8px;
+      scroll-margin-top: 70px;
+    }
+    .results-header-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .results-count-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+    .results-count-desc {
+      font-size: 13px;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+    .filter-tabs {
+      display: inline-flex;
+      background: var(--gray-200);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      gap: 2px;
+    }
+    .filter-tab {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--gray-600);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-tab.active {
+      background: #ffffff;
+      color: var(--brand-navy-800);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Cards Grid */
+    .scheme-cards-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 18px;
+    }
+    .scheme-card {
+      background: #ffffff;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .scheme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-navy-600);
+    }
+    .scheme-card.eligible {
+      border-left: 5px solid var(--semantic-success-700);
+    }
+    .scheme-card.ineligible {
+      border-left: 5px solid var(--gray-400);
+      opacity: 0.82;
+      background: var(--gray-50);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .card-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-rank {
+      background: var(--brand-saffron-100);
+      color: var(--brand-saffron-700);
+      border: 1px solid #fde68a;
+    }
+    .badge-type {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+    }
+    .badge-agency {
+      background: var(--brand-navy-100);
+      color: var(--brand-navy-700);
+    }
+    .card-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 12.5px;
+      color: var(--gray-600);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .card-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: var(--gray-50);
+      padding: 10px;
+      border-radius: var(--radius-md);
+      margin: 12px 0;
+      border: 1px solid var(--gray-200);
+    }
+    .metric-cell {
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-lbl {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+    }
+    .metric-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .metric-val.highlight {
+      color: var(--brand-navy-700);
+    }
+
+    .card-reason-banner {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      margin-top: auto;
+      font-weight: 500;
+      line-height: 1.35;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .card-reason-banner.eligible {
+      background: var(--semantic-success-100);
+      color: var(--semantic-success-700);
+      border: 1px solid #bbf7d0;
+    }
+    .card-reason-banner.ineligible {
+      background: var(--semantic-error-100);
+      color: var(--semantic-error-700);
+      border: 1px solid #fecaca;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .card-footer-cta {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-navy-700);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Modal & Dialogs */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 31, 61, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    #modal-overlay.open {
+      display: flex;
+    }
+    #modal-container {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      position: relative;
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-600);
+      transition: var(--transition);
+      z-index: 10;
+    }
+    .modal-close-btn:hover {
+      background: var(--gray-200);
+      color: var(--gray-900);
+    }
+    .modal-header {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+    .modal-subtitle {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-top: 4px;
+    }
+
+    .modal-nav {
+      display: flex;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--gray-50);
+      padding: 0 16px;
+    }
+    .modal-nav-tab {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-600);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .modal-nav-tab.active {
+      color: var(--brand-navy-700);
+      border-bottom-color: var(--brand-navy-700);
+      background: #ffffff;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Calculator Controls in Modal */
+    .calc-slider-group {
+      margin-bottom: 18px;
+    }
+    .calc-slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 6px;
+    }
+    .calc-slider-val {
+      color: var(--brand-navy-700);
+      font-size: 14px;
+    }
+    .calc-slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gray-200);
+      outline: none;
+      accent-color: var(--brand-navy-700);
+      cursor: pointer;
+    }
+    .calc-slider-bounds {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    .emi-summary-box {
+      background: linear-gradient(135deg, var(--brand-navy-900) 0%, var(--brand-navy-800) 100%);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      text-align: center;
+      margin-top: 14px;
+      box-shadow: var(--shadow-md);
+    }
+    .emi-amount {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 4px 0 12px;
+    }
+    .emi-breakdown-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 12px;
+    }
+
+    /* Documents Checklist */
+    .doc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+    }
+    .doc-check {
+      margin-top: 3px;
+      accent-color: var(--brand-navy-700);
+      cursor: pointer;
+    }
+    .doc-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+    .doc-badge {
+      font-size: 10.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .doc-badge.mandatory {
+      background: var(--semantic-error-100);
+      color: var(--semantic-error-700);
+    }
+    .doc-badge.optional {
+      background: var(--gray-200);
+      color: var(--gray-700);
+    }
+
+    /* Partner Locator */
+    .partner-item {
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+    .partner-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .partner-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .partner-dist {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-navy-700);
+      background: var(--brand-navy-100);
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+    .partner-meta {
+      font-size: 12px;
+      color: var(--gray-600);
+      line-height: 1.4;
+    }
+
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--gray-200);
+      background: var(--gray-50);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Footer */
+    .app-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* Leaflet Map Custom Styling */
+    #partners-map-container {
+      margin-bottom: 16px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+    #partners-map {
+      height: 260px;
+      width: 100%;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .map-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .map-filter-select {
+      padding: 7px 12px;
+      font-size: 12.5px;
+      font-family: inherit;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      color: var(--gray-800);
+      outline: none;
+      min-width: 160px;
+    }
+    .map-filter-select:focus {
+      border-color: var(--brand-navy-600);
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      padding: 2px;
+      font-family: var(--font-latin);
+    }
+    .leaflet-popup-content {
+      margin: 12px 14px;
+      line-height: 1.4;
+      font-size: 12px;
+    }
+    .map-popup-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--brand-navy-900);
+      margin-bottom: 4px;
+    }
+    .map-popup-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--brand-navy-100);
+      color: var(--brand-navy-700);
+      margin-bottom: 6px;
+    }
+    .map-popup-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      background: var(--brand-navy-700);
+      color: #ffffff !important;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 11px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .map-popup-nav-btn:hover {
+      background: var(--brand-navy-800);
+    }
+    .partner-item {
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .partner-item:hover {
+      border-color: var(--brand-navy-600);
+      background: #ffffff;
+      box-shadow: var(--shadow-md);
+    }
+    .partner-item.highlighted {
+      border-color: var(--brand-navy-700);
+      background: var(--brand-navy-100);
+      box-shadow: 0 0 0 2px rgba(21, 57, 107, 0.2);
+    }
+
+  </style>
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body>
 
-<h1>&#x1F9ED; Saarthi AI</h1>
-<p class="sub">Find NSFDC financing schemes for Scheduled Caste entrepreneurs.</p>
-
-<!-- NLP panel -->
-<div id="nlp-section">
-  <label for="nlp-input">Describe your need in Hindi or English</label>
-  <textarea id="nlp-input" placeholder='e.g. "मुझे दर्जी की दुकान के लिए तीन लाख चाहिए, मेरी आय दो लाख है" or "I need three lakh for a tailoring shop, my income is two lakh"'></textarea>
-  <p id="nlp-hint">We will extract the details and fill the form for you. You can edit before confirming.</p>
-  <button id="parse-btn" onclick="parseText()">Auto-fill from description</button>
-</div>
-
-<!-- Main form -->
-<div id="main-form">
-  <div id="wrap-isSc">
-    <label for="isSc">Does the applicant belong to the Scheduled Caste community?</label>
-    <select id="isSc">
-      <option value="true">Yes</option>
-      <option value="false">No</option>
-    </select>
-  </div>
-  <div id="wrap-income">
-    <label for="income">Annual family income (Rs.)</label>
-    <input type="number" id="income" value="320000">
-  </div>
-  <div id="wrap-cost">
-    <label for="cost">Estimated project cost (Rs.)</label>
-    <input type="number" id="cost" value="300000">
-  </div>
-  <button id="confirm-btn" style="display:none" onclick="findSchemes()">Confirm and Find Schemes</button>
-  <p id="confirm-note" style="display:none">Review the auto-filled values above, edit if needed, then click Confirm.</p>
-  <button id="find-btn" onclick="findSchemes()">Find schemes</button>
-</div>
-
-<div id="results"></div>
-
-<p class="disclaimer">Prototype only &#8212; not a loan sanction. Final verification is done by NSFDC&#8217;s channel partners.</p>
-
-<!-- ── Modal ───────────────────────────────────────────────────── -->
-<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-scheme-name" onclick="handleOverlayClick(event)">
-  <div id="modal-box">
-    <button id="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-
-    <!-- Scheme info -->
-    <h2 id="modal-scheme-name"></h2>
-    <p id="modal-scheme-desc"></p>
-
-    <div class="info-grid" id="modal-info-grid"></div>
-    <a id="modal-source-link" class="source-link" href="#" target="_blank" rel="noopener">
-      &#x1F517; Official NSFDC source
-    </a>
-
-    <hr class="modal-divider">
-
-    <!-- EMI calculator -->
-    <div id="emi-calc">
-      <h2>EMI Calculator</h2>
-      <p class="calc-sub">Personalised to your estimated loan amount &#8212; adjust sliders to explore.</p>
-
-      <div class="slider-row" id="loan-slider-row">
-        <div class="slider-header">
-          <span class="slider-lbl">Loan amount</span>
-          <span class="slider-val" id="loan-val-display">&#8212;</span>
-        </div>
-        <input type="range" id="loan-slider" oninput="recalc()">
+  <!-- National Top Header Strip -->
+  <div class="gov-strip">
+    <div class="emblem-tag">
+      <div class="tricolor-bar">
+        <span></span><span></span><span></span>
       </div>
-
-      <div class="slider-row" id="rate-slider-row" style="display:none">
-        <div class="slider-header">
-          <span class="slider-lbl">Interest rate</span>
-          <span class="slider-val" id="rate-val-display">&#8212;</span>
-        </div>
-        <input type="range" id="rate-slider" step="0.1" oninput="recalc()">
-      </div>
-
-      <div class="slider-row">
-        <div class="slider-header">
-          <span class="slider-lbl">Tenure</span>
-          <span class="slider-val" id="tenure-val-display">&#8212;</span>
-        </div>
-        <input type="range" id="tenure-slider" min="1" step="1" oninput="recalc()">
-      </div>
-
-      <div id="emi-result">
-        <div id="emi-main-display" class="emi-main"></div>
-        <div class="emi-breakdown" id="emi-breakdown"></div>
-        <div class="moratorium-note" id="moratorium-note"></div>
-      </div>
-
-      <p class="emi-disclaimer">
-        This is an indicative estimate only and does not constitute a loan offer.
-        Actual EMI, interest, and repayment schedule may differ based on NSFDC&#8217;s
-        final assessment and the applicable scheme terms.
-      </p>
+      <span>NSFDC & Govt. of India Financing Scheme Portal</span>
+    </div>
+    <div id="backend-status" class="backend-badge">
+      <span class="pulse-dot"></span>
+      <span id="backend-status-text">Connecting to API (port 5000)...</span>
     </div>
   </div>
-</div>
 
-<script>
-var API_URL   = "http://127.0.0.1:5000/api/match";
-var PARSE_URL = "http://127.0.0.1:5000/api/parse";
+  <div class="container">
+    <!-- Hero Title -->
+    <header class="hero-header">
+      <div class="hero-badge">
+        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+        <span>National Welfare & Finance Scheme Portal</span>
+      </div>
+      <h1 class="hero-title">
+        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        <span>Asha AI</span>
+        <span class="hindi-title">आशा</span>
+      </h1>
+      <p class="hero-desc">
+        Chat naturally with AI to find concessional loans, credit financing, and education schemes under the NSFDC network for Scheduled Caste (SC) entrepreneurs and students.
+      </p>
+    </header>
 
-/* ── NLP parse ──────────────────────────────────────────────── */
-async function parseText() {
-  var text = document.getElementById("nlp-input").value.trim();
-  if (!text) return;
-  var btn = document.getElementById("parse-btn");
-  btn.disabled = true; btn.textContent = "Parsing...";
-  try {
-    var res = await fetch(PARSE_URL, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: text }),
-    });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    autoFill(await res.json());
-  } catch (e) {
-    console.warn("parse failed, falling back:", e);
-    hideParseSectionGracefully();
-  } finally {
-    btn.disabled = false; btn.textContent = "Auto-fill from description";
-  }
-}
+    <!-- TWO-PANE SPLIT LAYOUT -->
+    <div class="portal-grid">
+      
+      <!-- ====================================================================
+           LEFT PANE: DEDICATED CONVERSATIONAL CHATBOT
+           ==================================================================== -->
+      <section class="app-card chat-card">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-title-group">
+            <div class="chat-avatar">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            </div>
+            <div>
+              <div class="chat-name">
+                Asha Assistant 
+                <span class="hindi-title" style="font-size: 13px; font-weight: 600; color: var(--brand-navy-600);">आशा</span>
+              </div>
+              <div class="chat-status">Assistance Active (Hindi / English)</div>
+            </div>
+          </div>
+          <button class="chat-reset-btn" onclick="resetAiChat()">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Reset Chat</span>
+          </button>
+        </div>
 
-function autoFill(data) {
-  clearHighlights();
-  if (data.is_sc      != null) document.getElementById("isSc").value   = String(data.is_sc);
-  if (data.annual_income != null) document.getElementById("income").value = data.annual_income;
-  if (data.project_cost  != null) document.getElementById("cost").value   = data.project_cost;
-  var missing = Array.isArray(data.missing_fields) ? data.missing_fields : [];
-  if (missing.length) highlightMissing(missing);
-  document.getElementById("find-btn").style.display     = "none";
-  document.getElementById("confirm-btn").style.display  = "";
-  document.getElementById("confirm-note").style.display = "";
-}
+        <!-- Chat History Stream -->
+        <div class="chat-messages" id="chat-messages">
+          <!-- Initial Welcome Message (Preserves the intentional 🙏) -->
+          <div class="message-row bot">
+            <div class="msg-avatar">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            </div>
+            <div class="msg-bubble">
+              🙏 <strong>Namaste! I am Asha AI</strong>, your guide for government schemes & concessional loans under the NSFDC network.
+              <div style="margin-top: 6px;">Tell me in Hindi or English what business, education, or skill loan you need funds for.</div>
+              <div class="msg-time">Just now</div>
+            </div>
+          </div>
+        </div>
 
-function highlightMissing(fields) {
-  var map = { is_sc: "wrap-isSc", annual_income: "wrap-income", project_cost: "wrap-cost" };
-  fields.forEach(function(f) {
-    var id = map[f]; if (id) document.getElementById(id).classList.add("field-missing");
-  });
-}
-function clearHighlights() {
-  document.querySelectorAll(".field-missing").forEach(function(el) { el.classList.remove("field-missing"); });
-}
-function hideParseSectionGracefully() {
-  var s = document.getElementById("nlp-section"); if (s) s.style.display = "none";
-}
+        <!-- Suggestion Chips -->
+        <div class="chat-suggestions">
+          <span class="chat-chip" onclick="sendSamplePrompt('I need 3 lakh for a tailoring shop, family income is 2.2 lakh, SC category')">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span>Tailoring Shop ₹3L</span>
+          </span>
+          <span class="chat-chip" onclick="sendSamplePrompt('Education loan of 15 lakh for engineering in India, SC applicant, income 2.5 lakh')">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+            <span>Education ₹15L</span>
+          </span>
+          <span class="chat-chip" onclick="sendSamplePrompt('Small commercial transport vehicle for 7 lakh, annual income 2 lakh, SC')">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+            <span>Transport ₹7L</span>
+          </span>
+          <span class="chat-chip" onclick="sendSamplePrompt('Micro credit 1 lakh for small retail grocery store, SC woman entrepreneur')">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 10V7"/></svg>
+            <span>Retail Shop ₹1L</span>
+          </span>
+        </div>
 
-/* ── Find schemes ───────────────────────────────────────────── */
-async function findSchemes() {
-  clearHighlights();
-  var resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "<p>Checking...</p>";
-  var payload = {
-    is_sc:         document.getElementById("isSc").value === "true",
-    annual_income: Number(document.getElementById("income").value),
-    project_cost:  Number(document.getElementById("cost").value),
-  };
-  try {
-    var response = await fetch(API_URL, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    var data = await response.json();
-    if (!data.eligible) {
-      resultsDiv.innerHTML = "<p class='warn'>" + data.message + "</p>"; return;
+        <!-- Chat Input Bar -->
+        <form class="chat-input-bar" onsubmit="event.preventDefault(); handleUserSendMessage();">
+          <input 
+            type="text" 
+            id="chat-user-input" 
+            class="chat-input" 
+            placeholder="Type in Hindi or English... (e.g. '3 लाख का दुकान लोन चाहिए')" 
+            autocomplete="off"
+          />
+          <button type="submit" id="chat-send-btn" class="chat-send-btn">
+            <span>Send</span>
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </form>
+      </section>
+
+      <!-- ====================================================================
+           RIGHT PANE: STRUCTURED APPLICATION PARAMETERS (SYNCED WITH AI)
+           ==================================================================== -->
+      <main class="app-card form-card">
+        <div class="section-title-wrap">
+          <h2 class="section-title">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+            <span>Application Parameters</span>
+          </h2>
+          <span class="section-subtitle">Synced with chat or edit directly</span>
+        </div>
+
+        <form id="eligibility-form" onsubmit="event.preventDefault(); findMatchingSchemes();">
+          <div class="form-grid">
+            
+            <!-- Purpose Segmented Selector -->
+            <div class="form-group form-col-full" id="wrap-purpose">
+              <label class="form-label">
+                <span>Funding Purpose</span>
+                <span class="sub-label">उद्देश्य चुनें</span>
+              </label>
+              <div class="purpose-selector">
+                <div class="purpose-card selected" id="card-purpose-business" onclick="selectPurpose('business')">
+                  <span class="icon">
+                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  </span>
+                  <span class="title">Business</span>
+                  <span class="sub-title">Enterprises</span>
+                </div>
+                <div class="purpose-card" id="card-purpose-education" onclick="selectPurpose('education')">
+                  <span class="icon">
+                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                  </span>
+                  <span class="title">Education</span>
+                  <span class="sub-title">India & Abroad</span>
+                </div>
+                <div class="purpose-card" id="card-purpose-skill" onclick="selectPurpose('skill')">
+                  <span class="icon">
+                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                  </span>
+                  <span class="title">Skill Training</span>
+                  <span class="sub-title">Vocational</span>
+                </div>
+              </div>
+              <input type="hidden" id="purpose" value="business" />
+            </div>
+
+            <!-- SC Status Toggle Switch -->
+            <div class="form-group form-col-full" id="wrap-isSc">
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <span class="toggle-title">Scheduled Caste (SC) Status</span>
+                  <span class="toggle-desc">Concessional interest rates for SC beneficiaries</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="isSc" checked onchange="clearMissingHighlight('wrap-isSc')" />
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Annual Family Income -->
+            <div class="form-group" id="wrap-income">
+              <label class="form-label" for="income">
+                <span>Annual Income (₹)</span>
+                <span class="sub-label">वार्षिक आय</span>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-prefix">₹</span>
+                <input 
+                  type="number" 
+                  id="income" 
+                  class="form-input has-prefix" 
+                  value="250000" 
+                  placeholder="e.g. 250000" 
+                  oninput="handleIncomeInput()" 
+                />
+              </div>
+              <div class="currency-live-text" id="income-live-text">₹ 2.50 Lakh (≤ ₹3L Cap)</div>
+              <div class="quick-num-chips">
+                <span class="num-chip" onclick="setIncome(100000)">₹1L</span>
+                <span class="num-chip" onclick="setIncome(200000)">₹2L</span>
+                <span class="num-chip" onclick="setIncome(300000)">₹3L</span>
+              </div>
+            </div>
+
+            <!-- Estimated Project Cost -->
+            <div class="form-group" id="wrap-cost">
+              <label class="form-label" for="cost">
+                <span>Project Cost (₹)</span>
+                <span class="sub-label">परियोजना लागत</span>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-prefix">₹</span>
+                <input 
+                  type="number" 
+                  id="cost" 
+                  class="form-input has-prefix" 
+                  value="300000" 
+                  placeholder="e.g. 300000" 
+                  oninput="handleCostInput()" 
+                />
+              </div>
+              <div class="currency-live-text" id="cost-live-text">₹ 3.00 Lakh</div>
+              <div class="quick-num-chips">
+                <span class="num-chip" onclick="setCost(140000)">₹1.4L</span>
+                <span class="num-chip" onclick="setCost(300000)">₹3L</span>
+                <span class="num-chip" onclick="setCost(1000000)">₹10L</span>
+              </div>
+            </div>
+
+            <!-- Sector Selection -->
+            <div class="form-group" id="wrap-project-type">
+              <label class="form-label" for="project-type">
+                <span>Business Sector</span>
+                <span class="sub-label">ऐच्छिक</span>
+              </label>
+              <select id="project-type" class="form-select">
+                <option value="">Select Sector</option>
+                <option value="Tailoring/garments">Tailoring & Garments</option>
+                <option value="Retail/shop">Retail & Grocery Shop</option>
+                <option value="Food processing">Food Processing & Dairy</option>
+                <option value="Transport">Transport & Vehicles</option>
+                <option value="Manufacturing/handicrafts">Handicrafts & Artisans</option>
+                <option value="Services">Services & Repair</option>
+                <option value="Agriculture-allied">Agriculture & Poultry</option>
+                <option value="Other">Other Business</option>
+              </select>
+            </div>
+
+            <!-- Study Location (Conditional) -->
+            <div class="form-group" id="wrap-study-location" style="display: none;">
+              <label class="form-label" for="study-location">
+                <span>Study Location</span>
+                <span class="sub-label">स्थान</span>
+              </label>
+              <select id="study-location" class="form-select">
+                <option value="India">India (Cap ₹30 Lakh)</option>
+                <option value="Abroad">Abroad (Cap ₹40 Lakh)</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="secondary-btn" onclick="resetForm()">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              <span>Reset</span>
+            </button>
+            <button type="submit" id="main-submit-btn" class="primary-btn">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Find Matching Schemes</span>
+            </button>
+          </div>
+        </form>
+      </main>
+
+    </div>
+
+    <!-- ====================================================================
+         RESULTS SECTION: RANKED SCHEME CARDS
+         ==================================================================== -->
+    <section id="results-section" style="display: none;">
+      <div class="results-header-banner">
+        <div>
+          <div class="results-count-title" id="results-headline">Matching Schemes</div>
+          <div class="results-count-desc" id="results-subheadline">Ranked by lowest concessional interest rate</div>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" id="tab-filter-eligible" onclick="filterSchemesView('eligible')">Eligible</button>
+          <button class="filter-tab" id="tab-filter-all" onclick="filterSchemesView('all')">All Schemes</button>
+        </div>
+      </div>
+
+      <div class="scheme-cards-list" id="scheme-cards-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Asha AI — National Scheduled Castes Finance and Development Corporation (NSFDC) Assistance Portal</p>
+      <p style="margin-top: 4px;">Final loan sanctions and margin disbursements are verified by authorized Channel Partners and Banks.</p>
+    </footer>
+  </div>
+
+  <!-- ====================================================================
+       DETAILED MODAL (EMI CALCULATOR, DOCUMENTS, PARTNERS LOCATOR)
+       ==================================================================== -->
+  <div id="modal-overlay" onclick="handleModalOverlayClick(event)">
+    <div id="modal-container" role="dialog" aria-modal="true">
+      <button class="modal-close-btn" onclick="closeModal()" aria-label="Close">✕</button>
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="card-badges" id="modal-badges"></div>
+        <h2 class="modal-title" id="modal-scheme-name">Scheme Details</h2>
+        <p class="modal-subtitle" id="modal-scheme-desc"></p>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="modal-nav">
+        <button class="modal-nav-tab active" id="nav-calc" onclick="switchModalTab('calc')">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          <span>EMI Calculator</span>
+        </button>
+        <button class="modal-nav-tab" id="nav-docs" onclick="switchModalTab('docs')">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+          <span>Required Documents (<span id="modal-docs-count">0</span>)</span>
+        </button>
+        <button class="modal-nav-tab" id="nav-partners" onclick="switchModalTab('partners')">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Channel Partners & Banks</span>
+        </button>
+      </nav>
+
+      <!-- Modal Body Tab Content -->
+      <div class="modal-body">
+        
+        <!-- Tab 1: Live Interactive Compound EMI Calculator -->
+        <div class="tab-pane active" id="pane-calc">
+          <div class="calc-slider-group">
+            <div class="calc-slider-header">
+              <span>Required Loan Amount</span>
+              <span class="calc-slider-val" id="slider-loan-val">₹ 3,00,000</span>
+            </div>
+            <input type="range" class="calc-slider" id="slider-loan" min="10000" max="5000000" step="5000" value="300000" oninput="onLoanSliderChange()" />
+            <div class="calc-slider-bounds">
+              <span>Min: ₹10,000</span>
+              <span id="slider-loan-max-label">Max Cap: ₹50,00,000</span>
+            </div>
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-header">
+              <span>Repayment Tenure (Years)</span>
+              <span class="calc-slider-val" id="slider-tenure-val">5 Years</span>
+            </div>
+            <input type="range" class="calc-slider" id="slider-tenure" min="1" max="10" step="1" value="5" oninput="onTenureSliderChange()" />
+            <div class="calc-slider-bounds">
+              <span>Min: 1 Year</span>
+              <span id="slider-tenure-max-label">Max: 10 Years</span>
+            </div>
+          </div>
+
+          <div class="calc-slider-group" id="slider-rate-box" style="display: none;">
+            <div class="calc-slider-header">
+              <span>Concessional Interest Rate (% p.a.)</span>
+              <span class="calc-slider-val" id="slider-rate-val">6.0%</span>
+            </div>
+            <input type="range" class="calc-slider" id="slider-rate" min="4" max="15" step="0.1" value="6.0" oninput="onRateSliderChange()" />
+            <div class="calc-slider-bounds">
+              <span>Min Rate</span>
+              <span>Max Rate</span>
+            </div>
+          </div>
+
+          <!-- Compound EMI Display Card -->
+          <div class="emi-summary-box">
+            <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;">Estimated Monthly Installment (EMI)</div>
+            <div class="emi-amount" id="calc-emi-display">₹ 5,800</div>
+            <div class="emi-breakdown-row">
+              <div>
+                <div style="opacity: 0.75; font-size: 11px;">Principal Loan</div>
+                <div style="font-weight: 700; margin-top: 2px;" id="calc-principal-display">₹ 3,00,000</div>
+              </div>
+              <div>
+                <div style="opacity: 0.75; font-size: 11px;">Total Interest</div>
+                <div style="font-weight: 700; margin-top: 2px; color: #fde68a;" id="calc-interest-display">₹ 48,000</div>
+              </div>
+              <div>
+                <div style="opacity: 0.75; font-size: 11px;">Total Amount</div>
+                <div style="font-weight: 700; margin-top: 2px;" id="calc-total-display">₹ 3,48,000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Moratorium Banner -->
+          <div id="modal-moratorium-banner" style="margin-top: 14px; padding: 10px 14px; background: var(--brand-saffron-100); border: 1px solid #fed7aa; border-radius: var(--radius-md); font-size: 12px; color: var(--brand-saffron-700);"></div>
+        </div>
+
+        <!-- Tab 2: Document Checklist -->
+        <div class="tab-pane" id="pane-docs">
+          <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 14px;">
+            Checklist of official documents required when applying at the State Channelizing Agency or bank branch:
+          </p>
+          <div id="modal-docs-list"></div>
+        </div>
+
+        <!-- Tab 3: Channel Partners Locator with Live Leaflet Map -->
+        <div class="tab-pane" id="pane-partners">
+          <div class="map-controls-row">
+            <button class="primary-btn" style="flex: none; padding: 8px 14px; font-size: 12.5px;" onclick="fetchNearbyPartners(true)">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Detect My Location & Distance</span>
+            </button>
+            <select id="partner-state-filter" class="map-filter-select" onchange="filterPartnersByState()">
+              <option value="">All States & Territories</option>
+            </select>
+            <span id="partners-status-text" style="font-size: 12px; color: var(--gray-500); font-weight: 600;">Authorized NSFDC Channel Partner Offices</span>
+          </div>
+
+          <!-- Interactive Leaflet Map Container -->
+          <div id="partners-map-container">
+            <div id="partners-map"></div>
+          </div>
+
+          <!-- Scrollable Partner List -->
+          <div id="modal-partners-list"></div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <a id="modal-official-link" href="https://nsfdc.nic.in/" target="_blank" rel="noopener" style="font-size: 12.5px; color: var(--accent-blue); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+          <span>Official Scheme Guidelines (NSFDC Portal)</span>
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        </a>
+        <button class="primary-btn" style="flex: none; padding: 8px 18px; font-size: 13px;" onclick="closeModal()">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CLIENT APPLICATION LOGIC
+       ========================================================================== -->
+  <script>
+    const API_BASE = "http://127.0.0.1:5000";
+
+    // Reusable Lucide SVG Icon helper strings
+    const ICONS = {
+      bot: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`,
+      check: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--semantic-success-700);"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+      x: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--semantic-error-700);"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+      alert: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-saffron-700);"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>`,
+      clock: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+      award: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+      calc: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>`,
+      info: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-navy-600);"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+      pin: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
+      extLink: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>`,
+      spark: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
+      search: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`
+    };
+
+    // Application state
+    let knownFields = {
+      purpose: "business",
+      is_sc: true,
+      annual_income: 250000,
+      project_cost: 300000,
+      project_type: null,
+      course_fee: null,
+      study_location: null
+    };
+
+    let currentMatchResults = [];
+    let currentFilter = "eligible";
+    let activeScheme = null;
+    let userCoords = null;
+    let chatHistory = [];
+
+    // Helper: Format INR Currency
+    function formatINR(num) {
+      if (num === null || num === undefined || isNaN(num)) return "₹ 0";
+      return "₹ " + Number(num).toLocaleString("en-IN");
     }
-    renderSchemes(data);
-  } catch (err) {
-    resultsDiv.innerHTML = "<p class='warn'>Could not reach the backend. Is app.py running on port 5000? (" + err + ")</p>";
-  }
-}
 
-function renderSchemes(data) {
-  var resultsDiv = document.getElementById("results");
-  var html = "<p>" + data.message + "</p>";
-  data.schemes.forEach(function(s, i) {
-    html +=
-      "<div class='scheme-card' onclick='openModal(" + i + ")' tabindex='0' " +
-      "onkeydown='if(event.key==&quot;Enter&quot;)openModal(" + i + ")'>" +
-      "<h3>" + s.name + "</h3>" +
-      "<div class='card-meta'>" +
-      "<span><b>Estimated loan:</b> Rs. " + s.estimated_loan.toLocaleString("en-IN") + "</span><br>" +
-      "<span><b>Your contribution:</b> Rs. " + s.applicant_contribution.toLocaleString("en-IN") + "</span><br>" +
-      "<span><b>Interest rate:</b> " + s.interest_rate + " &nbsp;|&nbsp; <b>Repayment:</b> up to " + s.repayment_years + " years</span>" +
-      "</div>" +
-      "<span class='view-link'>View details &amp; EMI calculator &#8594;</span>" +
-      "</div>";
-  });
-  resultsDiv.innerHTML = html;
-  window._lastSchemes = data.schemes;
-}
+    function formatLakhs(num) {
+      if (!num || isNaN(num)) return "";
+      const val = Number(num);
+      if (val >= 10000000) return `₹ ${(val / 10000000).toFixed(2)} Crore`;
+      if (val >= 100000) return `₹ ${(val / 100000).toFixed(2)} Lakh`;
+      return formatINR(val);
+    }
 
-/* ── Modal ──────────────────────────────────────────────────── */
-var _activeScheme = null;
+    function getCurrentTimeString() {
+      const d = new Date();
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
 
-function openModal(idx) {
-  var s = window._lastSchemes[idx];
-  _activeScheme = s;
+    // 1. Health check on load
+    async function checkBackendHealth() {
+      const badge = document.getElementById("backend-status");
+      const text = document.getElementById("backend-status-text");
+      try {
+        const res = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(3000) });
+        if (res.ok) {
+          const data = await res.json();
+          badge.className = "backend-badge connected";
+          text.textContent = `API Connected (${data.schemes_loaded} Schemes Active)`;
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        badge.className = "backend-badge disconnected";
+        text.textContent = "Backend Offline (Run: python app.py)";
+      }
+    }
 
-  document.getElementById("modal-scheme-name").textContent = s.name;
-  document.getElementById("modal-scheme-desc").textContent = s.description || "";
+    // 2. Chatbot Message Handling
+    function appendChatMessage(sender, text, isSpecialCta = false, ctaData = null) {
+      const chatContainer = document.getElementById("chat-messages");
+      const row = document.createElement("div");
+      row.className = `message-row ${sender}`;
 
-  var rateLabel;
-  if (s.interest_rate_min === s.interest_rate_max) {
-    rateLabel = s.interest_rate_min + "% p.a.";
-  } else {
-    rateLabel = s.interest_rate_min + "% \u2013 " + s.interest_rate_max + "% p.a.";
-  }
+      const timeStr = getCurrentTimeString();
 
-  var morLabel = s.moratorium_months
-    ? s.moratorium_months + " month" + (s.moratorium_months > 1 ? "s" : "")
-    : "None";
+      if (sender === "user") {
+        row.innerHTML = `
+          <div class="msg-bubble">
+            ${escapeHtml(text)}
+            <div class="msg-time">${timeStr}</div>
+          </div>
+        `;
+      } else {
+        let contentHtml = `<div>${formatBotMarkdown(text)}</div>`;
 
-  var maxLoanLabel = "Rs. " + (s.max_loan || s.estimated_loan).toLocaleString("en-IN");
+        if (isSpecialCta && ctaData) {
+          contentHtml += `
+            <div class="chat-scheme-cta">
+              <div class="cta-header">
+                ${ICONS.spark}
+                <span>Ready to Evaluate Eligibility:</span>
+              </div>
+              <div class="cta-pills">
+                <span class="cta-pill">Purpose: ${ctaData.purpose || 'Business'}</span>
+                <span class="cta-pill">Income: ${formatLakhs(ctaData.annual_income) || '₹2.5L'}</span>
+                <span class="cta-pill">Cost: ${formatLakhs(ctaData.project_cost) || '₹3.0L'}</span>
+                <span class="cta-pill">${ctaData.is_sc ? ICONS.check + ' SC Applicant' : ICONS.alert + ' Non-SC'}</span>
+              </div>
+              <button class="chat-find-schemes-btn" onclick="findMatchingSchemes()">
+                ${ICONS.search}
+                <span>View Matching Schemes Now</span>
+              </button>
+            </div>
+          `;
+        }
 
-  document.getElementById("modal-info-grid").innerHTML =
-    infoItem("Max loan amount", maxLoanLabel) +
-    infoItem("Interest rate", rateLabel) +
-    infoItem("Repayment period", "Up to " + s.repayment_years + " years") +
-    infoItem("Moratorium period", morLabel);
+        row.innerHTML = `
+          <div class="msg-avatar">${ICONS.bot}</div>
+          <div class="msg-bubble">
+            ${contentHtml}
+            <div class="msg-time">${timeStr}</div>
+          </div>
+        `;
+      }
 
-  var srcLink = document.getElementById("modal-source-link");
-  srcLink.href = s.source_url || "#";
-  if (!s.source_url) srcLink.style.display = "none"; else srcLink.style.display = "";
+      chatContainer.appendChild(row);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 
-  initSliders(s);
+    function showTypingIndicator() {
+      const chatContainer = document.getElementById("chat-messages");
+      const row = document.createElement("div");
+      row.id = "chat-typing-indicator";
+      row.className = "message-row bot";
+      row.innerHTML = `
+        <div class="msg-avatar">${ICONS.bot}</div>
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      chatContainer.appendChild(row);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 
-  var overlay = document.getElementById("modal-overlay");
-  overlay.classList.add("open");
-  overlay.scrollTop = 0;
-  document.body.style.overflow = "hidden";
-  document.getElementById("modal-close").focus();
-}
+    function removeTypingIndicator() {
+      const ind = document.getElementById("chat-typing-indicator");
+      if (ind) ind.remove();
+    }
 
-function infoItem(label, value) {
-  return "<div class='info-item'><span class='lbl'>" + label + "</span><span class='val'>" + value + "</span></div>";
-}
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
 
-function closeModal() {
-  document.getElementById("modal-overlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
+    function formatBotMarkdown(text) {
+      if (!text) return "";
+      let formatted = escapeHtml(text);
+      formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      return formatted;
+    }
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById("modal-overlay")) closeModal();
-}
+    function sendSamplePrompt(text) {
+      document.getElementById("chat-user-input").value = text;
+      handleUserSendMessage();
+    }
 
-document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeModal(); });
+    // User sends a message via chat
+    async function handleUserSendMessage() {
+      const inputEl = document.getElementById("chat-user-input");
+      const text = inputEl.value.trim();
+      if (!text) return;
 
-/* ── EMI sliders ────────────────────────────────────────────── */
-function initSliders(s) {
-  var maxLoan = s.max_loan || s.estimated_loan;
-  var defaultLoan = Math.min(s.estimated_loan, maxLoan);
+      inputEl.value = "";
+      const sendBtn = document.getElementById("chat-send-btn");
+      sendBtn.disabled = true;
 
-  var loanSlider = document.getElementById("loan-slider");
-  loanSlider.min   = 0;
-  loanSlider.max   = maxLoan;
-  loanSlider.step  = Math.max(1000, Math.round(maxLoan / 200));
-  loanSlider.value = defaultLoan;
+      // 1. Render User Bubble
+      appendChatMessage("user", text);
 
-  var tenureSlider = document.getElementById("tenure-slider");
-  tenureSlider.max   = s.repayment_years;
-  tenureSlider.value = s.repayment_years;
+      // Check if user is confirming or saying yes
+      const lower = text.toLowerCase();
+      const isAffirmation = /^(yes|yeah|yep|sure|ok|haan|ha|show|batao|dikhao|check|find|view)/i.test(lower);
+      const allRequiredFilled = knownFields.purpose && (knownFields.is_sc !== null) && knownFields.annual_income && knownFields.project_cost;
 
-  var rateRow = document.getElementById("rate-slider-row");
-  if (s.interest_rate_min !== s.interest_rate_max) {
-    rateRow.style.display = "";
-    var rSlider = document.getElementById("rate-slider");
-    rSlider.min   = s.interest_rate_min;
-    rSlider.max   = s.interest_rate_max;
-    rSlider.step  = "0.1";
-    rSlider.value = ((s.interest_rate_min + s.interest_rate_max) / 2).toFixed(1);
-  } else {
-    rateRow.style.display = "none";
-  }
+      if (isAffirmation && allRequiredFilled) {
+        showTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          appendChatMessage("bot", "Finding your matching government schemes right now...");
+          findMatchingSchemes();
+          sendBtn.disabled = false;
+        }, 500);
+        return;
+      }
 
-  recalc();
-}
+      showTypingIndicator();
 
-function recalc() {
-  var s = _activeScheme; if (!s) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/parse`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: text,
+            known_fields: knownFields
+          })
+        });
 
-  var loan = Number(document.getElementById("loan-slider").value);
-  var tenure = Number(document.getElementById("tenure-slider").value);
+        removeTypingIndicator();
 
-  var annualRate;
-  if (s.interest_rate_min !== s.interest_rate_max) {
-    annualRate = Number(document.getElementById("rate-slider").value);
-  } else {
-    annualRate = s.interest_rate_min;
-  }
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
 
-  var morMonths = s.moratorium_months || 0;
+        // Implicitly update memory & form parameters
+        knownFields = { ...knownFields, ...data };
+        syncDataToForm(knownFields);
 
-  /* Display labels */
-  document.getElementById("loan-val-display").textContent   = "Rs. " + loan.toLocaleString("en-IN");
-  document.getElementById("tenure-val-display").textContent = tenure + " yr" + (tenure !== 1 ? "s" : "");
-  if (s.interest_rate_min !== s.interest_rate_max) {
-    document.getElementById("rate-val-display").textContent = annualRate.toFixed(1) + "%";
-  }
+        const isReady = (!data.missing_fields || data.missing_fields.length === 0) &&
+                        knownFields.purpose && (knownFields.is_sc !== null) && 
+                        knownFields.annual_income && knownFields.project_cost;
 
-  /* EMI formula */
-  var payingMonths = (tenure * 12) - morMonths;
-  if (payingMonths <= 0) payingMonths = 1;
+        // Render Bot Reply
+        const botReply = data.reply || "I have received your details.";
+        appendChatMessage("bot", botReply, isReady, knownFields);
 
-  var monthlyRate = annualRate / 12 / 100;
-  var emi;
-  if (monthlyRate === 0) {
-    emi = loan / payingMonths;
-  } else {
-    var pow = Math.pow(1 + monthlyRate, payingMonths);
-    emi = loan * monthlyRate * pow / (pow - 1);
-  }
+      } catch (err) {
+        removeTypingIndicator();
+        appendChatMessage("bot", "Could not connect to AI service. You can review and edit your details in the right-side form.");
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
 
-  var totalPayable  = emi * payingMonths;
-  var totalInterest = totalPayable - loan;
+    // Implicit background synchronization from AI state to the form
+    function syncDataToForm(data) {
+      if (data.purpose) selectPurpose(data.purpose, false);
+      if (data.is_sc !== null && data.is_sc !== undefined) {
+        document.getElementById("isSc").checked = Boolean(data.is_sc);
+      }
+      if (data.annual_income) {
+        document.getElementById("income").value = data.annual_income;
+        handleIncomeInput();
+      }
+      if (data.project_cost) {
+        document.getElementById("cost").value = data.project_cost;
+        handleCostInput();
+      }
+      if (data.project_type) {
+        document.getElementById("project-type").value = data.project_type;
+      }
+      if (data.study_location) {
+        document.getElementById("study-location").value = data.study_location;
+      }
+    }
 
-  document.getElementById("emi-main-display").innerHTML =
-    "Rs. " + Math.round(emi).toLocaleString("en-IN") +
-    "<span class='emi-unit'>/ month</span>";
+    function resetAiChat() {
+      knownFields = {
+        purpose: "business",
+        is_sc: true,
+        annual_income: null,
+        project_cost: null,
+        project_type: null,
+        course_fee: null,
+        study_location: null
+      };
+      document.getElementById("chat-messages").innerHTML = `
+        <div class="message-row bot">
+          <div class="msg-avatar">${ICONS.bot}</div>
+          <div class="msg-bubble">
+            🙏 <strong>Chat reset.</strong> Tell me about your business, education, or skill loan requirement in Hindi or English.
+            <div class="msg-time">${getCurrentTimeString()}</div>
+          </div>
+        </div>
+      `;
+    }
 
-  document.getElementById("emi-breakdown").innerHTML =
-    emiStat("Total interest", "Rs. " + Math.round(totalInterest).toLocaleString("en-IN")) +
-    emiStat("Total payable",  "Rs. " + Math.round(totalPayable).toLocaleString("en-IN"));
+    // 3. Form Input Handlers
+    function selectPurpose(purpose, updateKnown = true) {
+      document.getElementById("purpose").value = purpose;
+      if (updateKnown) knownFields.purpose = purpose;
 
-  var noteText;
-  if (morMonths > 0) {
-    noteText = "<strong>No EMI due</strong> for the first <strong>" + morMonths + " month" +
-      (morMonths > 1 ? "s" : "") + "</strong> (moratorium period). " +
-      "Monthly payments of <strong>Rs.\u00a0" + Math.round(emi).toLocaleString("en-IN") +
-      "</strong> begin from month " + (morMonths + 1) + ".";
-  } else {
-    noteText = "Payments begin from the first month. No moratorium period applies to this scheme.";
-  }
-  document.getElementById("moratorium-note").innerHTML = noteText;
-}
+      document.querySelectorAll(".purpose-card").forEach(c => c.classList.remove("selected"));
+      document.getElementById(`card-purpose-${purpose}`)?.classList.add("selected");
 
-function emiStat(label, val) {
-  return "<div class='emi-stat'><div class='lbl'>" + label + "</div><div class='val'>" + val + "</div></div>";
-}
-</script>
+      const eduWrap = document.getElementById("wrap-study-location");
+      const bizWrap = document.getElementById("wrap-project-type");
+      if (purpose === "education") {
+        eduWrap.style.display = "block";
+        bizWrap.style.display = "none";
+      } else {
+        eduWrap.style.display = "none";
+        bizWrap.style.display = "block";
+      }
+
+      clearMissingHighlight("wrap-purpose");
+    }
+
+    function handleIncomeInput() {
+      const val = Number(document.getElementById("income").value);
+      knownFields.annual_income = val || null;
+      const textEl = document.getElementById("income-live-text");
+      if (val > 0) {
+        let note = val <= 300000 ? " (Within NSFDC limit ≤ ₹3L)" : " (Exceeds ₹3L NSFDC cap)";
+        textEl.textContent = formatLakhs(val) + note;
+        textEl.style.color = val <= 300000 ? "var(--brand-navy-700)" : "var(--brand-saffron-700)";
+      } else {
+        textEl.textContent = "";
+      }
+      clearMissingHighlight("wrap-income");
+    }
+
+    function setIncome(val) {
+      document.getElementById("income").value = val;
+      handleIncomeInput();
+    }
+
+    function handleCostInput() {
+      const val = Number(document.getElementById("cost").value);
+      knownFields.project_cost = val || null;
+      const textEl = document.getElementById("cost-live-text");
+      textEl.textContent = val > 0 ? formatLakhs(val) : "";
+      clearMissingHighlight("wrap-cost");
+    }
+
+    function setCost(val) {
+      document.getElementById("cost").value = val;
+      handleCostInput();
+    }
+
+    function clearMissingHighlight(wrapId) {
+      const el = document.getElementById(wrapId);
+      if (el) el.classList.remove("field-missing");
+    }
+
+    function resetForm() {
+      selectPurpose("business");
+      document.getElementById("isSc").checked = true;
+      document.getElementById("income").value = "250000";
+      document.getElementById("cost").value = "300000";
+      document.getElementById("project-type").value = "";
+      document.getElementById("study-location").value = "India";
+      handleIncomeInput();
+      handleCostInput();
+      document.querySelectorAll(".field-missing").forEach(e => e.classList.remove("field-missing"));
+      document.getElementById("results-section").style.display = "none";
+    }
+
+    // 4. Scheme Matching (POST /api/match)
+    async function findMatchingSchemes() {
+      document.querySelectorAll(".field-missing").forEach(e => e.classList.remove("field-missing"));
+
+      const is_sc = document.getElementById("isSc").checked;
+      const annual_income = Number(document.getElementById("income").value);
+      const project_cost = Number(document.getElementById("cost").value);
+      const purpose = document.getElementById("purpose").value;
+
+      if (!annual_income || !project_cost) {
+        if (!annual_income) document.getElementById("wrap-income").classList.add("field-missing");
+        if (!project_cost) document.getElementById("wrap-cost").classList.add("field-missing");
+        return;
+      }
+
+      const resultsSection = document.getElementById("results-section");
+      const container = document.getElementById("scheme-cards-container");
+      resultsSection.style.display = "block";
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--gray-600); grid-column: 1/-1;">
+          <div style="margin-bottom: 8px;">${ICONS.clock}</div>
+          <strong>Evaluating NSFDC & Govt. Schemes...</strong>
+        </div>
+      `;
+      resultsSection.scrollIntoView({ behavior: "smooth" });
+
+      try {
+        const res = await fetch(`${API_BASE}/api/match`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            is_sc,
+            annual_income,
+            project_cost,
+            purpose
+          })
+        });
+
+        const data = await res.json();
+        currentMatchResults = data.schemes || [];
+        renderResults(data);
+
+      } catch (err) {
+        container.innerHTML = `
+          <div class="card-reason-banner ineligible" style="padding: 20px; font-size: 14px; grid-column: 1/-1;">
+            ${ICONS.alert}
+            <div>
+              <strong>Could not connect to backend server.</strong><br>
+              Please ensure <code>python app.py</code> is running on port 5000.
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // 5. Render Scheme Results
+    function renderResults(data) {
+      const container = document.getElementById("scheme-cards-container");
+      const headline = document.getElementById("results-headline");
+      const subheadline = document.getElementById("results-subheadline");
+
+      const eligibleList = currentMatchResults.filter(s => s.eligible);
+      const ineligibleList = currentMatchResults.filter(s => !s.eligible);
+
+      headline.textContent = data.eligible 
+        ? `Found ${eligibleList.length} Matching Government Scheme(s)`
+        : "No Fully Matching Schemes Found";
+      
+      subheadline.textContent = data.message || "Ranked by lowest concessional interest rate.";
+
+      const listToRender = currentFilter === "eligible" ? eligibleList : currentMatchResults;
+
+      if (listToRender.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--gray-200); grid-column: 1/-1;">
+            <div style="margin-bottom: 8px;">${ICONS.info}</div>
+            <strong>No schemes in this filter.</strong>
+            <p style="font-size: 13px; color: var(--gray-500); margin-top: 4px;">Try switching to 'All Schemes' to review limits and reasons.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+      listToRender.forEach((s, idx) => {
+        const isEligible = s.eligible;
+        const rankBadge = s.rank ? `<span class="badge badge-rank">${ICONS.award} #${s.rank} Best Rate</span>` : "";
+        const agencyBadge = s.scheme_type ? `<span class="badge badge-type">${s.scheme_type}</span>` : "";
+        
+        html += `
+          <div class="scheme-card ${isEligible ? 'eligible' : 'ineligible'}" onclick="openSchemeModal(${idx}, '${currentFilter}')">
+            <div class="card-top">
+              <div class="card-title-group">
+                <div class="card-badges">
+                  ${rankBadge}
+                  ${agencyBadge}
+                </div>
+                <h3 class="card-name">${s.name}</h3>
+                <p class="card-desc">${s.description || ''}</p>
+              </div>
+            </div>
+
+            ${isEligible ? `
+              <div class="card-metrics-grid">
+                <div class="metric-cell">
+                  <span class="metric-lbl">Loan Support</span>
+                  <span class="metric-val highlight">${formatINR(s.estimated_loan)}</span>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-lbl">Your Margin</span>
+                  <span class="metric-val">${formatINR(s.applicant_contribution)}</span>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-lbl">Interest Rate</span>
+                  <span class="metric-val highlight">${s.interest_rate} p.a.</span>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-lbl">Repayment</span>
+                  <span class="metric-val">${s.repayment_years} Yrs</span>
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="card-reason-banner ${isEligible ? 'eligible' : 'ineligible'}">
+              ${isEligible ? ICONS.check : ICONS.x}
+              <span>${s.reason}</span>
+            </div>
+
+            <div class="card-footer">
+              <span class="card-footer-cta">
+                ${isEligible ? ICONS.calc + ' <span>Live EMI Calculator & Checklist →</span>' : '<span>View Scheme Details →</span>'}
+              </span>
+              ${s.moratorium_months ? `<span style="font-size: 11px; color: var(--gray-500); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">${ICONS.clock} ${s.moratorium_months} Mo. Moratorium</span>` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterSchemesView(filter) {
+      currentFilter = filter;
+      document.getElementById("tab-filter-eligible").classList.toggle("active", filter === "eligible");
+      document.getElementById("tab-filter-all").classList.toggle("active", filter === "all");
+      renderResults({ eligible: true, message: document.getElementById("results-subheadline").textContent });
+    }
+
+    // 6. Modal & Live EMI Calculator
+    function openSchemeModal(idx, filterMode) {
+      const list = filterMode === "eligible" 
+        ? currentMatchResults.filter(s => s.eligible) 
+        : currentMatchResults;
+      
+      const scheme = list[idx];
+      if (!scheme) return;
+      activeScheme = scheme;
+
+      document.getElementById("modal-scheme-name").textContent = scheme.name;
+      document.getElementById("modal-scheme-desc").textContent = scheme.description || "";
+      document.getElementById("modal-official-link").href = scheme.source_url || "https://nsfdc.nic.in/";
+      
+      const badgeWrap = document.getElementById("modal-badges");
+      badgeWrap.innerHTML = `
+        ${scheme.rank ? `<span class="badge badge-rank">${ICONS.award} #${scheme.rank} Ranked</span>` : ''}
+        <span class="badge badge-agency">${scheme.purpose}</span>
+        ${scheme.scheme_type ? `<span class="badge badge-type">${scheme.scheme_type}</span>` : ''}
+      `;
+
+      const docs = scheme.documents_required || [];
+      document.getElementById("modal-docs-count").textContent = docs.length;
+      renderDocsChecklist(docs);
+
+      initCalculatorSliders(scheme);
+      switchModalTab("calc");
+      loadPartnersForScheme(scheme);
+
+      const overlay = document.getElementById("modal-overlay");
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      document.getElementById("modal-overlay").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function handleModalOverlayClick(e) {
+      if (e.target === document.getElementById("modal-overlay")) closeModal();
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    function switchModalTab(tabId) {
+      document.querySelectorAll(".modal-nav-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+
+      document.getElementById(`nav-${tabId}`)?.classList.add("active");
+      document.getElementById(`pane-${tabId}`)?.classList.add("active");
+
+      if (tabId === 'partners') {
+        setTimeout(() => {
+          if (!partnersMap) {
+            initPartnersMap();
+          } else {
+            partnersMap.invalidateSize();
+          }
+        }, 150);
+      }
+    }
+
+    // 7. Slider Initialization & EMI Calculation
+    function initCalculatorSliders(s) {
+      const maxLoanCap = s.max_loan || s.estimated_loan || 5000000;
+      const defaultLoan = s.estimated_loan ? Math.min(s.estimated_loan, maxLoanCap) : Math.min(300000, maxLoanCap);
+
+      const loanSlider = document.getElementById("slider-loan");
+      loanSlider.min = 10000;
+      loanSlider.max = maxLoanCap;
+      loanSlider.step = 5000;
+      loanSlider.value = defaultLoan;
+      document.getElementById("slider-loan-max-label").textContent = `Max Cap: ${formatINR(maxLoanCap)}`;
+
+      const tenureSlider = document.getElementById("slider-tenure");
+      tenureSlider.max = s.repayment_years || 7;
+      tenureSlider.value = s.repayment_years || 7;
+      document.getElementById("slider-tenure-max-label").textContent = `Max: ${s.repayment_years || 7} Years`;
+
+      const rateBox = document.getElementById("slider-rate-box");
+      const minR = s.interest_rate_min || 6;
+      const maxR = s.interest_rate_max || 6;
+
+      if (minR !== maxR) {
+        rateBox.style.display = "block";
+        const rateSlider = document.getElementById("slider-rate");
+        rateSlider.min = minR;
+        rateSlider.max = maxR;
+        rateSlider.step = 0.1;
+        rateSlider.value = ((minR + maxR) / 2).toFixed(1);
+      } else {
+        rateBox.style.display = "none";
+      }
+
+      recalculateEMI();
+    }
+
+    function onLoanSliderChange() { recalculateEMI(); }
+    function onTenureSliderChange() { recalculateEMI(); }
+    function onRateSliderChange() { recalculateEMI(); }
+
+    function recalculateEMI() {
+      if (!activeScheme) return;
+
+      const loan = Number(document.getElementById("slider-loan").value);
+      const tenureYears = Number(document.getElementById("slider-tenure").value);
+      
+      let annualRate = activeScheme.interest_rate_min || 6;
+      if (activeScheme.interest_rate_min !== activeScheme.interest_rate_max) {
+        annualRate = Number(document.getElementById("slider-rate").value);
+      }
+
+      const morMonths = activeScheme.moratorium_months || 0;
+      let payingMonths = (tenureYears * 12) - morMonths;
+      if (payingMonths <= 0) payingMonths = 1;
+
+      const monthlyRate = annualRate / 12 / 100;
+      let emi = 0;
+      if (monthlyRate === 0) {
+        emi = loan / payingMonths;
+      } else {
+        const factor = Math.pow(1 + monthlyRate, payingMonths);
+        emi = loan * monthlyRate * factor / (factor - 1);
+      }
+
+      const totalPayable = emi * payingMonths;
+      const totalInterest = Math.max(0, totalPayable - loan);
+
+      document.getElementById("slider-loan-val").textContent = formatINR(loan);
+      document.getElementById("slider-tenure-val").textContent = `${tenureYears} Year${tenureYears > 1 ? 's' : ''}`;
+      document.getElementById("slider-rate-val").textContent = `${annualRate.toFixed(1)}% p.a.`;
+
+      document.getElementById("calc-emi-display").textContent = formatINR(Math.round(emi));
+      document.getElementById("calc-principal-display").textContent = formatINR(loan);
+      document.getElementById("calc-interest-display").textContent = formatINR(Math.round(totalInterest));
+      document.getElementById("calc-total-display").textContent = formatINR(Math.round(totalPayable));
+
+      const morEl = document.getElementById("modal-moratorium-banner");
+      if (morMonths > 0) {
+        morEl.innerHTML = `
+          <strong>${morMonths}-Month Moratorium Period:</strong> You do not pay any EMI for the first ${morMonths} months. Monthly repayments of <strong>${formatINR(Math.round(emi))}</strong> start from Month ${morMonths + 1}.
+        `;
+        morEl.style.display = "block";
+      } else {
+        morEl.innerHTML = `
+          Regular repayment cycle: Monthly EMIs of <strong>${formatINR(Math.round(emi))}</strong> start from the first month.
+        `;
+        morEl.style.display = "block";
+      }
+    }
+
+    // 8. Documents Tab
+    function renderDocsChecklist(docs) {
+      const listEl = document.getElementById("modal-docs-list");
+      if (!docs || docs.length === 0) {
+        listEl.innerHTML = `<div style="color: var(--gray-500); padding: 10px;">Standard identity and income proofs apply.</div>`;
+        return;
+      }
+
+      let html = "";
+      docs.forEach(d => {
+        html += `
+          <label class="doc-item">
+            <input type="checkbox" class="doc-check" />
+            <div style="flex: 1;">
+              <div class="doc-name">
+                ${d.name}
+                <span class="doc-badge ${d.mandatory ? 'mandatory' : 'optional'}">
+                  ${d.mandatory ? 'Mandatory' : 'Optional'}
+                </span>
+              </div>
+              <div style="font-size: 11.5px; color: var(--gray-500); margin-top: 2px;">Required for official verification.</div>
+            </div>
+          </label>
+        `;
+      });
+      listEl.innerHTML = html;
+    }
+
+    // 9. Interactive Leaflet Map & Partners Tab
+    let partnersMap = null;
+    let partnerMarkersGroup = null;
+    let userMarker = null;
+    let currentSchemePartners = [];
+    let partnerMarkersList = [];
+
+    // Fallback coordinates keyed by PARTNER NAME (not list index!)
+    // Used only if backend returns null lat/lon (CSV not geocoded yet)
+    const PARTNER_FALLBACK_COORDS_BY_NAME = {
+      "Andhra Pradesh Scheduled Castes Development Corporation (APSCDC)": [16.5062, 80.6480],
+      "Assam State Financial Development Corporation (ASFDC)":            [26.1445, 91.7362],
+      "Bihar State Scheduled Caste Finance and Development Corporation (BSPFC)": [25.5941, 85.1376],
+      "Chhattisgarh Scheduled Caste Development Finance Corporation (CGSCDFC)": [21.2514, 81.6296],
+      "Gujarat Scheduled Castes Development Corporation (GSCDC)":         [23.2156, 72.6369],
+      "Haryana Scheduled Castes Development and Finance Corporation (HSCDC)": [30.6942, 76.8606],
+      "Himachal Pradesh Scheduled Castes Development Corporation (HPSCDC)": [31.1048, 77.1734],
+      "Jharkhand State Scheduled Caste Development Finance Corporation (JSSCL)": [23.3441, 85.3096],
+      "Karnataka Scheduled Castes Development Corporation (KSCDC)":        [12.9716, 77.5946],
+      "Kerala Scheduled Castes Development Finance Corporation (KSCDFC)":  [8.5241, 76.9366],
+      "Madhya Pradesh Scheduled Caste Finance and Development Corporation (MPSCDC)": [23.2599, 77.4126],
+      "Maharashtra Scheduled Castes Development Finance Corporation (MSCDFC)": [18.9388, 72.8258],
+      "Odisha Scheduled Castes and Scheduled Tribes Development and Finance Corporation (OSCDC)": [20.2961, 85.8245],
+      "Punjab Scheduled Castes Development and Finance Corporation (PSCDC)": [30.7333, 76.7794],
+      "Rajasthan Scheduled Castes Finance and Development Corporation (RSCFC)": [26.9124, 75.7873],
+      "Tamil Nadu Scheduled Castes Development Corporation (TNSCDC)":      [13.0067, 80.2025],
+      "Telangana Scheduled Castes Development Corporation (TSCDC)":        [17.4065, 78.4772],
+      "Uttar Pradesh Scheduled Caste Finance and Development Corporation (UPSCFC)": [26.8467, 80.9462],
+      "Uttarakhand Scheduled Caste Development Corporation (UKSCDC)":      [30.3165, 78.0322],
+      "West Bengal Scheduled Castes ST and OBC Development and Finance Corporation (WBMSCDC)": [22.5726, 88.3639],
+      "State Bank of India (Corporate Centre)":    [18.9270, 72.8236],
+      "Punjab National Bank (Corporate Office)":   [28.5684, 77.1856],
+      "Bank of Baroda (Corporate Office)":         [22.3107, 73.1812],
+      "Canara Bank (Corporate Office)":            [12.9644, 77.5855],
+      "Union Bank of India (Corporate Office)":    [18.9322, 72.8264],
+      "Indian Bank (Corporate Office)":            [13.0569, 80.2525],
+      "Central Bank of India (Corporate Office)":  [18.9312, 72.8335],
+      "Bank of India (Corporate Office)":          [18.9318, 72.8320],
+      "Bank of Maharashtra (Corporate Office)":    [18.5204, 73.8567],
+      "Punjab & Sind Bank (Corporate Office)":     [28.6289, 77.2144]
+    };
+
+    function initPartnersMap() {
+      if (partnersMap) return;
+      
+      const mapEl = document.getElementById("partners-map");
+      if (!mapEl) return;
+
+      partnersMap = L.map('partners-map', {
+        zoomControl: true,
+        scrollWheelZoom: true
+      }).setView([21.7679, 78.8718], 4.5); // Center of India
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+      }).addTo(partnersMap);
+
+      partnerMarkersGroup = L.layerGroup().addTo(partnersMap);
+    }
+
+    async function loadPartnersForScheme(scheme) {
+      const listEl = document.getElementById("modal-partners-list");
+      const statusText = document.getElementById("partners-status-text");
+
+      const schemeIdMap = {
+        "Term Loan": 1, "Micro Credit Finance": 2, "Mahila Samriddhi Yojana": 3,
+        "Shilpi Samriddhi Yojana": 4, "Laghu Vyavasaya Yojana": 5, "Educational Loan Scheme": 6,
+        "Vocational Education and Training Loan Scheme": 7, "Green Business Scheme": 8,
+        "Aajeevika Microfinance Yojana": 9, "Udyam Nidhi Yojana": 10, "Stand-Up India (SC/ST/Women)": 11,
+        "PMEGP": 12, "PM Mudra Yojana - Shishu": 13, "PM Mudra Yojana - Kishor": 14,
+        "PM Mudra Yojana - Tarun": 15, "PM SVANidhi": 16, "PM Vishwakarma Enterprise Dev Loan": 17
+      };
+
+      const schemeId = scheme.scheme_id || schemeIdMap[scheme.name] || 1;
+
+      try {
+        const payload = { scheme_id: schemeId };
+        if (userCoords) {
+          payload.latitude = userCoords.latitude;
+          payload.longitude = userCoords.longitude;
+        }
+
+        const res = await fetch(`${API_BASE}/api/partners`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        currentSchemePartners = data.partners || [];
+
+        // Apply name-keyed fallback only if backend returned no coordinates
+        currentSchemePartners.forEach((p) => {
+          if (!p.latitude || !p.longitude) {
+            const fallback = PARTNER_FALLBACK_COORDS_BY_NAME[p.partner_name];
+            if (fallback) {
+              p.latitude = fallback[0];
+              p.longitude = fallback[1];
+            }
+          }
+        });
+
+        statusText.textContent = `${currentSchemePartners.length} authorized channel partners for this scheme`;
+
+        // Populate State Filter Dropdown
+        populateStateFilter(currentSchemePartners);
+
+        // Render List and Map Markers
+        renderPartnersListAndMap(currentSchemePartners);
+
+      } catch (err) {
+        listEl.innerHTML = `<div style="color: var(--gray-500); padding: 10px;">Could not load partner offices from API.</div>`;
+      }
+    }
+
+    function populateStateFilter(partners) {
+      const select = document.getElementById("partner-state-filter");
+      if (!select) return;
+      const states = Array.from(new Set(partners.map(p => p.state).filter(Boolean))).sort();
+      select.innerHTML = `<option value="">All States & Regions (${partners.length})</option>` +
+        states.map(s => `<option value="${s}">${s}</option>`).join("");
+    }
+
+    function filterPartnersByState() {
+      const selectedState = document.getElementById("partner-state-filter").value;
+      const filtered = selectedState
+        ? currentSchemePartners.filter(p => p.state === selectedState)
+        : currentSchemePartners;
+      renderPartnersListAndMap(filtered);
+    }
+
+    function renderPartnersListAndMap(partners) {
+      const listEl = document.getElementById("modal-partners-list");
+      initPartnersMap();
+
+      if (!partners || partners.length === 0) {
+        listEl.innerHTML = `<div style="padding: 20px; color: var(--gray-500);">No channel partners match the selected filter.</div>`;
+        if (partnerMarkersGroup) partnerMarkersGroup.clearLayers();
+        return;
+      }
+
+      // Clear map markers
+      if (partnerMarkersGroup) partnerMarkersGroup.clearLayers();
+      partnerMarkersList = [];
+
+      const bounds = [];
+
+      // Add user location marker if available
+      if (userCoords && partnersMap) {
+        if (userMarker) partnersMap.removeLayer(userMarker);
+        
+        const userIcon = L.divIcon({
+          className: 'user-map-pin',
+          html: `<div style="width:16px;height:16px;background:#1d4ed8;border:3px solid #ffffff;border-radius:50%;box-shadow:0 0 0 4px rgba(29,78,216,0.35);"></div>`,
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+
+        userMarker = L.marker([userCoords.latitude, userCoords.longitude], { icon: userIcon })
+          .addTo(partnersMap)
+          .bindPopup(`<strong>📍 Your Current Location</strong>`);
+
+        bounds.push([userCoords.latitude, userCoords.longitude]);
+      }
+
+      let html = "";
+      partners.forEach((p, idx) => {
+        const hasCoords = p.latitude && p.longitude;
+        if (hasCoords) {
+          bounds.push([p.latitude, p.longitude]);
+
+          // Create SVG Pin for Partner
+          const isSca = p.partner_type === "State Channelizing Agency";
+          const pinColor = isSca ? "#15396b" : "#1c4a87";
+          
+          const partnerIcon = L.divIcon({
+            className: 'partner-map-pin',
+            html: `
+              <div style="background:${pinColor};color:#fff;padding:5px 8px;border-radius:14px;font-size:11px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.3);border:2px solid #ffffff;display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <span>${idx + 1}</span>
+              </div>
+            `,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+          });
+
+          const popupContent = `
+            <div class="map-popup-title">${p.partner_name}</div>
+            <span class="map-popup-badge">${p.partner_type} &bull; ${p.state || 'India'}</span>
+            <div style="color:var(--gray-700);margin-top:2px;">${p.address ? p.address : (p.district + ', ' + p.state)}</div>
+            ${p.distance_km !== null ? `<div style="font-weight:700;color:var(--brand-navy-700);margin-top:4px;">🚗 ${p.distance_km} km away</div>` : ''}
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+              <a class="map-popup-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}" target="_blank" rel="noopener">
+                <span>🧭 Directions / Navigate</span>
+              </a>
+              ${p.website ? `<a class="map-popup-nav-btn" style="background:var(--gray-200);color:var(--gray-800)!important;" href="${p.website}" target="_blank" rel="noopener">🌐 Portal</a>` : ''}
+            </div>
+          `;
+
+          const marker = L.marker([p.latitude, p.longitude], { icon: partnerIcon })
+            .addTo(partnerMarkersGroup)
+            .bindPopup(popupContent);
+
+          partnerMarkersList.push(marker);
+        }
+
+        html += `
+          <div class="partner-item" id="partner-card-${idx}" onclick="focusPartnerOnMap(${idx})">
+            <div class="partner-title-row">
+              <span class="partner-name"><span style="color:var(--brand-navy-700);font-weight:800;">${idx + 1}.</span> ${p.partner_name}</span>
+              ${p.distance_km !== null ? `<span class="partner-dist">${p.distance_km} km away</span>` : ''}
+            </div>
+            <div class="partner-meta">
+              <strong>Type:</strong> ${p.partner_type} &nbsp;|&nbsp; <strong>State:</strong> ${p.state || 'All India'}<br>
+              ${p.address ? `<span style="display:inline-flex; align-items:center; gap:4px; margin-top:2px;">${ICONS.pin} ${p.address}</span><br>` : ''}
+              <div style="display:flex; gap:10px; margin-top:6px; align-items:center;">
+                ${hasCoords ? `
+                  <a href="https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:11.5px; font-weight:700; color:var(--brand-navy-700); text-decoration:none; display:inline-flex; align-items:center; gap:3px;">
+                    <span>🧭 Directions / Map</span> ${ICONS.extLink}
+                  </a>
+                ` : ''}
+                ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color: var(--accent-blue); font-weight: 600; font-size:11.5px; text-decoration: none; display:inline-flex; align-items:center; gap:3px;"><span>Official Website</span> ${ICONS.extLink}</a>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = html;
+
+      // Fit map bounds to markers
+      if (partnersMap && bounds.length > 0) {
+        setTimeout(() => {
+          partnersMap.invalidateSize();
+          partnersMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 13 });
+        }, 200);
+      }
+    }
+
+    function focusPartnerOnMap(idx) {
+      document.querySelectorAll(".partner-item").forEach(el => el.classList.remove("highlighted"));
+      const card = document.getElementById(`partner-card-${idx}`);
+      if (card) card.classList.add("highlighted");
+
+      const marker = partnerMarkersList[idx];
+      if (marker && partnersMap) {
+        const latLng = marker.getLatLng();
+        partnersMap.flyTo(latLng, 14, { duration: 0.8 });
+        marker.openPopup();
+      }
+    }
+
+    function fetchNearbyPartners(promptUser) {
+      if (navigator.geolocation) {
+        document.getElementById("partners-status-text").textContent = "Requesting real-time device GPS coordinates...";
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            userCoords = {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude
+            };
+            document.getElementById("partners-status-text").textContent = 
+              `Device GPS Acquired (${pos.coords.latitude.toFixed(4)}°, ${pos.coords.longitude.toFixed(4)}°) — Sorted by distance`;
+            if (activeScheme) loadPartnersForScheme(activeScheme);
+          },
+          err => {
+            console.warn("Geolocation permission error or unavailable:", err);
+            document.getElementById("partners-status-text").textContent = 
+              "GPS permission denied or unavailable — showing default partner list.";
+          },
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      } else {
+        document.getElementById("partners-status-text").textContent = 
+          "Geolocation not supported by browser — showing default partner list.";
+      }
+    }
+
+    // Initialize on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      checkBackendHealth();
+      setInterval(checkBackendHealth, 15000);
+      handleIncomeInput();
+      handleCostInput();
+    });
+  </script>
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 </html>
