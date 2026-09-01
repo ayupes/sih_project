@@ -1,5 +1,5 @@
 """
-Saarthi AI - Backend API
+Asha AI - Backend API
 -------------------------
 """
 
