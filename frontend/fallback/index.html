@@ -70,13 +70,16 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: var(--font-latin);
-      background: #f4f6f9;
+      background: #ffffff;
       color: var(--gray-800);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 80px;
     }
 
     /* Devanagari specific font class */
@@ -91,11 +94,20 @@
       flex-shrink: 0;
     }
 
-    /* Top National Header Bar */
+    /* Global Container Utility (~1240px) */
+    .page-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       ZONE 1: MASTHEAD (GOV STRIP)
+       ========================================================================== */
     .gov-strip {
       background: #ffffff;
       border-bottom: 1px solid var(--gray-200);
-      padding: 6px 24px;
+      padding: 8px 32px;
       font-size: 12px;
       color: var(--gray-600);
       display: flex;
@@ -103,7 +115,8 @@
       align-items: center;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
     .gov-strip .emblem-tag {
       display: flex;
@@ -122,6 +135,46 @@
     .tricolor-bar span:nth-child(1) { background: #FF9933; flex: 1; }
     .tricolor-bar span:nth-child(2) { background: #FFFFFF; flex: 1; }
     .tricolor-bar span:nth-child(3) { background: #138808; flex: 1; }
+
+    .gov-strip-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .lang-select {
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--gray-800);
+      background: #ffffff;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition);
+    }
+    .lang-select:hover {
+      border-color: var(--gray-400);
+    }
+    .lang-select:focus {
+      outline: none;
+      border-color: var(--brand-navy-600);
+      box-shadow: 0 0 0 2px rgba(28, 74, 135, 0.12);
+    }
+
+    /* Responsive Entry Tab Labels */
+    .tab-label-mobile {
+      display: none;
+    }
+    @media (max-width: 520px) {
+      .tab-label-full {
+        display: none;
+      }
+      .tab-label-mobile {
+        display: inline;
+      }
+    }
 
     .backend-badge {
       display: inline-flex;
@@ -150,96 +203,528 @@
       background: currentColor;
     }
 
-    /* Main App Layout */
-    .container {
-      max-width: 1260px;
-      margin: 0 auto;
-      padding: 20px 24px;
-    }
-
-    /* Hero Header */
-    .hero-header {
+    /* ==========================================================================
+       ZONE 2: HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      background: #ffffff;
+      padding: 80px 24px 64px;
       text-align: center;
-      margin: 14px 0 26px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .hero-container {
+      max-width: 920px;
+      margin: 0 auto;
     }
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: var(--brand-navy-100);
-      color: var(--brand-navy-700);
-      font-size: 12px;
+      color: var(--brand-navy-800);
+      font-size: 12.5px;
       font-weight: 700;
-      padding: 4px 14px;
+      padding: 6px 16px;
       border-radius: 9999px;
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-      border: 1px solid rgba(21, 57, 107, 0.15);
+      margin-bottom: 20px;
+      border: 1px solid rgba(21, 57, 107, 0.18);
+      letter-spacing: 0.01em;
     }
     .hero-title {
-      font-size: 30px;
+      font-size: 36px;
+      line-height: 1.25;
       font-weight: 800;
       color: var(--brand-navy-900);
       letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      margin-bottom: 16px;
     }
-    .hero-title span.hindi-title {
-      font-weight: 600;
+    .hero-title .hindi-title {
+      display: block;
       font-size: 24px;
+      font-weight: 600;
       color: var(--brand-saffron-700);
+      margin-top: 6px;
     }
     .hero-desc {
       color: var(--gray-600);
-      font-size: 14px;
-      max-width: 720px;
-      margin: 6px auto 0;
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 auto 32px;
+    }
+    .hero-cta-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-cta-btn {
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(10, 31, 61, 0.25);
+      transition: var(--transition);
+    }
+    .hero-cta-btn:hover {
+      background: var(--brand-navy-800);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(10, 31, 61, 0.3);
     }
 
     /* ==========================================================================
-       TWO-PANE SPLIT SCREEN GRID
+       ZONE 3: TRUST & SCALE BAND
        ========================================================================== */
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 24px;
-      align-items: start;
-      margin-bottom: 32px;
+    .trust-band {
+      background: var(--brand-navy-900);
+      color: #ffffff;
+      padding: 56px 24px 48px;
+      position: relative;
     }
-    @media (max-width: 960px) {
-      .portal-grid {
+    .trust-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 900px) {
+      .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 520px) {
+      .trust-grid {
         grid-template-columns: 1fr;
       }
     }
-
-    /* Cards Base */
-    .app-card {
-      background: #ffffff;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
+    .stat-card {
+      border-left: 3.5px solid var(--brand-saffron-600);
+      padding-left: 18px;
+    }
+    .stat-num {
+      font-size: 30px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--brand-saffron-100);
+      margin-top: 6px;
+    }
+    .stat-sub {
+      font-size: 12.5px;
+      color: var(--gray-300);
+      margin-top: 2px;
+    }
+    .tricolor-divider {
       display: flex;
-      flex-direction: column;
+      height: 4px;
+      width: 100%;
     }
-    .app-card:hover {
-      box-shadow: var(--shadow-md);
-    }
+    .tricolor-divider span:nth-child(1) { background: #FF9933; flex: 1; }
+    .tricolor-divider span:nth-child(2) { background: #FFFFFF; flex: 1; }
+    .tricolor-divider span:nth-child(3) { background: #138808; flex: 1; }
 
     /* ==========================================================================
-       LEFT PANE: CHATBOT CONTAINER
+       ZONE 4: ELIGIBILITY CHECK PANEL
        ========================================================================== */
-    .chat-card {
+    .eligibility-section {
+      background: #f8fafc;
+      padding: 80px 24px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .eligibility-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-header-center {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .section-overline {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-navy-700);
+      background: var(--brand-navy-100);
+      padding: 3px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+    .section-main-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--brand-navy-900);
+    }
+    .section-main-subtitle {
+      font-size: 15px;
+      color: var(--gray-600);
+      margin-top: 6px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Segmented Entry Tab Switcher */
+    .entry-tab-bar {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 28px;
+      background: var(--gray-200);
+      padding: 5px;
+      border-radius: var(--radius-lg);
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .entry-tab-btn {
+      flex: 1;
+      padding: 11px 18px;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: inherit;
+      border: none;
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--gray-700);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .entry-tab-btn.active {
+      background: #ffffff;
+      color: var(--brand-navy-900);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Guided Form Card spacious styling */
+    .guided-form-card {
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: 36px 40px;
+    }
+    @media (max-width: 640px) {
+      .guided-form-card {
+        padding: 24px 20px;
+      }
+    }
+
+    /* AI Chat Pane spacious styling */
+    .ai-chat-card {
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
       overflow: hidden;
-      border-top: 4px solid var(--brand-navy-700);
       height: 640px;
       display: flex;
       flex-direction: column;
+      border-top: 4px solid var(--brand-navy-700);
     }
+
+    /* Forms & Inputs styling */
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px 20px;
+    }
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .form-col-full {
+      grid-column: 1 / -1;
+    }
+    .form-group {
+      position: relative;
+    }
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    .form-label .sub-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--gray-500);
+      font-family: var(--font-devanagari);
+    }
+
+    /* Purpose Selector Control */
+    .purpose-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .purpose-card {
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      background: #ffffff;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .purpose-card .icon {
+      font-size: 18px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-navy-700);
+    }
+    .purpose-card .title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-700);
+      display: block;
+    }
+    .purpose-card .sub-title {
+      font-size: 10px;
+      color: var(--gray-500);
+      display: block;
+    }
+    .purpose-card:hover {
+      border-color: var(--brand-navy-600);
+      background: var(--brand-navy-100);
+    }
+    .purpose-card.selected {
+      border-color: var(--brand-navy-700);
+      background: var(--brand-navy-100);
+      box-shadow: 0 0 0 2px rgba(21, 57, 107, 0.15);
+    }
+    .purpose-card.selected .title {
+      color: var(--brand-navy-800);
+    }
+
+    /* Inputs */
+    .input-wrapper {
+      position: relative;
+    }
+    .input-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-500);
+      pointer-events: none;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--gray-900);
+      background: #ffffff;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+    .form-input.has-prefix {
+      padding-left: 28px;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--brand-navy-600);
+      box-shadow: 0 0 0 3px rgba(28, 74, 135, 0.12);
+    }
+
+    .currency-live-text {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--brand-navy-700);
+      margin-top: 4px;
+      min-height: 18px;
+    }
+
+    .quick-num-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+    .num-chip {
+      font-size: 10.5px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .num-chip:hover {
+      background: var(--gray-200);
+      color: var(--gray-900);
+    }
+
+    /* SC Toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+    }
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .toggle-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+    .toggle-desc {
+      font-size: 11.5px;
+      color: var(--gray-500);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--gray-300);
+      transition: .3s;
+      border-radius: 34px;
+    }
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+      box-shadow: var(--shadow-sm);
+    }
+    input:checked + .slider-toggle {
+      background-color: var(--brand-navy-700);
+    }
+    input:checked + .slider-toggle:before {
+      transform: translateX(20px);
+    }
+
+    /* Form Actions */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .primary-btn {
+      flex: 2;
+      background: var(--brand-navy-700);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(10, 31, 61, 0.2);
+      transition: var(--transition);
+    }
+    .primary-btn:hover {
+      background: var(--brand-navy-800);
+      box-shadow: 0 6px 16px rgba(10, 31, 61, 0.28);
+    }
+    .secondary-btn {
+      flex: 1;
+      background: #ffffff;
+      color: var(--gray-700);
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 11px 18px;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .secondary-btn:hover {
+      background: var(--gray-100);
+      color: var(--gray-900);
+    }
+
+    /* AI Chat internal styling */
     .chat-header {
-      padding: 14px 18px;
+      padding: 14px 20px;
       background: #ffffff;
       border-bottom: 1px solid var(--gray-200);
       display: flex;
@@ -292,12 +777,12 @@
       color: var(--gray-600);
       font-size: 11.5px;
       font-weight: 600;
-      padding: 5px 10px;
+      padding: 5px 12px;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       transition: var(--transition);
     }
     .chat-reset-btn:hover {
@@ -305,23 +790,21 @@
       color: var(--gray-900);
     }
 
-    /* Message Stream Window */
     .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       background: #f8fafc;
       scroll-behavior: smooth;
     }
 
-    /* Message Bubbles */
     .message-row {
       display: flex;
       align-items: flex-end;
-      gap: 8px;
+      gap: 10px;
       animation: fadeInBubble 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes fadeInBubble {
@@ -335,8 +818,8 @@
       justify-content: flex-start;
     }
     .msg-avatar {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: var(--brand-navy-100);
       color: var(--brand-navy-700);
@@ -349,10 +832,10 @@
     }
     .msg-bubble {
       max-width: 82%;
-      padding: 11px 15px;
+      padding: 12px 16px;
       border-radius: 14px;
-      font-size: 13.5px;
-      line-height: 1.48;
+      font-size: 14px;
+      line-height: 1.5;
       position: relative;
       word-break: break-word;
     }
@@ -370,7 +853,7 @@
       box-shadow: var(--shadow-sm);
     }
     .msg-time {
-      font-size: 10px;
+      font-size: 10.5px;
       color: var(--gray-400);
       margin-top: 4px;
       text-align: right;
@@ -379,7 +862,6 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* Typing Indicator */
     .typing-indicator {
       display: flex;
       align-items: center;
@@ -405,7 +887,6 @@
       40% { transform: scale(1); opacity: 1; }
     }
 
-    /* In-Chat Interactive Scheme Trigger Card */
     .chat-scheme-cta {
       background: var(--brand-navy-100);
       border: 1.5px solid var(--gray-300);
@@ -463,22 +944,21 @@
       transform: translateY(-1px);
     }
 
-    /* Prompt Chips Inside Chat */
     .chat-suggestions {
-      padding: 8px 16px;
+      padding: 10px 20px;
       background: #ffffff;
       border-top: 1px solid var(--gray-200);
       display: flex;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
       white-space: nowrap;
     }
     .chat-chip {
-      font-size: 11.5px;
+      font-size: 12px;
       background: var(--brand-navy-100);
       border: 1px solid var(--gray-300);
       color: var(--brand-navy-800);
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 9999px;
       cursor: pointer;
       font-weight: 600;
@@ -486,7 +966,7 @@
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     .chat-chip:hover {
       background: var(--brand-navy-700);
@@ -494,18 +974,17 @@
       border-color: var(--brand-navy-700);
     }
 
-    /* Chat Input Bar */
     .chat-input-bar {
-      padding: 12px 16px;
+      padding: 14px 20px;
       background: #ffffff;
       border-top: 1px solid var(--gray-200);
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
     .chat-input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 11px 16px;
       font-size: 14px;
       font-family: inherit;
       border: 1.5px solid var(--gray-300);
@@ -523,7 +1002,7 @@
       border: none;
       font-size: 14px;
       font-weight: 700;
-      padding: 10px 18px;
+      padding: 11px 20px;
       border-radius: var(--radius-md);
       cursor: pointer;
       display: flex;
@@ -539,339 +1018,55 @@
       cursor: not-allowed;
     }
 
-    /* ==========================================================================
-       RIGHT PANE: STRUCTURED FORM & PARAMETERS
-       ========================================================================== */
-    .form-card {
-      padding: 20px 22px;
+    /* Missing field highlight */
+    .field-missing .form-input, .field-missing .form-select, .field-missing .toggle-row {
+      border-color: var(--semantic-error-700) !important;
+      background-color: var(--semantic-error-100) !important;
     }
-    .section-title-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
+
+    /* ==========================================================================
+       ZONE 5: RESULTS SECTION
+       ========================================================================== */
+    .results-wrapper-section {
+      padding: 80px 24px;
+      background: #ffffff;
       border-bottom: 1px solid var(--gray-200);
-    }
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--gray-900);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .section-subtitle {
-      font-size: 11.5px;
-      color: var(--gray-500);
-      font-weight: 500;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-    @media (max-width: 640px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .form-col-full {
-      grid-column: 1 / -1;
-    }
-    .form-group {
-      position: relative;
-    }
-    .form-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--gray-700);
-      margin-bottom: 4px;
-    }
-    .form-label .sub-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--gray-500);
-      font-family: var(--font-devanagari);
-    }
-
-    /* Purpose Selector Control */
-    .purpose-selector {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-    .purpose-card {
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      padding: 8px 4px;
-      text-align: center;
-      cursor: pointer;
-      background: #ffffff;
-      transition: var(--transition);
-      user-select: none;
-    }
-    .purpose-card .icon {
-      font-size: 16px;
-      margin-bottom: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--brand-navy-700);
-    }
-    .purpose-card .title {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--gray-700);
-      display: block;
-    }
-    .purpose-card .sub-title {
-      font-size: 9.5px;
-      color: var(--gray-500);
-      display: block;
-    }
-    .purpose-card:hover {
-      border-color: var(--brand-navy-600);
-      background: var(--brand-navy-100);
-    }
-    .purpose-card.selected {
-      border-color: var(--brand-navy-700);
-      background: var(--brand-navy-100);
-      box-shadow: 0 0 0 2px rgba(21, 57, 107, 0.15);
-    }
-    .purpose-card.selected .title {
-      color: var(--brand-navy-800);
-    }
-
-    /* Inputs */
-    .input-wrapper {
-      position: relative;
-    }
-    .input-prefix {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray-500);
-      pointer-events: none;
-    }
-    .form-input, .form-select {
-      width: 100%;
-      padding: 8px 12px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--gray-900);
-      background: #ffffff;
-      border: 1.5px solid var(--gray-300);
-      border-radius: var(--radius-md);
-      transition: var(--transition);
-    }
-    .form-input.has-prefix {
-      padding-left: 24px;
-    }
-    .form-input:focus, .form-select:focus {
-      outline: none;
-      border-color: var(--brand-navy-600);
-      box-shadow: 0 0 0 3px rgba(28, 74, 135, 0.12);
-    }
-
-    .currency-live-text {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--brand-navy-700);
-      margin-top: 3px;
-      min-height: 16px;
-    }
-
-    .quick-num-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .num-chip {
-      font-size: 10px;
-      background: var(--gray-100);
-      color: var(--gray-700);
-      padding: 2px 6px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-weight: 600;
-      border: 1px solid var(--gray-200);
-      transition: var(--transition);
-    }
-    .num-chip:hover {
-      background: var(--gray-200);
-      color: var(--gray-900);
-    }
-
-    /* SC Toggle */
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--gray-50);
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      padding: 8px 12px;
-    }
-    .toggle-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .toggle-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--gray-800);
-    }
-    .toggle-desc {
-      font-size: 11px;
-      color: var(--gray-500);
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider-toggle {
-      position: absolute;
-      cursor: pointer;
-      inset: 0;
-      background-color: var(--gray-300);
-      transition: .3s;
-      border-radius: 34px;
-    }
-    .slider-toggle:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-      box-shadow: var(--shadow-sm);
-    }
-    input:checked + .slider-toggle {
-      background-color: var(--brand-navy-700);
-    }
-    input:checked + .slider-toggle:before {
-      transform: translateX(20px);
-    }
-
-    /* Form Actions */
-    .form-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid var(--gray-200);
-    }
-    .primary-btn {
-      flex: 2;
-      background: var(--brand-navy-700);
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 11px 20px;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(10, 31, 61, 0.2);
-      transition: var(--transition);
-    }
-    .primary-btn:hover {
-      background: var(--brand-navy-800);
-      transform: translateY(-1px);
-    }
-    .secondary-btn {
-      flex: 1;
-      background: var(--gray-100);
-      color: var(--gray-700);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 11px 14px;
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: var(--transition);
-    }
-    .secondary-btn:hover {
-      background: var(--gray-200);
-      color: var(--gray-900);
-    }
-
-    /* Missing Highlight */
-    .field-missing .form-input,
-    .field-missing .form-select,
-    .field-missing .toggle-row,
-    .field-missing .purpose-selector {
-      border-color: var(--brand-saffron-600) !important;
-      background-color: var(--brand-saffron-100) !important;
-    }
-
-    /* ==========================================================================
-       RESULTS SECTION & SCHEME CARDS
-       ========================================================================== */
-    #results-section {
-      margin-top: 8px;
-      scroll-margin-top: 70px;
     }
     .results-header-banner {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid var(--gray-200);
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
     }
     .results-count-title {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 800;
-      color: var(--gray-900);
+      color: var(--brand-navy-900);
+      letter-spacing: -0.02em;
     }
     .results-count-desc {
-      font-size: 13px;
-      color: var(--gray-500);
-      font-weight: 500;
+      font-size: 14px;
+      color: var(--gray-600);
+      margin-top: 4px;
     }
     .filter-tabs {
-      display: inline-flex;
-      background: var(--gray-200);
-      padding: 3px;
+      display: flex;
+      gap: 6px;
+      background: var(--gray-100);
+      padding: 4px;
       border-radius: var(--radius-md);
-      gap: 2px;
     }
     .filter-tab {
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
       border: none;
       background: transparent;
-      padding: 6px 14px;
-      font-size: 12.5px;
-      font-weight: 600;
       color: var(--gray-600);
       border-radius: var(--radius-sm);
       cursor: pointer;
@@ -879,129 +1074,140 @@
     }
     .filter-tab.active {
       background: #ffffff;
-      color: var(--brand-navy-800);
+      color: var(--brand-navy-900);
       box-shadow: var(--shadow-sm);
     }
 
-    /* Cards Grid */
     .scheme-cards-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 18px;
+      gap: 22px;
     }
+    @media (max-width: 480px) {
+      .scheme-cards-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Ground-Truth Scheme Card Styling */
     .scheme-card {
       background: #ffffff;
       border: 1.5px solid var(--gray-200);
       border-radius: var(--radius-lg);
-      padding: 18px;
+      padding: 22px;
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
-      cursor: pointer;
       display: flex;
       flex-direction: column;
+      cursor: pointer;
       position: relative;
-    }
-    .scheme-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--brand-navy-600);
+      gap: 16px;
     }
     .scheme-card.eligible {
       border-left: 5px solid var(--semantic-success-700);
     }
+    .scheme-card.eligible:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--gray-300);
+      border-left-color: var(--semantic-success-700);
+    }
     .scheme-card.ineligible {
       border-left: 5px solid var(--gray-400);
-      opacity: 0.82;
       background: var(--gray-50);
+      opacity: 0.9;
     }
+    .scheme-card.ineligible:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: var(--gray-300);
+    }
+    .scheme-card.ineligible .card-name {
+      color: var(--gray-700);
+    }
+
+    /* Card Top & Header Area */
     .card-top {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      flex-direction: column;
+    }
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
     }
     .card-badges {
       display: flex;
       gap: 6px;
+      margin-bottom: 10px;
       flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      display: inline-flex;
       align-items: center;
-      gap: 4px;
-    }
-    .badge-rank {
-      background: var(--brand-saffron-100);
-      color: var(--brand-saffron-700);
-      border: 1px solid #fde68a;
-    }
-    .badge-type {
-      background: var(--accent-blue-light);
-      color: var(--accent-blue);
-    }
-    .badge-agency {
-      background: var(--brand-navy-100);
-      color: var(--brand-navy-700);
     }
     .card-name {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      color: var(--gray-900);
-      line-height: 1.3;
+      color: var(--brand-navy-900);
+      line-height: 1.35;
     }
     .card-desc {
-      font-size: 12.5px;
+      font-size: 13.5px;
       color: var(--gray-600);
-      margin-top: 4px;
-      line-height: 1.4;
+      line-height: 1.45;
+      margin-top: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
+    /* Emitted 4-Column Metrics Grid (.card-metrics-grid) */
     .card-metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 8px;
       background: var(--gray-50);
-      padding: 10px;
-      border-radius: var(--radius-md);
-      margin: 12px 0;
       border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 12px 10px;
+    }
+    @media (max-width: 540px) {
+      .card-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
     .metric-cell {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
     }
     .metric-lbl {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--gray-500);
+      font-size: 10.5px;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gray-500);
     }
     .metric-val {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
       color: var(--gray-900);
+      margin-top: 2px;
     }
     .metric-val.highlight {
       color: var(--brand-navy-700);
+      font-weight: 800;
+      font-size: 14px;
     }
 
+    /* Emitted Reason Banners (.card-reason-banner.eligible / .ineligible) */
     .card-reason-banner {
-      font-size: 12px;
-      padding: 8px 10px;
-      border-radius: var(--radius-sm);
-      margin-top: auto;
-      font-weight: 500;
-      line-height: 1.35;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
       display: flex;
       align-items: flex-start;
-      gap: 6px;
+      gap: 8px;
+      line-height: 1.4;
     }
     .card-reason-banner.eligible {
       background: var(--semantic-success-100);
@@ -1011,73 +1217,169 @@
     .card-reason-banner.ineligible {
       background: var(--semantic-error-100);
       color: var(--semantic-error-700);
-      border: 1px solid #fecaca;
+      border: 1px solid #fca5a5;
     }
 
+    /* Emitted Card Footer (.card-footer & .card-footer-cta) */
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 12px;
-      padding-top: 10px;
       border-top: 1px solid var(--gray-200);
+      padding-top: 12px;
+      margin-top: auto;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .card-footer-cta {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--brand-navy-700);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .scheme-card:hover .card-footer-cta {
+      color: var(--brand-navy-800);
+      text-decoration: underline;
     }
 
-    /* Modal & Dialogs */
+    /* ==========================================================================
+       ZONE 6: INSTITUTIONAL FOOTER
+       ========================================================================== */
+    .institutional-footer {
+      background: var(--brand-navy-900);
+      color: #cbd5e1;
+      padding: 64px 24px 32px;
+      border-top: 1px solid var(--brand-navy-800);
+    }
+    .footer-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-subtitle {
+      font-size: 13px;
+      color: var(--gray-300);
+      line-height: 1.5;
+    }
+    .footer-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      color: var(--gray-300);
+      text-decoration: none;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+    .footer-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .footer-bottom-bar {
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+    .sih-disclaimer {
+      font-size: 12px;
+      color: var(--brand-saffron-100);
+      background: rgba(217, 114, 10, 0.15);
+      border: 1px solid rgba(217, 114, 10, 0.3);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       MODAL STYLES
+       ========================================================================== */
     #modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(10, 31, 61, 0.7);
+      background: rgba(10, 31, 61, 0.6);
       backdrop-filter: blur(4px);
+      z-index: 200;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 100;
     }
-    #modal-overlay.open {
+    #modal-overlay.active {
       display: flex;
     }
     #modal-container {
       background: #ffffff;
       border-radius: var(--radius-xl);
-      max-width: 680px;
+      max-width: 760px;
       width: 100%;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-xl);
-      overflow: hidden;
       position: relative;
-      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes modalPop {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      overflow: hidden;
     }
     .modal-close-btn {
       position: absolute;
       top: 16px;
-      right: 16px;
+      right: 18px;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-300);
+      font-size: 16px;
       width: 32px;
       height: 32px;
-      background: var(--gray-100);
-      border: none;
       border-radius: 50%;
-      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gray-600);
+      color: var(--gray-700);
       transition: var(--transition);
       z-index: 10;
     }
@@ -1086,50 +1388,52 @@
       color: var(--gray-900);
     }
     .modal-header {
-      padding: 22px 24px 16px;
+      padding: 24px 28px 16px;
       border-bottom: 1px solid var(--gray-200);
+      background: var(--gray-50);
     }
     .modal-title {
       font-size: 20px;
       font-weight: 800;
-      color: var(--gray-900);
+      color: var(--brand-navy-900);
     }
     .modal-subtitle {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--gray-600);
       margin-top: 4px;
     }
 
     .modal-nav {
       display: flex;
+      background: var(--gray-100);
       border-bottom: 1px solid var(--gray-200);
-      background: var(--gray-50);
       padding: 0 16px;
+      gap: 4px;
     }
     .modal-nav-tab {
-      padding: 12px 16px;
+      padding: 12px 18px;
       font-size: 13px;
       font-weight: 700;
       color: var(--gray-600);
       border: none;
       background: transparent;
       cursor: pointer;
-      border-bottom: 2.5px solid transparent;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 6px;
+      border-bottom: 3px solid transparent;
       transition: var(--transition);
     }
     .modal-nav-tab.active {
-      color: var(--brand-navy-700);
+      color: var(--brand-navy-800);
       border-bottom-color: var(--brand-navy-700);
       background: #ffffff;
     }
 
     .modal-body {
-      flex: 1;
+      padding: 24px 28px;
       overflow-y: auto;
-      padding: 20px 24px;
+      flex: 1;
     }
     .tab-pane {
       display: none;
@@ -1138,7 +1442,7 @@
       display: block;
     }
 
-    /* Calculator Controls in Modal */
+    /* Calculator Controls */
     .calc-slider-group {
       margin-bottom: 18px;
     }
@@ -1152,15 +1456,13 @@
     }
     .calc-slider-val {
       color: var(--brand-navy-700);
-      font-size: 14px;
+      font-weight: 800;
     }
     .calc-slider {
       width: 100%;
+      accent-color: var(--brand-navy-700);
       height: 6px;
       border-radius: 3px;
-      background: var(--gray-200);
-      outline: none;
-      accent-color: var(--brand-navy-700);
       cursor: pointer;
     }
     .calc-slider-bounds {
@@ -1170,18 +1472,16 @@
       color: var(--gray-500);
       margin-top: 4px;
     }
-
     .emi-summary-box {
       background: linear-gradient(135deg, var(--brand-navy-900) 0%, var(--brand-navy-800) 100%);
       color: #ffffff;
+      padding: 18px;
       border-radius: var(--radius-lg);
-      padding: 20px;
-      text-align: center;
       margin-top: 14px;
       box-shadow: var(--shadow-md);
     }
     .emi-amount {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 800;
       color: #ffffff;
       margin: 4px 0 12px;
@@ -1189,100 +1489,18 @@
     .emi-breakdown-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      font-size: 12px;
-    }
-
-    /* Documents Checklist */
-    .doc-item {
-      display: flex;
-      align-items: flex-start;
       gap: 10px;
-      padding: 10px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      margin-bottom: 8px;
-    }
-    .doc-check {
-      margin-top: 3px;
-      accent-color: var(--brand-navy-700);
-      cursor: pointer;
-    }
-    .doc-name {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--gray-800);
-    }
-    .doc-badge {
-      font-size: 10.5px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 600;
-      margin-left: 6px;
-    }
-    .doc-badge.mandatory {
-      background: var(--semantic-error-100);
-      color: var(--semantic-error-700);
-    }
-    .doc-badge.optional {
-      background: var(--gray-200);
-      color: var(--gray-700);
-    }
-
-    /* Partner Locator */
-    .partner-item {
-      background: #ffffff;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 10px;
-      box-shadow: var(--shadow-sm);
-    }
-    .partner-title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-    .partner-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--gray-900);
-    }
-    .partner-dist {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--brand-navy-700);
-      background: var(--brand-navy-100);
-      padding: 2px 8px;
-      border-radius: 9999px;
-    }
-    .partner-meta {
-      font-size: 12px;
-      color: var(--gray-600);
-      line-height: 1.4;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 10px;
     }
 
     .modal-footer {
-      padding: 14px 24px;
+      padding: 16px 28px;
       border-top: 1px solid var(--gray-200);
       background: var(--gray-50);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-    }
-
-    /* Footer */
-    .app-footer {
-      text-align: center;
-      font-size: 12px;
-      color: var(--gray-500);
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray-200);
+      justify-content: space-between;
     }
 
     /* Leaflet Map Custom Styling */
@@ -1369,6 +1587,10 @@
     .partner-item {
       cursor: pointer;
       transition: var(--transition);
+      padding: 12px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
     }
     .partner-item:hover {
       border-color: var(--brand-navy-600);
@@ -1380,312 +1602,655 @@
       background: var(--brand-navy-100);
       box-shadow: 0 0 0 2px rgba(21, 57, 107, 0.2);
     }
+    .partner-title-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--brand-navy-900);
+    }
+    .partner-dist {
+      font-size: 11.5px;
+      color: var(--brand-saffron-700);
+      font-weight: 700;
+    }
+    .partner-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--brand-navy-900);
+      line-height: 1.35;
+    }
+    .partner-meta {
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-top: 4px;
+    }
+
+    /* Document Checklist Styling */
+    .doc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .doc-item:hover {
+      background: #ffffff;
+      border-color: var(--brand-navy-600);
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-check {
+      accent-color: var(--brand-navy-700);
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    .doc-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--brand-navy-900);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .doc-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .doc-badge.mandatory {
+      background: var(--semantic-error-100);
+      color: var(--semantic-error-700);
+      border: 1px solid #fca5a5;
+    }
+    .doc-badge.optional {
+      background: var(--gray-200);
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+    }
+
+    /* ==========================================================================
+       ACCESSIBILITY & UNIFORM FOCUS STATES
+       ========================================================================== */
+    :focus-visible,
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex="0"]:focus-visible,
+    .scheme-card:focus-visible,
+    .purpose-card:focus-visible,
+    .num-chip:focus-visible,
+    .chat-chip:focus-visible,
+    .partner-item:focus-visible,
+    .entry-tab-btn:focus-visible,
+    .filter-tab:focus-visible,
+    .modal-close-btn:focus-visible,
+    .calc-slider:focus-visible {
+      outline: 2px solid var(--brand-navy-700) !important;
+      outline-offset: 2px !important;
+    }
+
+    /* ==========================================================================
+       SKELETON SHIMMER LOADING CARDS
+       ========================================================================== */
+    .skeleton-card {
+      background: #ffffff;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(241, 245, 249, 0.8), transparent);
+      animation: skeletonShimmer 1.5s infinite;
+    }
+    @keyframes skeletonShimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+    .skeleton-box {
+      background: var(--gray-200);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ==========================================================================
+       MOBILE RESPONSIVE REFINEMENTS (<=480px & 375px VIEWPORTS)
+       ========================================================================== */
+    @media (max-width: 480px) {
+      .gov-strip {
+        padding: 8px 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .hero-section {
+        padding: 48px 16px 36px;
+      }
+      .hero-title {
+        font-size: 26px;
+      }
+      .hero-title .hindi-title {
+        font-size: 18px;
+      }
+      .hero-desc {
+        font-size: 14px;
+      }
+      .trust-band {
+        padding: 40px 16px 32px;
+      }
+      .stat-card {
+        padding-left: 12px;
+      }
+      .stat-num {
+        font-size: 24px;
+      }
+      .eligibility-section {
+        padding: 48px 14px;
+      }
+      .section-main-title {
+        font-size: 22px;
+      }
+      .entry-tab-bar {
+        width: 100%;
+        padding: 4px;
+      }
+      .entry-tab-btn {
+        padding: 9px 10px;
+        font-size: 12px;
+      }
+      .guided-form-card {
+        padding: 20px 14px;
+      }
+      .ai-chat-card {
+        height: 520px;
+      }
+      .results-wrapper-section {
+        padding: 48px 14px;
+      }
+      .results-header-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .filter-tabs {
+        width: 100%;
+      }
+      .filter-tab {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+      }
+      .scheme-card {
+        padding: 16px;
+      }
+      .modal-header {
+        padding: 18px 16px 14px;
+      }
+      .modal-body {
+        padding: 18px 16px;
+      }
+      .modal-footer {
+        padding: 14px 16px;
+      }
+      .emi-amount {
+        font-size: 22px;
+      }
+      .footer-bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
 
   </style>
   <!-- Leaflet Map CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body>
-
-  <!-- National Top Header Strip -->
-  <div class="gov-strip">
+  <!-- ==========================================================================
+       ZONE 1: MASTHEAD (NATIONAL GOV STRIP)
+       ========================================================================== -->
+  <header class="gov-strip">
     <div class="emblem-tag">
       <div class="tricolor-bar">
         <span></span><span></span><span></span>
       </div>
-      <span>NSFDC & Govt. of India Financing Scheme Portal</span>
+      <span data-i18n="portalStrip">Asha AI | आशा &bull; National SC Finance & Development Gateway</span>
     </div>
-    <div id="backend-status" class="backend-badge">
-      <span class="pulse-dot"></span>
-      <span id="backend-status-text">Connecting to API (port 5000)...</span>
+    <div class="gov-strip-right">
+      <select id="lang-select" class="lang-select" onchange="setLanguage(this.value)" aria-label="Select language / ভাষা নির্বাচন / भाषा निवडा">
+        <option value="en" selected>English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+      </select>
+      <div class="backend-badge disconnected" id="backend-status">
+        <span class="pulse-dot"></span>
+        <span id="backend-status-text">Connecting...</span>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <div class="container">
-    <!-- Hero Title -->
-    <header class="hero-header">
+  <!-- ==========================================================================
+       ZONE 2: HERO SECTION (INSTITUTIONAL SERVICE GATEWAY)
+       ========================================================================== -->
+  <section class="hero-section">
+    <div class="hero-container">
       <div class="hero-badge">
-        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
-        <span>National Welfare & Finance Scheme Portal</span>
+        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span data-i18n="heroBadge">National Concessional Finance & Credit Access Portal</span>
       </div>
       <h1 class="hero-title">
-        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        <span>Asha AI</span>
-        <span class="hindi-title">आशा</span>
+        <span data-i18n="heroTitle">Empowering Scheduled Caste Entrepreneurs & Students</span>
+        <span class="hindi-title" id="hero-hindi-subtitle">आशा — राष्ट्रीय अनुसूचित जाति वित्त एवं विकास निगम सहायता पोर्टल</span>
       </h1>
-      <p class="hero-desc">
-        Chat naturally with AI to find concessional loans, credit financing, and education schemes under the NSFDC network for Scheduled Caste (SC) entrepreneurs and students.
+      <p class="hero-desc" data-i18n="heroDesc">
+        Asha AI is the national digital assistance portal under the NSFDC network. Discover concessional credit schemes, interest-subsidized education loans, and locate your authorized State Channelizing Agency or bank branch.
       </p>
-    </header>
+      <div class="hero-cta-wrap">
+        <a href="#eligibility-section" class="hero-cta-btn">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span data-i18n="heroCta">Check Eligibility & Find Schemes</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <!-- TWO-PANE SPLIT LAYOUT -->
-    <div class="portal-grid">
-      
-      <!-- ====================================================================
-           LEFT PANE: DEDICATED CONVERSATIONAL CHATBOT
-           ==================================================================== -->
-      <section class="app-card chat-card">
-        <!-- Chat Header -->
-        <div class="chat-header">
-          <div class="chat-title-group">
-            <div class="chat-avatar">
-              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-            </div>
-            <div>
-              <div class="chat-name">
-                Asha Assistant 
-                <span class="hindi-title" style="font-size: 13px; font-weight: 600; color: var(--brand-navy-600);">आशा</span>
-              </div>
-              <div class="chat-status">Assistance Active (Hindi / English)</div>
-            </div>
+  <!-- ==========================================================================
+       ZONE 3: TRUST & SCALE BAND
+       ========================================================================== -->
+  <section class="trust-band">
+    <div class="trust-container">
+      <div class="trust-grid">
+        <div class="stat-card">
+          <div class="stat-num" data-i18n="statFinancedNum">Up to 90%</div>
+          <div class="stat-label" data-i18n="statFinancedLabel">Project Cost Financed</div>
+          <div class="stat-sub" data-i18n="statFinancedDesc">Low promoter contribution norms for SC entrepreneurs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-i18n="statRateNum">6.5% – 15%</div>
+          <div class="stat-label" data-i18n="statRateLabel">Concessional Interest Rates</div>
+          <div class="stat-sub" data-i18n="statRateDesc">Direct interest subsidies for eligible SC beneficiaries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-i18n="statIncomeNum">₹5.00 Lakh</div>
+          <div class="stat-label" data-i18n="statIncomeLabel">Family Income Limit</div>
+          <div class="stat-sub" data-i18n="statIncomeDesc">Broad eligibility ceiling under NSFDC guidelines</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-i18n="statOfficesNum">100+ Offices</div>
+          <div class="stat-label" data-i18n="statOfficesLabel">Channel Partners Nationwide</div>
+          <div class="stat-sub" data-i18n="statOfficesDesc">State Corporations, PSBs, RRBs & MFIs network</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="tricolor-divider">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- ==========================================================================
+       ZONE 4: ELIGIBILITY CHECK PANEL
+       ========================================================================== -->
+  <section class="eligibility-section" id="eligibility-section">
+    <div class="eligibility-container">
+      <div class="section-header-center">
+        <span class="section-overline" data-i18n="stepLabel">STEP 1 OF 2</span>
+        <h2 class="section-main-title" data-i18n="eligTitle">Check Your Scheme Eligibility</h2>
+        <p class="section-main-subtitle" data-i18n="eligDesc">
+          Choose your preferred entry method below: fill out the structured parameters or describe your requirement in your own words using Asha AI.
+        </p>
+      </div>
+
+      <!-- Segmented Entry Mode Tab Switcher -->
+      <div class="entry-tab-bar" role="tablist">
+        <button class="entry-tab-btn active" id="entry-tab-form" onclick="switchEntryTab('form')" role="tab" aria-selected="true">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+          <span data-i18n="tabGuided">Guided Questions</span>
+        </button>
+        <button class="entry-tab-btn" id="entry-tab-chat" onclick="switchEntryTab('chat')" role="tab" aria-selected="false">
+          <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          <span class="tab-label-full" data-i18n="tabChat">Describe in Your Own Words (AI Assistant)</span>
+          <span class="tab-label-mobile" data-i18n="tabChatMobile">Ask Asha AI</span>
+        </button>
+      </div>
+
+      <!-- Tab Pane 1: Guided Form Card -->
+      <div class="entry-pane" id="entry-pane-form" style="display: block;">
+        <div class="guided-form-card">
+          <div class="section-title-wrap">
+            <h3 class="section-title">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+              <span data-i18n="formTitle">Application Financial Parameters</span>
+            </h3>
+            <span class="section-subtitle" data-i18n="formSubtitle">Parameters synced with AI parser or edit directly</span>
           </div>
-          <button class="chat-reset-btn" onclick="resetAiChat()">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            <span>Reset Chat</span>
-          </button>
-        </div>
 
-        <!-- Chat History Stream -->
-        <div class="chat-messages" id="chat-messages">
-          <!-- Initial Welcome Message (Preserves the intentional 🙏) -->
-          <div class="message-row bot">
-            <div class="msg-avatar">
-              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-            </div>
-            <div class="msg-bubble">
-              🙏 <strong>Namaste! I am Asha AI</strong>, your guide for government schemes & concessional loans under the NSFDC network.
-              <div style="margin-top: 6px;">Tell me in Hindi or English what business, education, or skill loan you need funds for.</div>
-              <div class="msg-time">Just now</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Suggestion Chips -->
-        <div class="chat-suggestions">
-          <span class="chat-chip" onclick="sendSamplePrompt('I need 3 lakh for a tailoring shop, family income is 2.2 lakh, SC category')">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            <span>Tailoring Shop ₹3L</span>
-          </span>
-          <span class="chat-chip" onclick="sendSamplePrompt('Education loan of 15 lakh for engineering in India, SC applicant, income 2.5 lakh')">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
-            <span>Education ₹15L</span>
-          </span>
-          <span class="chat-chip" onclick="sendSamplePrompt('Small commercial transport vehicle for 7 lakh, annual income 2 lakh, SC')">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
-            <span>Transport ₹7L</span>
-          </span>
-          <span class="chat-chip" onclick="sendSamplePrompt('Micro credit 1 lakh for small retail grocery store, SC woman entrepreneur')">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 10V7"/></svg>
-            <span>Retail Shop ₹1L</span>
-          </span>
-        </div>
-
-        <!-- Chat Input Bar -->
-        <form class="chat-input-bar" onsubmit="event.preventDefault(); handleUserSendMessage();">
-          <input 
-            type="text" 
-            id="chat-user-input" 
-            class="chat-input" 
-            placeholder="Type in Hindi or English... (e.g. '3 लाख का दुकान लोन चाहिए')" 
-            autocomplete="off"
-          />
-          <button type="submit" id="chat-send-btn" class="chat-send-btn">
-            <span>Send</span>
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-          </button>
-        </form>
-      </section>
-
-      <!-- ====================================================================
-           RIGHT PANE: STRUCTURED APPLICATION PARAMETERS (SYNCED WITH AI)
-           ==================================================================== -->
-      <main class="app-card form-card">
-        <div class="section-title-wrap">
-          <h2 class="section-title">
-            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
-            <span>Application Parameters</span>
-          </h2>
-          <span class="section-subtitle">Synced with chat or edit directly</span>
-        </div>
-
-        <form id="eligibility-form" onsubmit="event.preventDefault(); findMatchingSchemes();">
-          <div class="form-grid">
-            
-            <!-- Purpose Segmented Selector -->
-            <div class="form-group form-col-full" id="wrap-purpose">
-              <label class="form-label">
-                <span>Funding Purpose</span>
-                <span class="sub-label">उद्देश्य चुनें</span>
-              </label>
-              <div class="purpose-selector">
-                <div class="purpose-card selected" id="card-purpose-business" onclick="selectPurpose('business')">
-                  <span class="icon">
-                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  </span>
-                  <span class="title">Business</span>
-                  <span class="sub-title">Enterprises</span>
-                </div>
-                <div class="purpose-card" id="card-purpose-education" onclick="selectPurpose('education')">
-                  <span class="icon">
-                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
-                  </span>
-                  <span class="title">Education</span>
-                  <span class="sub-title">India & Abroad</span>
-                </div>
-                <div class="purpose-card" id="card-purpose-skill" onclick="selectPurpose('skill')">
-                  <span class="icon">
-                    <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                  </span>
-                  <span class="title">Skill Training</span>
-                  <span class="sub-title">Vocational</span>
-                </div>
-              </div>
-              <input type="hidden" id="purpose" value="business" />
-            </div>
-
-            <!-- SC Status Toggle Switch -->
-            <div class="form-group form-col-full" id="wrap-isSc">
-              <div class="toggle-row">
-                <div class="toggle-info">
-                  <span class="toggle-title">Scheduled Caste (SC) Status</span>
-                  <span class="toggle-desc">Concessional interest rates for SC beneficiaries</span>
-                </div>
-                <label class="switch">
-                  <input type="checkbox" id="isSc" checked onchange="clearMissingHighlight('wrap-isSc')" />
-                  <span class="slider-toggle"></span>
+          <form id="eligibility-form" onsubmit="event.preventDefault(); findMatchingSchemes();">
+            <div class="form-grid">
+              
+              <!-- Purpose Segmented Selector -->
+              <div class="form-group form-col-full" id="wrap-purpose">
+                <label class="form-label">
+                  <span data-i18n="purposeLabel">Funding Purpose</span>
+                  <span class="sub-label">उद्देश्य चुनें</span>
                 </label>
+                <div class="purpose-selector" role="radiogroup" aria-label="Funding Purpose Selection">
+                  <div class="purpose-card selected" id="card-purpose-business" onclick="selectPurpose('business')" tabindex="0" role="button" aria-label="Select Business Enterprises as funding purpose">
+                    <span class="icon">
+                      <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    </span>
+                    <span class="title" data-i18n="purposeBusiness">Business</span>
+                    <span class="sub-title" data-i18n="purposeBusinessSub">Enterprises</span>
+                  </div>
+                  <div class="purpose-card" id="card-purpose-education" onclick="selectPurpose('education')" tabindex="0" role="button" aria-label="Select Education Loans as funding purpose">
+                    <span class="icon">
+                      <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                    </span>
+                    <span class="title" data-i18n="purposeEducation">Education</span>
+                    <span class="sub-title" data-i18n="purposeEducationSub">India & Abroad</span>
+                  </div>
+                  <div class="purpose-card" id="card-purpose-skill" onclick="selectPurpose('skill')" tabindex="0" role="button" aria-label="Select Skill Development as funding purpose">
+                    <span class="icon">
+                      <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </span>
+                    <span class="title" data-i18n="purposeSkill">Skill Training</span>
+                    <span class="sub-title" data-i18n="purposeSkillSub">Vocational</span>
+                  </div>
+                </div>
+                <input type="hidden" id="purpose" value="business" />
               </div>
+
+              <!-- SC Status Toggle Switch -->
+              <div class="form-group form-col-full" id="wrap-isSc">
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <span class="toggle-title" data-i18n="scStatusLabel">Scheduled Caste (SC) Status</span>
+                    <span class="toggle-desc" data-i18n="scStatusDesc">Required for NSFDC concessional interest rates</span>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" id="isSc" checked onchange="clearMissingHighlight('wrap-isSc')" />
+                    <span class="slider-toggle"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Annual Family Income -->
+              <div class="form-group" id="wrap-income">
+                <label class="form-label" for="income">
+                  <span data-i18n="incomeLabel">Annual Family Income (₹)</span>
+                  <span class="sub-label">वार्षिक आय</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input 
+                    type="number" 
+                    id="income" 
+                    class="form-input has-prefix" 
+                    value="250000" 
+                    placeholder="e.g. 250000" 
+                    oninput="handleIncomeInput()" 
+                  />
+                </div>
+                <div class="currency-live-text" id="income-live-text">₹ 2.50 Lakh (≤ ₹5L Cap)</div>
+                <div class="quick-num-chips">
+                  <span class="num-chip" onclick="setIncome(100000)" tabindex="0" role="button" aria-label="Set annual income shortcut to 1 Lakh">₹1L</span>
+                  <span class="num-chip" onclick="setIncome(250000)" tabindex="0" role="button" aria-label="Set annual income shortcut to 2.5 Lakh">₹2.5L</span>
+                  <span class="num-chip" onclick="setIncome(500000)" tabindex="0" role="button" aria-label="Set annual income shortcut to 5 Lakh">₹5L</span>
+                </div>
+              </div>
+
+              <!-- Estimated Project Cost -->
+              <div class="form-group" id="wrap-cost">
+                <label class="form-label" for="cost">
+                  <span data-i18n="costLabel">Project Cost (₹)</span>
+                  <span class="sub-label">परियोजना लागत</span>
+                </label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input 
+                    type="number" 
+                    id="cost" 
+                    class="form-input has-prefix" 
+                    value="300000" 
+                    placeholder="e.g. 300000" 
+                    oninput="handleCostInput()" 
+                  />
+                </div>
+                <div class="currency-live-text" id="cost-live-text">₹ 3.00 Lakh</div>
+                <div class="quick-num-chips">
+                  <span class="num-chip" onclick="setCost(140000)" tabindex="0" role="button" aria-label="Set project cost shortcut to 1.4 Lakh">₹1.4L</span>
+                  <span class="num-chip" onclick="setCost(300000)" tabindex="0" role="button" aria-label="Set project cost shortcut to 3 Lakh">₹3L</span>
+                  <span class="num-chip" onclick="setCost(1000000)" tabindex="0" role="button" aria-label="Set project cost shortcut to 10 Lakh">₹10L</span>
+                </div>
+              </div>
+
+              <!-- Sector Selection -->
+              <div class="form-group" id="wrap-project-type">
+                <label class="form-label" for="project-type">
+                  <span data-i18n="sectorLabel">Business Sector</span>
+                  <span class="sub-label">ऐच्छिक</span>
+                </label>
+                <select id="project-type" class="form-select">
+                  <option value="" data-i18n="sectorPlaceholder">Select Sector</option>
+                  <option value="Tailoring/garments" data-i18n="sectorTailoring">Tailoring & Garments</option>
+                  <option value="Retail/shop" data-i18n="sectorRetail">Retail & Grocery Shop</option>
+                  <option value="Food processing" data-i18n="sectorFood">Food Processing & Dairy</option>
+                  <option value="Transport" data-i18n="sectorTransport">Transport & Vehicles</option>
+                  <option value="Manufacturing/handicrafts" data-i18n="sectorHandicrafts">Handicrafts & Artisans</option>
+                  <option value="Services" data-i18n="sectorServices">Services & Repair</option>
+                  <option value="Agriculture-allied" data-i18n="sectorAgri">Agriculture & Poultry</option>
+                  <option value="Other" data-i18n="sectorOther">Other Business</option>
+                </select>
+              </div>
+
+              <!-- Study Location (Conditional) -->
+              <div class="form-group" id="wrap-study-location" style="display: none;">
+                <label class="form-label" for="study-location">
+                  <span data-i18n="studyLocationLabel">Study Location</span>
+                  <span class="sub-label">स्थान</span>
+                </label>
+                <select id="study-location" class="form-select">
+                  <option value="India" data-i18n="studyIndia">India (Cap ₹30 Lakh)</option>
+                  <option value="Abroad" data-i18n="studyAbroad">Abroad (Cap ₹40 Lakh)</option>
+                </select>
+              </div>
+
             </div>
 
-            <!-- Annual Family Income -->
-            <div class="form-group" id="wrap-income">
-              <label class="form-label" for="income">
-                <span>Annual Income (₹)</span>
-                <span class="sub-label">वार्षिक आय</span>
-              </label>
-              <div class="input-wrapper">
-                <span class="input-prefix">₹</span>
-                <input 
-                  type="number" 
-                  id="income" 
-                  class="form-input has-prefix" 
-                  value="250000" 
-                  placeholder="e.g. 250000" 
-                  oninput="handleIncomeInput()" 
-                />
-              </div>
-              <div class="currency-live-text" id="income-live-text">₹ 2.50 Lakh (≤ ₹3L Cap)</div>
-              <div class="quick-num-chips">
-                <span class="num-chip" onclick="setIncome(100000)">₹1L</span>
-                <span class="num-chip" onclick="setIncome(200000)">₹2L</span>
-                <span class="num-chip" onclick="setIncome(300000)">₹3L</span>
-              </div>
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="secondary-btn" onclick="resetForm()">
+                <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span data-i18n="resetBtn">Reset Parameters</span>
+              </button>
+              <button type="submit" id="main-submit-btn" class="primary-btn">
+                <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span data-i18n="findBtn">Find Matching Concessional Schemes</span>
+              </button>
             </div>
+          </form>
+        </div>
+      </div>
 
-            <!-- Estimated Project Cost -->
-            <div class="form-group" id="wrap-cost">
-              <label class="form-label" for="cost">
-                <span>Project Cost (₹)</span>
-                <span class="sub-label">परियोजना लागत</span>
-              </label>
-              <div class="input-wrapper">
-                <span class="input-prefix">₹</span>
-                <input 
-                  type="number" 
-                  id="cost" 
-                  class="form-input has-prefix" 
-                  value="300000" 
-                  placeholder="e.g. 300000" 
-                  oninput="handleCostInput()" 
-                />
+      <!-- Tab Pane 2: AI Chat Card -->
+      <div class="entry-pane" id="entry-pane-chat" style="display: none;">
+        <div class="ai-chat-card">
+          <div class="chat-header">
+            <div class="chat-title-group">
+              <div class="chat-avatar">
+                <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
               </div>
-              <div class="currency-live-text" id="cost-live-text">₹ 3.00 Lakh</div>
-              <div class="quick-num-chips">
-                <span class="num-chip" onclick="setCost(140000)">₹1.4L</span>
-                <span class="num-chip" onclick="setCost(300000)">₹3L</span>
-                <span class="num-chip" onclick="setCost(1000000)">₹10L</span>
+              <div>
+                <div class="chat-name"><span data-i18n="chatHeaderName">Asha Assistant</span> <span class="hindi-title">आशा</span></div>
+                <div class="chat-status" data-i18n="chatHeaderStatus">NLP Scheme Guidance Active</div>
               </div>
             </div>
-
-            <!-- Sector Selection -->
-            <div class="form-group" id="wrap-project-type">
-              <label class="form-label" for="project-type">
-                <span>Business Sector</span>
-                <span class="sub-label">ऐच्छिक</span>
-              </label>
-              <select id="project-type" class="form-select">
-                <option value="">Select Sector</option>
-                <option value="Tailoring/garments">Tailoring & Garments</option>
-                <option value="Retail/shop">Retail & Grocery Shop</option>
-                <option value="Food processing">Food Processing & Dairy</option>
-                <option value="Transport">Transport & Vehicles</option>
-                <option value="Manufacturing/handicrafts">Handicrafts & Artisans</option>
-                <option value="Services">Services & Repair</option>
-                <option value="Agriculture-allied">Agriculture & Poultry</option>
-                <option value="Other">Other Business</option>
-              </select>
-            </div>
-
-            <!-- Study Location (Conditional) -->
-            <div class="form-group" id="wrap-study-location" style="display: none;">
-              <label class="form-label" for="study-location">
-                <span>Study Location</span>
-                <span class="sub-label">स्थान</span>
-              </label>
-              <select id="study-location" class="form-select">
-                <option value="India">India (Cap ₹30 Lakh)</option>
-                <option value="Abroad">Abroad (Cap ₹40 Lakh)</option>
-              </select>
-            </div>
-
-          </div>
-
-          <!-- Form Actions -->
-          <div class="form-actions">
-            <button type="button" class="secondary-btn" onclick="resetForm()">
+            <button class="chat-reset-btn" onclick="resetAiChat()">
               <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              <span>Reset</span>
-            </button>
-            <button type="submit" id="main-submit-btn" class="primary-btn">
-              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <span>Find Matching Schemes</span>
+              <span data-i18n="chatResetBtn">Reset Chat</span>
             </button>
           </div>
-        </form>
-      </main>
+
+          <!-- Message Stream Window -->
+          <div class="chat-messages" id="chat-messages" aria-live="polite">
+            <div class="message-row bot">
+              <div class="msg-avatar">
+                <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              </div>
+              <div class="msg-bubble">
+                🙏 <strong>Namaste! I am Asha AI</strong>, your guide for government schemes & concessional loans under the NSFDC network.
+                <div style="margin-top: 6px;">Tell me in Hindi or English what business, education, or skill loan you need funds for.</div>
+                <div class="msg-time">Just now</div>
+              </div>
+            </div>
+            <div id="chat-typing-indicator" style="display:none;"></div>
+          </div>
+
+          <!-- Suggestion Chips -->
+          <div class="chat-suggestions" role="toolbar" aria-label="Suggested Prompts">
+            <span class="chat-chip" onclick="sendSamplePrompt('I need 3 lakh for a tailoring shop, family income is 2.2 lakh, SC category')" tabindex="0" role="button" aria-label="Ask about 3 Lakh loan for tailoring shop">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Tailoring Shop ₹3L</span>
+            </span>
+            <span class="chat-chip" onclick="sendSamplePrompt('Education loan of 15 lakh for engineering in India, SC applicant, income 2.5 lakh')" tabindex="0" role="button" aria-label="Ask about 15 Lakh education loan for engineering">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+              <span>Education ₹15L</span>
+            </span>
+            <span class="chat-chip" onclick="sendSamplePrompt('Small commercial transport vehicle for 7 lakh, annual income 2 lakh, SC')" tabindex="0" role="button" aria-label="Ask about 7 Lakh commercial vehicle transport loan">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+              <span>Transport ₹7L</span>
+            </span>
+            <span class="chat-chip" onclick="sendSamplePrompt('Micro credit 1 lakh for small retail grocery store, SC woman entrepreneur')" tabindex="0" role="button" aria-label="Ask about 1 Lakh micro credit for retail grocery store">
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 10V7"/></svg>
+              <span>Retail Shop ₹1L</span>
+            </span>
+          </div>
+
+          <!-- Chat Input Bar -->
+          <form class="chat-input-bar" onsubmit="event.preventDefault(); handleUserSendMessage();">
+            <input 
+              type="text" 
+              id="chat-user-input" 
+              class="chat-input" 
+              placeholder="Type in Hindi or English... (e.g. '3 लाख का दुकान लोन चाहिए')" 
+              data-i18n-placeholder="chatInputPlaceholder"
+              autocomplete="off"
+            />
+            <button type="submit" id="chat-send-btn" class="chat-send-btn">
+              <span data-i18n="chatSendBtn">Send</span>
+              <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
 
     </div>
+  </section>
 
-    <!-- ====================================================================
-         RESULTS SECTION: RANKED SCHEME CARDS
-         ==================================================================== -->
-    <section id="results-section" style="display: none;">
+  <!-- ==========================================================================
+       ZONE 5: RESULTS SECTION (RANKED SCHEME CARDS)
+       ========================================================================== -->
+  <section class="results-wrapper-section" id="results-section" style="display: none;">
+    <div class="results-container">
       <div class="results-header-banner">
-        <div>
-          <div class="results-count-title" id="results-headline">Matching Schemes</div>
-          <div class="results-count-desc" id="results-subheadline">Ranked by lowest concessional interest rate</div>
+        <div aria-live="polite">
+          <div class="section-overline" data-i18n="step2Label">STEP 2 OF 2</div>
+          <div class="results-count-title" id="results-headline" data-i18n="resultsDefaultTitle">Matching Concessional Schemes</div>
+          <div class="results-count-desc" id="results-subheadline" data-i18n="resultsDefaultSub">Ranked by lowest concessional interest rate</div>
         </div>
         <div class="filter-tabs">
-          <button class="filter-tab active" id="tab-filter-eligible" onclick="filterSchemesView('eligible')">Eligible</button>
-          <button class="filter-tab" id="tab-filter-all" onclick="filterSchemesView('all')">All Schemes</button>
+          <button class="filter-tab active" id="tab-filter-eligible" onclick="filterSchemesView('eligible')"><span data-i18n="filterEligible">Eligible</span></button>
+          <button class="filter-tab" id="tab-filter-all" onclick="filterSchemesView('all')"><span data-i18n="filterAll">All Schemes</span></button>
         </div>
       </div>
 
       <div class="scheme-cards-list" id="scheme-cards-container">
-        <!-- Rendered dynamically -->
+        <!-- Rendered dynamically by findMatchingSchemes() -->
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="app-footer">
-      <p>Asha AI — National Scheduled Castes Finance and Development Corporation (NSFDC) Assistance Portal</p>
-      <p style="margin-top: 4px;">Final loan sanctions and margin disbursements are verified by authorized Channel Partners and Banks.</p>
-    </footer>
-  </div>
+  <!-- ==========================================================================
+       ZONE 6: INSTITUTIONAL FOOTER
+       ========================================================================== -->
+  <footer class="institutional-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-title">
+            <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span data-i18n="portalName">Asha AI — Portal</span>
+          </div>
+          <p class="footer-subtitle" data-i18n="portalDesc">
+            National Scheduled Castes Finance and Development Corporation (NSFDC) concessional credit guidance and Channel Partner discovery portal.
+          </p>
+          <div class="sih-disclaimer" data-i18n="sihDisclaimer">
+            <strong>Smart India Hackathon Prototype:</strong> This platform is a functional prototype built for SIH. Final loan sanctions and disbursements are evaluated directly by authorized Channelizing Agencies & partner banks.
+          </div>
+        </div>
 
-  <!-- ====================================================================
+        <div>
+          <div class="footer-col-title" data-i18n="footerNsfdcHeading">NSFDC Network</div>
+          <ul class="footer-links">
+            <li><a href="https://nsfdc.nic.in/" target="_blank" rel="noopener" data-i18n="footerOfficialPortal">Official NSFDC Portal</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerScas">State Channelizing Agencies (SCAs)</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerBanks">Public Sector Partner Banks</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerMfis">Microfinance Institutions (MFIs)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-i18n="footerSchemesHeading">Scheme Categories</div>
+          <ul class="footer-links">
+            <li><a href="#eligibility-section" data-i18n="footerTermLoans">Term Loan Schemes</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerMicroCredit">Micro Credit Finance</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerEduLoans">Educational Loans (India & Abroad)</a></li>
+            <li><a href="#eligibility-section" data-i18n="footerMahilaYojana">Mahila Samriddhi Yojana</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-i18n="footerHelpHeading">Help & Policy</div>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footerGrievance">Grievance Redressal</a></li>
+            <li><a href="#" data-i18n="footerAccessibility">Accessibility Statement</a></li>
+            <li><a href="#" data-i18n="footerNodalOfficer">Nodal Officer Directory</a></li>
+            <li><a href="#" data-i18n="footerTerms">Terms & Guidelines</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div data-i18n="footerBottomBrand">Asha AI (आशा) &bull; National Scheduled Castes Finance & Development Gateway</div>
+        <div data-i18n="footerBottomSih">Developed for Smart India Hackathon Problem Statement</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
        DETAILED MODAL (EMI CALCULATOR, DOCUMENTS, PARTNERS LOCATOR)
-       ==================================================================== -->
+       ========================================================================== -->
   <div id="modal-overlay" onclick="handleModalOverlayClick(event)">
     <div id="modal-container" role="dialog" aria-modal="true">
       <button class="modal-close-btn" onclick="closeModal()" aria-label="Close">✕</button>
@@ -1701,15 +2266,15 @@
       <nav class="modal-nav">
         <button class="modal-nav-tab active" id="nav-calc" onclick="switchModalTab('calc')">
           <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-          <span>EMI Calculator</span>
+          <span data-i18n="modalNavCalc">EMI Calculator</span>
         </button>
         <button class="modal-nav-tab" id="nav-docs" onclick="switchModalTab('docs')">
           <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
-          <span>Required Documents (<span id="modal-docs-count">0</span>)</span>
+          <span><span data-i18n="modalNavDocs">Required Documents</span> (<span id="modal-docs-count">0</span>)</span>
         </button>
         <button class="modal-nav-tab" id="nav-partners" onclick="switchModalTab('partners')">
           <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Channel Partners & Banks</span>
+          <span data-i18n="modalNavPartners">Channel Partners & Banks</span>
         </button>
       </nav>
 
@@ -1720,55 +2285,55 @@
         <div class="tab-pane active" id="pane-calc">
           <div class="calc-slider-group">
             <div class="calc-slider-header">
-              <span>Required Loan Amount</span>
+              <span data-i18n="calcLoanAmountLabel">Required Loan Amount</span>
               <span class="calc-slider-val" id="slider-loan-val">₹ 3,00,000</span>
             </div>
             <input type="range" class="calc-slider" id="slider-loan" min="10000" max="5000000" step="5000" value="300000" oninput="onLoanSliderChange()" />
             <div class="calc-slider-bounds">
-              <span>Min: ₹10,000</span>
+              <span data-i18n="calcMinAmountLabel">Min: ₹10,000</span>
               <span id="slider-loan-max-label">Max Cap: ₹50,00,000</span>
             </div>
           </div>
 
           <div class="calc-slider-group">
             <div class="calc-slider-header">
-              <span>Repayment Tenure (Years)</span>
+              <span data-i18n="calcRepaymentLabel">Repayment Tenure (Years)</span>
               <span class="calc-slider-val" id="slider-tenure-val">5 Years</span>
             </div>
             <input type="range" class="calc-slider" id="slider-tenure" min="1" max="10" step="1" value="5" oninput="onTenureSliderChange()" />
             <div class="calc-slider-bounds">
-              <span>Min: 1 Year</span>
+              <span data-i18n="calcMinOneYear">Min: 1 Year</span>
               <span id="slider-tenure-max-label">Max: 10 Years</span>
             </div>
           </div>
 
           <div class="calc-slider-group" id="slider-rate-box" style="display: none;">
             <div class="calc-slider-header">
-              <span>Concessional Interest Rate (% p.a.)</span>
+              <span data-i18n="calcRateLabel">Concessional Interest Rate (% p.a.)</span>
               <span class="calc-slider-val" id="slider-rate-val">6.0%</span>
             </div>
             <input type="range" class="calc-slider" id="slider-rate" min="4" max="15" step="0.1" value="6.0" oninput="onRateSliderChange()" />
             <div class="calc-slider-bounds">
-              <span>Min Rate</span>
-              <span>Max Rate</span>
+              <span data-i18n="calcMinRateLabel">Min Rate</span>
+              <span data-i18n="calcMaxRateLabel">Max Rate</span>
             </div>
           </div>
 
           <!-- Compound EMI Display Card -->
           <div class="emi-summary-box">
-            <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;">Estimated Monthly Installment (EMI)</div>
+            <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;" data-i18n="calcEmiSummaryLabel">Estimated Monthly Installment (EMI)</div>
             <div class="emi-amount" id="calc-emi-display">₹ 5,800</div>
             <div class="emi-breakdown-row">
               <div>
-                <div style="opacity: 0.75; font-size: 11px;">Principal Loan</div>
+                <div style="opacity: 0.75; font-size: 11px;" data-i18n="calcPrincipalLabel">Principal Loan</div>
                 <div style="font-weight: 700; margin-top: 2px;" id="calc-principal-display">₹ 3,00,000</div>
               </div>
               <div>
-                <div style="opacity: 0.75; font-size: 11px;">Total Interest</div>
+                <div style="opacity: 0.75; font-size: 11px;" data-i18n="calcInterestLabel">Total Interest</div>
                 <div style="font-weight: 700; margin-top: 2px; color: #fde68a;" id="calc-interest-display">₹ 48,000</div>
               </div>
               <div>
-                <div style="opacity: 0.75; font-size: 11px;">Total Amount</div>
+                <div style="opacity: 0.75; font-size: 11px;" data-i18n="calcTotalLabel">Total Amount</div>
                 <div style="font-weight: 700; margin-top: 2px;" id="calc-total-display">₹ 3,48,000</div>
               </div>
             </div>
@@ -1780,7 +2345,7 @@
 
         <!-- Tab 2: Document Checklist -->
         <div class="tab-pane" id="pane-docs">
-          <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 14px;">
+          <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 14px;" data-i18n="docsIntro">
             Checklist of official documents required when applying at the State Channelizing Agency or bank branch:
           </p>
           <div id="modal-docs-list"></div>
@@ -1791,12 +2356,12 @@
           <div class="map-controls-row">
             <button class="primary-btn" style="flex: none; padding: 8px 14px; font-size: 12.5px;" onclick="fetchNearbyPartners(true)">
               <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>Detect My Location & Distance</span>
+              <span data-i18n="modalDetectLocBtn">Detect My Location & Distance</span>
             </button>
             <select id="partner-state-filter" class="map-filter-select" onchange="filterPartnersByState()">
-              <option value="">All States & Territories</option>
+              <option value="" data-i18n="modalAllStatesOpt">All States & Territories</option>
             </select>
-            <span id="partners-status-text" style="font-size: 12px; color: var(--gray-500); font-weight: 600;">Authorized NSFDC Channel Partner Offices</span>
+            <span id="partners-status-text" style="font-size: 12px; color: var(--gray-500); font-weight: 600;" data-i18n="partnersDefaultStatus">Authorized NSFDC Channel Partner Offices</span>
           </div>
 
           <!-- Interactive Leaflet Map Container -->
@@ -1813,11 +2378,11 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <a id="modal-official-link" href="https://nsfdc.nic.in/" target="_blank" rel="noopener" style="font-size: 12.5px; color: var(--accent-blue); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-          <span>Official Scheme Guidelines (NSFDC Portal)</span>
+          <span data-i18n="modalOfficialLink">Official Scheme Guidelines (NSFDC Portal)</span>
           <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
         </a>
         <button class="primary-btn" style="flex: none; padding: 8px 18px; font-size: 13px;" onclick="closeModal()">
-          Done
+          <span data-i18n="modalDoneBtn">Done</span>
         </button>
       </div>
     </div>
@@ -1827,7 +2392,528 @@
        CLIENT APPLICATION LOGIC
        ========================================================================== -->
   <script>
-    const API_BASE = "http://127.0.0.1:5000";
+    // Bilingual Localization (I18N) Dictionary & Switcher
+    const I18N = {
+      en: {
+        portalStrip: "Asha AI | आशा • National SC Finance & Development Gateway",
+        heroBadge: "National Concessional Finance & Credit Access Portal",
+        heroTitle: "Empowering Scheduled Caste Entrepreneurs & Students",
+        heroDesc: "Asha AI is the national digital assistance portal under the NSFDC network. Discover concessional credit schemes, interest-subsidized education loans, and locate your authorized State Channelizing Agency or bank branch.",
+        heroCta: "Check Eligibility & Find Schemes",
+        statFinancedNum: "Up to 90%",
+        statFinancedLabel: "Project Cost Financed",
+        statFinancedDesc: "Low promoter contribution norms for SC entrepreneurs",
+        statRateNum: "6.5% – 15%",
+        statRateLabel: "Concessional Interest Rates",
+        statRateDesc: "Direct interest subsidies for eligible SC beneficiaries",
+        statIncomeNum: "₹5.00 Lakh",
+        statIncomeLabel: "Family Income Limit",
+        statIncomeDesc: "Broad eligibility ceiling under NSFDC guidelines",
+        statOfficesNum: "100+ Offices",
+        statOfficesLabel: "Channel Partners Nationwide",
+        statOfficesDesc: "State Corporations, PSBs, RRBs & MFIs network",
+        stepLabel: "Step 1 of 2",
+        eligTitle: "Check Your Scheme Eligibility",
+        eligDesc: "Choose your preferred entry method below: fill out the structured parameters or describe your requirement in your own words using Asha AI.",
+        tabGuided: "Guided Questions",
+        tabChat: "Describe in Your Own Words (AI Assistant)",
+        tabChatMobile: "Ask Asha AI",
+        formTitle: "Application Financial Parameters",
+        formSubtitle: "Parameters synced with AI parser or edit directly",
+        purposeLabel: "Funding Purpose",
+        purposeBusiness: "Business",
+        purposeBusinessSub: "Enterprises",
+        purposeEducation: "Education",
+        purposeEducationSub: "India & Abroad",
+        purposeSkill: "Skill Training",
+        purposeSkillSub: "Vocational",
+        scStatusLabel: "Scheduled Caste (SC) Status",
+        scStatusDesc: "Required for NSFDC concessional interest rates",
+        incomeLabel: "Annual Family Income (₹)",
+        costLabel: "Project Cost (₹)",
+        sectorLabel: "Business Sector",
+        sectorPlaceholder: "Select Sector",
+        sectorTailoring: "Tailoring & Garments",
+        sectorRetail: "Retail & Grocery Shop",
+        sectorFood: "Food Processing & Dairy",
+        sectorTransport: "Transport & Vehicles",
+        sectorHandicrafts: "Handicrafts & Artisans",
+        sectorServices: "Services & Repair",
+        sectorAgri: "Agriculture & Poultry",
+        sectorOther: "Other Business",
+        studyLocationLabel: "Study Location",
+        studyIndia: "India (Cap ₹30 Lakh)",
+        studyAbroad: "Abroad (Cap ₹40 Lakh)",
+        resetBtn: "Reset Parameters",
+        findBtn: "Find Matching Concessional Schemes",
+        chatHeaderName: "Asha Assistant",
+        chatHeaderStatus: "NLP Scheme Guidance Active",
+        chatResetBtn: "Reset Chat",
+        chatInputPlaceholder: "Type in Hindi or English... (e.g. '3 लाख का दुकान लोन चाहिए')",
+        chatSendBtn: "Send",
+        step2Label: "STEP 2 OF 2",
+        resultsDefaultTitle: "Matching Concessional Schemes",
+        resultsDefaultSub: "Ranked by lowest concessional interest rate",
+        filterEligible: "Eligible",
+        filterAll: "All Schemes",
+        footerNsfdcHeading: "NSFDC Network",
+        footerSchemesHeading: "Scheme Categories",
+        footerHelpHeading: "Help & Policy",
+        footerOfficialPortal: "Official NSFDC Portal",
+        footerScas: "State Channelizing Agencies (SCAs)",
+        footerBanks: "Public Sector Partner Banks",
+        footerMfis: "Microfinance Institutions (MFIs)",
+        footerTermLoans: "Term Loan Schemes",
+        footerMicroCredit: "Micro Credit Finance",
+        footerEduLoans: "Educational Loans (India & Abroad)",
+        footerMahilaYojana: "Mahila Samriddhi Yojana",
+        footerGrievance: "Grievance Redressal",
+        footerAccessibility: "Accessibility Statement",
+        footerNodalOfficer: "Nodal Officer Directory",
+        footerTerms: "Terms & Guidelines",
+        footerBottomBrand: "Asha AI (आशा) • National Scheduled Castes Finance & Development Gateway",
+        footerBottomSih: "Developed for Smart India Hackathon Problem Statement",
+        modalNavCalc: "EMI Calculator",
+        modalNavDocs: "Required Documents",
+        modalNavPartners: "Channel Partners & Banks",
+        modalDetectLocBtn: "Detect My Location & Distance",
+        modalAllStatesOpt: "All States & Territories",
+        modalDoneBtn: "Done",
+        calcLoanAmountLabel: "Required Loan Amount",
+        calcMinAmountLabel: "Min: ₹10,000",
+        calcRepaymentLabel: "Repayment Tenure (Years)",
+        calcMinOneYear: "Min: 1 Year",
+        calcRateLabel: "Concessional Interest Rate (% p.a.)",
+        calcMinRateLabel: "Min Rate",
+        calcMaxRateLabel: "Max Rate",
+        calcEmiSummaryLabel: "Estimated Monthly Installment (EMI)",
+        calcPrincipalLabel: "Principal Loan",
+        calcInterestLabel: "Total Interest",
+        calcTotalLabel: "Total Amount",
+        docsIntro: "Checklist of official documents required when applying at the State Channelizing Agency or bank branch:",
+        docsEmptyFallback: "Standard identity and income proofs apply.",
+        partnersDefaultStatus: "Authorized NSFDC Channel Partner Offices",
+        modalOfficialLink: "Official Scheme Guidelines (NSFDC Portal)",
+        metricLoanSupport: "Loan Support",
+        metricYourMargin: "Your Margin",
+        metricInterestRate: "Interest Rate",
+        metricRepayment: "Repayment",
+        cardCtaEligible: "Live EMI Calculator & Checklist →",
+        cardCtaIneligible: "View Scheme Details →",
+        moratoriumSuffix: "Mo. Moratorium",
+        withinLimitNote: " (Within NSFDC limit ≤ ₹3L)",
+        exceedsLimitNote: " (Exceeds ₹3L NSFDC cap)",
+        moratoriumBanner: "<strong>{months}-Month Moratorium Period:</strong> You do not pay any EMI for the first {months} months. Monthly repayments of <strong>{emi}</strong> start from Month {nextMonth}."
+      },
+      hi: {
+        portalStrip: "आशा एआई | राष्ट्रीय अनुसूचित जाति वित्त एवं विकास गेटवे",
+        heroBadge: "राष्ट्रीय रियायती वित्त एवं ऋण सुविधा पोर्टल",
+        heroTitle: "अनुसूचित जाति के उद्यमियों एवं विद्यार्थियों को सशक्त बनाना",
+        heroDesc: "आशा एआई, एनएसएफडीसी नेटवर्क के अंतर्गत राष्ट्रीय डिजिटल सहायता पोर्टल है। रियायती ऋण योजनाओं, ब्याज-अनुदानित शिक्षा ऋणों की जानकारी प्राप्त करें और अपनी अधिकृत राज्य चैनलाइज़िंग एजेंसी या बैंक शाखा का पता लगाएं।",
+        heroCta: "पात्रता जांचें और योजनाएं खोजें",
+        statFinancedNum: "90% तक",
+        statFinancedLabel: "परियोजना लागत का वित्तपोषण",
+        statFinancedDesc: "अनुसूचित जाति उद्यमियों के लिए न्यूनतम अंशदान मानदंड",
+        statRateNum: "6.5% – 15%",
+        statRateLabel: "रियायती ब्याज दरें",
+        statRateDesc: "पात्र अनुसूचित जाति लाभार्थियों के लिए सीधी ब्याज सब्सिडी",
+        statIncomeNum: "₹5.00 लाख",
+        statIncomeLabel: "पारिवारिक आय सीमा",
+        statIncomeDesc: "एनएसएफडीसी दिशानिर्देशों के अंतर्गत व्यापक पात्रता सीमा",
+        statOfficesNum: "100+ कार्यालय",
+        statOfficesLabel: "देशभर में चैनल पार्टनर",
+        statOfficesDesc: "राज्य निगम, सार्वजनिक बैंक, क्षेत्रीय ग्रामीण बैंक एवं एमएफआई नेटवर्क",
+        stepLabel: "चरण 1 / 2",
+        eligTitle: "अपनी योजना पात्रता जांचें",
+        eligDesc: "नीचे अपनी पसंदीदा विधि चुनें: संरचित विवरण भरें या आशा एआई से अपनी आवश्यकता अपने शब्दों में बताएं।",
+        tabGuided: "सुझाए गए प्रश्न",
+        tabChat: "अपने शब्दों में बताएं (एआई सहायक)",
+        tabChatMobile: "आशा एआई से पूछें",
+        formTitle: "आवेदन वित्तीय विवरण",
+        formSubtitle: "विवरण एआई पार्सर से सिंक हैं या सीधे संपादित करें",
+        purposeLabel: "निधि का उद्देश्य",
+        purposeBusiness: "व्यवसाय",
+        purposeBusinessSub: "उद्यम",
+        purposeEducation: "शिक्षा",
+        purposeEducationSub: "भारत एवं विदेश",
+        purposeSkill: "कौशल प्रशिक्षण",
+        purposeSkillSub: "व्यावसायिक",
+        scStatusLabel: "अनुसूचित जाति (एससी) स्थिति",
+        scStatusDesc: "एनएसएफडीसी रियायती ब्याज दर हेतु आवश्यक",
+        incomeLabel: "वार्षिक पारिवारिक आय (₹)",
+        costLabel: "परियोजना लागत (₹)",
+        sectorLabel: "व्यवसाय क्षेत्र",
+        sectorPlaceholder: "क्षेत्र चुनें",
+        sectorTailoring: "सिलाई एवं परिधान",
+        sectorRetail: "किराना एवं खुदरा दुकान",
+        sectorFood: "खाद्य प्रसंस्करण एवं डेयरी",
+        sectorTransport: "परिवहन एवं वाणिज्यिक वाहन",
+        sectorHandicrafts: "हस्तशिल्प एवं कारीगर",
+        sectorServices: "सेवा एवं मरम्मत",
+        sectorAgri: "कृषि एवं पोल्ट्री",
+        sectorOther: "अन्य व्यवसाय",
+        studyLocationLabel: "अध्ययन का स्थान",
+        studyIndia: "भारत (अधिकतम ₹30 लाख)",
+        studyAbroad: "विदेश (अधिकतम ₹40 लाख)",
+        resetBtn: "विवरण रीसेट करें",
+        findBtn: "उपयुक्त रियायती योजनाएं खोजें",
+        chatHeaderName: "आशा सहायक",
+        chatHeaderStatus: "एनएलपी योजना मार्गदर्शन सक्रिय",
+        chatResetBtn: "चैट रीसेट करें",
+        chatInputPlaceholder: "हिंदी या अंग्रेजी में लिखें... (जैसे '3 लाख का दुकान लोन चाहिए')",
+        chatSendBtn: "भेजें",
+        step2Label: "चरण 2 / 2",
+        resultsDefaultTitle: "उपयुक्त रियायती योजनाएं",
+        resultsDefaultSub: "न्यूनतम रियायती ब्याज दर के आधार पर क्रमबद्ध",
+        filterEligible: "पात्र",
+        filterAll: "सभी योजनाएं",
+        footerNsfdcHeading: "एनएसएफडीसी नेटवर्क",
+        footerSchemesHeading: "योजना श्रेणियां",
+        footerHelpHeading: "सहायता एवं नीति",
+        footerOfficialPortal: "आधिकारिक एनएसएफडीसी पोर्टल",
+        footerScas: "राज्य चैनलाइज़िंग एजेंसियां (एससीए)",
+        footerBanks: "सार्वजनिक क्षेत्र भागीदार बैंक",
+        footerMfis: "सूक्ष्म वित्त संस्थान (एमएफआई)",
+        footerTermLoans: "टर्म लोन योजनाएं",
+        footerMicroCredit: "सूक्ष्म ऋण वित्त",
+        footerEduLoans: "शिक्षा ऋण (भारत एवं विदेश)",
+        footerMahilaYojana: "महिला समृद्धि योजना",
+        footerGrievance: "शिकायत निवारण",
+        footerAccessibility: "सुगम्यता विवरण",
+        footerNodalOfficer: "नोडल अधिकारी निर्देशिका",
+        footerTerms: "नियम एवं दिशानिर्देश",
+        footerBottomBrand: "आशा एआई (आशा) • राष्ट्रीय अनुसूचित जाति वित्त एवं विकास गेटवे",
+        footerBottomSih: "स्मार्ट इंडिया हैकथॉन समस्या विवरण हेतु विकसित",
+        modalNavCalc: "ईएमआई कैलकुलेटर",
+        modalNavDocs: "आवश्यक दस्तावेज़",
+        modalNavPartners: "चैनल पार्टनर एवं बैंक",
+        modalDetectLocBtn: "मेरा स्थान और दूरी पता करें",
+        modalAllStatesOpt: "सभी राज्य एवं केंद्र शासित प्रदेश",
+        modalDoneBtn: "पूर्ण",
+        calcLoanAmountLabel: "आवश्यक ऋण राशि",
+        calcMinAmountLabel: "न्यूनतम: ₹10,000",
+        calcRepaymentLabel: "पुनर्भुगतान अवधि (वर्ष)",
+        calcMinOneYear: "न्यूनतम: 1 वर्ष",
+        calcRateLabel: "रियायती ब्याज दर (% वार्षिक)",
+        calcMinRateLabel: "न्यूनतम दर",
+        calcMaxRateLabel: "अधिकतम दर",
+        calcEmiSummaryLabel: "अनुमानित मासिक किस्त (ईएमआई)",
+        calcPrincipalLabel: "मूलधन ऋण",
+        calcInterestLabel: "कुल ब्याज",
+        calcTotalLabel: "कुल राशि",
+        docsIntro: "राज्य चैनलाइज़िंग एजेंसी या बैंक शाखा में आवेदन करते समय आवश्यक आधिकारिक दस्तावेज़ों की सूची:",
+        docsEmptyFallback: "मानक पहचान एवं आय प्रमाण लागू होंगे।",
+        partnersDefaultStatus: "अधिकृत एनएसएफडीसी चैनल पार्टनर कार्यालय",
+        modalOfficialLink: "आधिकारिक योजना दिशानिर्देश (एनएसएफडीसी पोर्टल)",
+        metricLoanSupport: "ऋण सहायता",
+        metricYourMargin: "आपका अंशदान",
+        metricInterestRate: "ब्याज दर",
+        metricRepayment: "पुनर्भुगतान",
+        cardCtaEligible: "लाइव ईएमआई कैलकुलेटर एवं चेकलिस्ट →",
+        cardCtaIneligible: "योजना विवरण देखें →",
+        moratoriumSuffix: "माह की स्थगन अवधि",
+        withinLimitNote: " (एनएसएफडीसी सीमा ≤ ₹3 लाख के भीतर)",
+        exceedsLimitNote: " (₹3 लाख एनएसएफडीसी सीमा से अधिक)",
+        moratoriumBanner: "<strong>{months}-माह की स्थगन अवधि:</strong> पहले {months} माह के लिए कोई ईएमआई नहीं देनी होगी। मासिक भुगतान <strong>{emi}</strong> माह {nextMonth} से शुरू होगा।"
+      },
+      bn: {
+        portalStrip: "আশা এআই | আশা • জাতীয় তপশিলি জাতি অর্থ ও উন্নয়ন গেটওয়ে",
+        heroBadge: "জাতীয় রেয়াতি অর্থায়ন ও ঋণ সুবিধা পোর্টাল",
+        heroTitle: "তপশিলি জাতির উদ্যোক্তা ও শিক্ষার্থীদের ক্ষমতায়ন",
+        heroDesc: "আশা এআই হল এনএসএফডিসি নেটওয়ার্কের অধীনস্থ জাতীয় ডিজিটাল সহায়তা পোর্টাল। রেয়াতি ঋণ প্রকল্প, সুদে ভর্তুকিযুক্ত শিক্ষা ঋণ আবিষ্কার করুন এবং আপনার অনুমোদিত রাজ্য চ্যানেল এজেন্সী বা ব্যাংক শাখা অনুসন্ধান করুন।",
+        heroCta: "যোগ্যতা যাচাই করুন ও প্রকল্প খুঁজুন",
+        statFinancedNum: "৯০% পর্যন্ত",
+        statFinancedLabel: "প্রকল্প ব্যয়ের অর্থায়ন",
+        statFinancedDesc: "তপশিলি জাতি উদ্যোক্তাদের জন্য সর্বনিম্ন প্রবর্তক অবদানের নিয়ম",
+        statRateNum: "৬.৫% – ১৫%",
+        statRateLabel: "রেয়াতি সুদের হার",
+        statRateDesc: "যোগ্য তপশিলি জাতি সুবিধাভোগীদের জন্য প্রত্যক্ষ সুদ ভর্তুকি",
+        statIncomeNum: "₹৫.০০ লক্ষ",
+        statIncomeLabel: "পারিবারিক আয় সীমা",
+        statIncomeDesc: "এনএসএফডিসি নির্দেশিকার অধীনে বিস্তৃত যোগ্যতা সীমা",
+        statOfficesNum: "১০০+ কার্যালয়",
+        statOfficesLabel: "দেশব্যাপী চ্যানেল পার্টনার",
+        statOfficesDesc: "রাজ্য নিগম, রাষ্ট্রায়ত্ত ব্যাংক, গ্রামীণ ব্যাংক ও এমএফআই নেটওয়ার্ক",
+        stepLabel: "ধাপ ১ / ২",
+        eligTitle: "আপনার প্রকল্পের যোগ্যতা পরীক্ষা করুন",
+        eligDesc: "নীচে আপনার পছন্দের পদ্ধতিটি নির্বাচন করুন: কাঠামোগত তথ্য পূরণ করুন অথবা আশা এআই-কে আপনার নিজের ভাষায় জানান।",
+        tabGuided: "নির্দেশিত প্রশ্নাবলী",
+        tabChat: "নিজের ভাষায় বলুন (এআই সহকারী)",
+        tabChatMobile: "আশা এআই-কে জিজ্ঞাসা করুন",
+        formTitle: "আবেদনের আর্থিক পরামিতি",
+        formSubtitle: "এআই পার্সারের সাথে সিঙ্ক করা হয়েছে অথবা সরাসরি সম্পাদনা করুন",
+        purposeLabel: "তহবিলের উদ্দেশ্য",
+        purposeBusiness: "ব্যবসা",
+        purposeBusinessSub: "উদ্যোগ",
+        purposeEducation: "শিক্ষা",
+        purposeEducationSub: "ভারত ও বিদেশ",
+        purposeSkill: "দক্ষতা প্রশিক্ষণ",
+        purposeSkillSub: "বৃত্তিমূলক",
+        scStatusLabel: "তপশিলি জাতি (এসসি) মর্যাদা",
+        scStatusDesc: "এনএসএফডিসি রেয়াতি সুদের হারের জন্য আবশ্যক",
+        incomeLabel: "বার্ষিক পারিবারিক আয় (₹)",
+        costLabel: "প্রকল্প ব্যয় (₹)",
+        sectorLabel: "ব্যবসা ক্ষেত্র",
+        sectorPlaceholder: "ক্ষেত্র নির্বাচন করুন",
+        sectorTailoring: "দর্জি ও পোশাক শিল্প",
+        sectorRetail: "মুদি ও খুচরা দোকান",
+        sectorFood: "খাদ্য প্রক্রিয়াকরণ ও দুগ্ধশিল্প",
+        sectorTransport: "পরিবহন ও বাণিজ্যিক যানবাহন",
+        sectorHandicrafts: "হস্তশিল্প ও কারুশিল্প",
+        sectorServices: "পরিষেবা ও মেরামত",
+        sectorAgri: "কৃষি ও হাঁস-মুরগি পালন",
+        sectorOther: "অন্যান্য ব্যবসা",
+        studyLocationLabel: "অধ্যয়নের স্থান",
+        studyIndia: "ভারত (সর্বোচ্চ ₹৩০ লক্ষ)",
+        studyAbroad: "বিদেশ (সর্বোচ্চ ₹৪০ লক্ষ)",
+        resetBtn: "পরামিতি রিসেট করুন",
+        findBtn: "উপযুক্ত রেয়াতি প্রকল্প খুঁজুন",
+        chatHeaderName: "আশা সহকারী",
+        chatHeaderStatus: "এনএলপি প্রকল্প নির্দেশিকা সক্রিয়",
+        chatResetBtn: "চ্যাট রিসেট করুন",
+        chatInputPlaceholder: "বাংলা বা ইংরেজিতে লিখুন... (যেমন 'দোকানের জন্য ৩ লাখ লোন চাই')",
+        chatSendBtn: "পাঠান",
+        step2Label: "ধাপ ২ / ২",
+        resultsDefaultTitle: "উপযুক্ত রেয়াতি প্রকল্পসমূহ",
+        resultsDefaultSub: "সর্বনিম্ন রেয়াতি সুদের হার অনুযায়ী ক্রমভুক্ত",
+        filterEligible: "যোগ্য",
+        filterAll: "সকল প্রকল্প",
+        footerNsfdcHeading: "এনএসএফডিসি নেটওয়ার্ক",
+        footerSchemesHeading: "প্রকল্পের বিভাগসমূহ",
+        footerHelpHeading: "সহায়তা ও নীতি",
+        footerOfficialPortal: "অফিসিয়াল এনএসএফডিসি পোর্টাল",
+        footerScas: "রাজ্য চ্যানেল এজেন্সী (এসসিএ)",
+        footerBanks: "অংশীদার রাষ্ট্রায়ত্ত ব্যাংক",
+        footerMfis: "ক্ষুদ্রঋণ প্রতিষ্ঠান (এমএফআই)",
+        footerTermLoans: "মেয়াদী ঋণ প্রকল্প",
+        footerMicroCredit: "ক্ষুদ্র ঋণ অর্থায়ন",
+        footerEduLoans: "শিক্ষা ঋণ (ভারত ও বিদেশ)",
+        footerMahilaYojana: "মহিলা সমৃদ্ধি যোজনা",
+        footerGrievance: "অভিযোগ প্রতিকার",
+        footerAccessibility: "অভিগম্যতা বিবৃতি",
+        footerNodalOfficer: "নোডাল অফিসার ডিরেক্টরি",
+        footerTerms: "শর্তাবলী ও নির্দেশিকা",
+        footerBottomBrand: "আশা এআই (আশা) • জাতীয় তপশিলি জাতি অর্থ ও উন্নয়ন গেটওয়ে",
+        footerBottomSih: "স্মার্ট ইন্ডিয়া হ্যাকাথন সমস্যা বিবৃতির জন্য তৈরি",
+        modalNavCalc: "ইএমআই ক্যালকুলেটর",
+        modalNavDocs: "প্রয়োজনীয় নথিপত্র",
+        modalNavPartners: "চ্যানেল পার্টনার ও ব্যাংক",
+        modalDetectLocBtn: "আমার অবস্থান ও দূরত্ব সনাক্ত করুন",
+        modalAllStatesOpt: "সমস্ত রাজ্য ও কেন্দ্রশাসিত অঞ্চল",
+        modalDoneBtn: "সম্পন্ন",
+        calcLoanAmountLabel: "প্রয়োজনীয় ঋণের পরিমাণ",
+        calcMinAmountLabel: "নূন্যতম: ₹১০,০০০",
+        calcRepaymentLabel: "পরিশোধের মেয়াদ (বছর)",
+        calcMinOneYear: "নূন্যতম: ১ বছর",
+        calcRateLabel: "রেয়াতি সুদের হার (% বার্ষিক)",
+        calcMinRateLabel: "সর্বনিম্ন হার",
+        calcMaxRateLabel: "সর্বোচ্চ হার",
+        calcEmiSummaryLabel: "আনুমানিক মাসিক কিস্তি (ইএমআই)",
+        calcPrincipalLabel: "মূল ঋণ",
+        calcInterestLabel: "মোট সুদ",
+        calcTotalLabel: "মোট পরিমাণ",
+        docsIntro: "রাজ্য চ্যানেল এজেন্সী বা ব্যাংক শাখায় আবেদন করার সময় প্রয়োজনীয় অফিসিয়াল নথির তালিকা:",
+        docsEmptyFallback: "আদর্শ পরিচয় ও আয়ের প্রমাণ প্রযোজ্য।",
+        partnersDefaultStatus: "অনুমোদিত এনএসএফডিসি চ্যানেল পার্টনার অফিস",
+        modalOfficialLink: "অফিসিয়াল প্রকল্প নির্দেশিকা (এনএসএফডিসি পোর্টাল)",
+        metricLoanSupport: "ঋণ সহায়তা",
+        metricYourMargin: "আপনার অবদান",
+        metricInterestRate: "সুদের হার",
+        metricRepayment: "পরিশোধ",
+        cardCtaEligible: "লাইভ ইএমআই ক্যালকুলেটর ও চেকলিস্ট →",
+        cardCtaIneligible: "প্রকল্পের বিবরণ দেখুন →",
+        moratoriumSuffix: "মাসের স্থগিতাদেশ",
+        withinLimitNote: " (এনএসএফডিসি সীমা ≤ ₹৩ লক্ষের মধ্যে)",
+        exceedsLimitNote: " (₹৩ লক্ষ এনএসএফডিসি সীমা অতিক্রম করেছে)",
+        moratoriumBanner: "<strong>{months}-মাসের স্থগিতাদেশ সময়কাল:</strong> প্রথম {months} মাসের জন্য আপনাকে কোনো ইএমআই দিতে হবে না। মাসিক কিস্তি <strong>{emi}</strong> শুরু হবে {nextMonth} নম্বর মাস থেকে।"
+      },
+      mr: {
+        portalStrip: "आशा एआय | आशा • राष्ट्रीय अनुसूचित जाती वित्त व विकास प्रवेशद्वार",
+        heroBadge: "राष्ट्रीय सवलत वित्त व कर्ज सुविधा पोर्टल",
+        heroTitle: "अनुसूचित जातीचे उद्योजक व विद्यार्थ्यांना सक्षम बनवणे",
+        heroDesc: "आशा एआय हे एनएसएफडीसी नेटवर्क अंतर्गत राष्ट्रीय डिजिटल सहाय्यता पोर्टल आहे. सवलतीच्या कर्ज योजना, व्याज-अनुदानित शैक्षणिक कर्जे शोधा आणि आपली अधिकृत राज्य चॅनेलायझिंग एजन्सी किंवा बँक शाखा शोधा.",
+        heroCta: "पात्रता तपासा आणि योजना शोधा",
+        statFinancedNum: "९०% पर्यंत",
+        statFinancedLabel: "प्रकल्प खर्चाचे वित्तपुरवठा",
+        statFinancedDesc: "अनुसूचित जातीच्या उद्योजकांसाठी कमी प्रवर्तक योगदान निकष",
+        statRateNum: "६.५% – १५%",
+        statRateLabel: "सवलतीचे व्याजदर",
+        statRateDesc: "पात्र अनुसूचित जातीच्या लाभार्थ्यांसाठी थेट व्याज अनुदान",
+        statIncomeNum: "₹५.०० लाख",
+        statIncomeLabel: "कौटुंबिक उत्पन्न मर्यादा",
+        statIncomeDesc: "एनएसएफडीसी मार्गदर्शक तत्त्वांनुसार व्यापक पात्रता मर्यादा",
+        statOfficesNum: "१००+ कार्यालये",
+        statOfficesLabel: "देशभरात चॅनेल पार्टनर्स",
+        statOfficesDesc: "राज्य महामंडळे, सार्वजनिक बँका, ग्रामीण बँका व एमएफआय नेटवर्क",
+        stepLabel: "टप्पा १ / २",
+        eligTitle: "आपली योजना पात्रता तपासा",
+        eligDesc: "खाली आपली पसंतीची पद्धत निवडा: संरचित तपशील भरा किंवा आशा एआय वापरून आपल्या स्वतःच्या शब्दांत गरज सांगा.",
+        tabGuided: "मार्गदर्शित प्रश्न",
+        tabChat: "आपल्या स्वतःच्या शब्दांत सांगा (एआय सहाय्यक)",
+        tabChatMobile: "आशा एआय ला विचारा",
+        formTitle: "अर्ज आर्थिक तपशील",
+        formSubtitle: "एआय पार्सरसह समक्रमित किंवा थेट संपादित करा",
+        purposeLabel: "निधीचा उद्देश",
+        purposeBusiness: "व्यवसाय",
+        purposeBusinessSub: "उद्योग",
+        purposeEducation: "शिक्षण",
+        purposeEducationSub: "भारत व विदेश",
+        purposeSkill: "कौशल्य प्रशिक्षण",
+        purposeSkillSub: "व्यावसायिक",
+        scStatusLabel: "अनुसूचित जाती (एससी) स्थिती",
+        scStatusDesc: "एनएसएफडीसी सवलतीच्या व्याजदरासाठी आवश्यक",
+        incomeLabel: "वार्षिक कौटुंबिक उत्पन्न (₹)",
+        costLabel: "प्रकल्प खर्च (₹)",
+        sectorLabel: "व्यवसाय क्षेत्र",
+        sectorPlaceholder: "क्षेत्र निवडा",
+        sectorTailoring: "शिंपीकाम व वस्त्रोद्योग",
+        sectorRetail: "किराणा व किरकोळ दुकान",
+        sectorFood: "अन्न प्रक्रिया व दुग्धव्यवसाय",
+        sectorTransport: "वाहतूक व व्यावसायिक वाहने",
+        sectorHandicrafts: "हस्तकला व कारागीर",
+        sectorServices: "सेवा व दुरुस्ती",
+        sectorAgri: "शेती व कुक्कुटपालन",
+        sectorOther: "इतर व्यवसाय",
+        studyLocationLabel: "शिक्षणाचे ठिकाण",
+        studyIndia: "भारत (कमाल ₹३० लाख)",
+        studyAbroad: "विदेश (कमाल ₹४० लाख)",
+        resetBtn: "तपशील रीसेट करा",
+        findBtn: "योग्य सवलतीच्या योजना शोधा",
+        chatHeaderName: "आशा सहाय्यक",
+        chatHeaderStatus: "एनएलपी योजना मार्गदर्शन सक्रिय",
+        chatResetBtn: "चॅट रीसेट करा",
+        chatInputPlaceholder: "मराठी किंवा इंग्रजीत लिहा... (उदा. 'दुकानासाठी ३ लाखांचे कर्ज हवे')",
+        chatSendBtn: "पाठवा",
+        step2Label: "टप्पा २ / २",
+        resultsDefaultTitle: "योग्य सवलतीच्या योजना",
+        resultsDefaultSub: "किमान सवलतीच्या व्याजदरानुसार क्रमवारी",
+        filterEligible: "पात्र",
+        filterAll: "सर्व योजना",
+        footerNsfdcHeading: "एनएसएफडीसी नेटवर्क",
+        footerSchemesHeading: "योजना प्रवर्ग",
+        footerHelpHeading: "मदत व धोरण",
+        footerOfficialPortal: "अधिकृत एनएसएफडीसी पोर्टल",
+        footerScas: "राज्य चॅनेलायझिंग एजन्सी (एससीए)",
+        footerBanks: "सार्वजनिक क्षेत्रातील भागीदार बँका",
+        footerMfis: "सूक्ष्म वित्त संस्था (एमएफआय)",
+        footerTermLoans: "मुदत कर्ज योजना",
+        footerMicroCredit: "सूक्ष्म पतपुरवठा",
+        footerEduLoans: "शैक्षणिक कर्जे (भारत व विदेश)",
+        footerMahilaYojana: "महिला समृद्धी योजना",
+        footerGrievance: "तक्रार निवारण",
+        footerAccessibility: "सुलभता विधान",
+        footerNodalOfficer: "नोडल अधिकारी निर्देशिका",
+        footerTerms: "अटी व मार्गदर्शक तत्त्वे",
+        footerBottomBrand: "आशा एआय (आशा) • राष्ट्रीय अनुसूचित जाती वित्त व विकास प्रवेशद्वार",
+        footerBottomSih: "स्मार्ट इंडिया हॅकाथॉन समस्या विधानासाठी विकसित",
+        modalNavCalc: "ईएमआई कॅल्क्युलेटर",
+        modalNavDocs: "आवश्यक कागदपत्रे",
+        modalNavPartners: "चॅनेल पार्टनर्स व बँका",
+        modalDetectLocBtn: "माझे स्थान व अंतर शोधा",
+        modalAllStatesOpt: "सर्व राज्ये व केंद्रशासित प्रदेश",
+        modalDoneBtn: "पूर्ण",
+        calcLoanAmountLabel: "आवश्यक कर्जाची रक्कम",
+        calcMinAmountLabel: "किमान: ₹१०,०००",
+        calcRepaymentLabel: "परतफेड कालावधी (वर्षे)",
+        calcMinOneYear: "किमान: १ वर्ष",
+        calcRateLabel: "सवलतीचा व्याजदर (% दरसाल)",
+        calcMinRateLabel: "किमान दर",
+        calcMaxRateLabel: "कमाल दर",
+        calcEmiSummaryLabel: "अंदाजे मासिक हप्ता (ईएमआय)",
+        calcPrincipalLabel: "मुद्दल कर्ज",
+        calcInterestLabel: "एकूण व्याज",
+        calcTotalLabel: "एकूण रक्कम",
+        docsIntro: "राज्य चॅनेलायझिंग एजन्सी किंवा बँक शाखेत अर्ज करताना आवश्यक अधिकृत कागदपत्रांची यादी:",
+        docsEmptyFallback: "मानक ओळख व उत्पन्न पुरावे लागू होतील.",
+        partnersDefaultStatus: "अधिकृत एनएसएफडीसी चॅनेल पार्टनर कार्यालये",
+        modalOfficialLink: "अधिकृत योजना मार्गदर्शक तत्त्वे (एनएसएफडीसी पोर्टल)",
+        metricLoanSupport: "कर्ज सहाय्य",
+        metricYourMargin: "आपले योगदान",
+        metricInterestRate: "व्याजदर",
+        metricRepayment: "परतफेड",
+        cardCtaEligible: "थेट ईएमआय कॅल्क्युलेटर व तपासणी यादी →",
+        cardCtaIneligible: "योजना तपशील पहा →",
+        moratoriumSuffix: "महिन्यांची सवलत मुदत",
+        withinLimitNote: " (एनएसएफडीसी मर्यादा ≤ ₹३ लाखांच्या आत)",
+        exceedsLimitNote: " (₹३ लाख एनएसएफडीसी मर्यादेपेक्षा जास्त)",
+        moratoriumBanner: "<strong>{months}-महिन्यांची सवलत मुदत (मॉरेटोरियम):</strong> पहिल्या {months} महिन्यांसाठी कोणताही ईएमआय भरावा लागणार नाही. मासिक हप्ता <strong>{emi}</strong> {nextMonth} व्या महिन्यापासून सुरू होईल."
+      }
+    };
+
+    let currentLang = "en";
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const k = el.getAttribute("data-i18n");
+        if (I18N[lang] && I18N[lang][k]) {
+          el.textContent = I18N[lang][k];
+        }
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const k = el.getAttribute("data-i18n-placeholder");
+        if (I18N[lang] && I18N[lang][k]) {
+          el.placeholder = I18N[lang][k];
+        }
+      });
+
+      document.documentElement.lang = lang;
+      const langSelect = document.getElementById("lang-select");
+      if (langSelect && langSelect.value !== lang) {
+        langSelect.value = lang;
+      }
+
+      const heroHindiSubtitle = document.getElementById("hero-hindi-subtitle");
+      if (heroHindiSubtitle) {
+        heroHindiSubtitle.style.display = lang === "hi" ? "none" : "block";
+      }
+
+      if (typeof handleIncomeInput === "function") {
+        handleIncomeInput();
+      }
+      if (typeof currentMatchResults !== "undefined" && currentMatchResults.length > 0 && typeof renderResults === "function") {
+        renderResults({ eligible: true, message: document.getElementById("results-subheadline")?.textContent });
+      }
+      if (typeof activeScheme !== "undefined" && activeScheme && typeof updateEmiCalculation === "function") {
+        updateEmiCalculation();
+      }
+    }
+
+    // Additive Entry Tab Switcher (Guided Questions vs Describe in Your Own Words)
+    function switchEntryTab(mode) {
+      const formBtn = document.getElementById("entry-tab-form");
+      const chatBtn = document.getElementById("entry-tab-chat");
+      const formPane = document.getElementById("entry-pane-form");
+      const chatPane = document.getElementById("entry-pane-chat");
+
+      if (mode === "chat") {
+        if (formBtn) {
+          formBtn.classList.remove("active");
+          formBtn.setAttribute("aria-selected", "false");
+        }
+        if (chatBtn) {
+          chatBtn.classList.add("active");
+          chatBtn.setAttribute("aria-selected", "true");
+        }
+        if (formPane) formPane.style.display = "none";
+        if (chatPane) chatPane.style.display = "block";
+
+        const inputEl = document.getElementById("chat-user-input");
+        if (inputEl) setTimeout(() => inputEl.focus(), 100);
+      } else {
+        if (chatBtn) {
+          chatBtn.classList.remove("active");
+          chatBtn.setAttribute("aria-selected", "false");
+        }
+        if (formBtn) {
+          formBtn.classList.add("active");
+          formBtn.setAttribute("aria-selected", "true");
+        }
+        if (chatPane) chatPane.style.display = "none";
+        if (formPane) formPane.style.display = "block";
+      }
+    }
+    let API_BASE = "http://127.0.0.1:5001";
 
     // Reusable Lucide SVG Icon helper strings
     const ICONS = {
@@ -1842,7 +2928,10 @@
       pin: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
       extLink: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>`,
       spark: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
-      search: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`
+      search: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
+      navigate: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 10 20-10-5-10 5z"/></svg>`,
+      globe: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>`,
+      car: `<svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>`
     };
 
     // Application state
@@ -1885,19 +2974,29 @@
     async function checkBackendHealth() {
       const badge = document.getElementById("backend-status");
       const text = document.getElementById("backend-status-text");
-      try {
-        const res = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(3000) });
-        if (res.ok) {
-          const data = await res.json();
-          badge.className = "backend-badge connected";
-          text.textContent = `API Connected (${data.schemes_loaded} Schemes Active)`;
-        } else {
-          throw new Error();
+
+      const portsToTry = ["http://127.0.0.1:5001", "http://127.0.0.1:5000"];
+      for (const baseUrl of portsToTry) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2000);
+          const res = await fetch(`${baseUrl}/api/health`, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (res.ok) {
+            const data = await res.json();
+            API_BASE = baseUrl;
+            badge.className = "backend-badge connected";
+            text.textContent = `API Connected (${data.schemes_loaded} Schemes Active)`;
+            return;
+          }
+        } catch (err) {
+          // Probe next port
         }
-      } catch (err) {
-        badge.className = "backend-badge disconnected";
-        text.textContent = "Backend Offline (Run: python app.py)";
       }
+
+      badge.className = "backend-badge disconnected";
+      text.textContent = "Backend Offline (Run: python app.py)";
     }
 
     // 2. Chatbot Message Handling
@@ -2125,7 +3224,7 @@
       knownFields.annual_income = val || null;
       const textEl = document.getElementById("income-live-text");
       if (val > 0) {
-        let note = val <= 300000 ? " (Within NSFDC limit ≤ ₹3L)" : " (Exceeds ₹3L NSFDC cap)";
+        let note = val <= 300000 ? I18N[currentLang].withinLimitNote : I18N[currentLang].exceedsLimitNote;
         textEl.textContent = formatLakhs(val) + note;
         textEl.style.color = val <= 300000 ? "var(--brand-navy-700)" : "var(--brand-saffron-700)";
       } else {
@@ -2189,9 +3288,23 @@
       const container = document.getElementById("scheme-cards-container");
       resultsSection.style.display = "block";
       container.innerHTML = `
-        <div style="text-align: center; padding: 40px; color: var(--gray-600); grid-column: 1/-1;">
-          <div style="margin-bottom: 8px;">${ICONS.clock}</div>
-          <strong>Evaluating NSFDC & Govt. Schemes...</strong>
+        <div class="skeleton-card" aria-hidden="true">
+          <div class="skeleton-box" style="width: 35%; height: 20px;"></div>
+          <div class="skeleton-box" style="width: 80%; height: 24px; margin-top: 4px;"></div>
+          <div class="skeleton-box" style="width: 100%; height: 60px; border-radius: var(--radius-md);"></div>
+          <div class="skeleton-box" style="width: 100%; height: 38px;"></div>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <div class="skeleton-box" style="width: 40%; height: 20px;"></div>
+          <div class="skeleton-box" style="width: 75%; height: 24px; margin-top: 4px;"></div>
+          <div class="skeleton-box" style="width: 100%; height: 60px; border-radius: var(--radius-md);"></div>
+          <div class="skeleton-box" style="width: 100%; height: 38px;"></div>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <div class="skeleton-box" style="width: 30%; height: 20px;"></div>
+          <div class="skeleton-box" style="width: 85%; height: 24px; margin-top: 4px;"></div>
+          <div class="skeleton-box" style="width: 100%; height: 60px; border-radius: var(--radius-md);"></div>
+          <div class="skeleton-box" style="width: 100%; height: 38px;"></div>
         </div>
       `;
       resultsSection.scrollIntoView({ behavior: "smooth" });
@@ -2218,7 +3331,7 @@
             ${ICONS.alert}
             <div>
               <strong>Could not connect to backend server.</strong><br>
-              Please ensure <code>python app.py</code> is running on port 5000.
+              Please ensure the backend server (<code>python app.py</code>) is running.
             </div>
           </div>
         `;
@@ -2255,54 +3368,61 @@
 
       let html = "";
       listToRender.forEach((s, idx) => {
-        const isEligible = s.eligible;
-        const rankBadge = s.rank ? `<span class="badge badge-rank">${ICONS.award} #${s.rank} Best Rate</span>` : "";
-        const agencyBadge = s.scheme_type ? `<span class="badge badge-type">${s.scheme_type}</span>` : "";
+        const isEligible = Boolean(s.eligible);
+        const rankBadge = s.rank ? `<span class="badge badge-rank">${ICONS.award} #${escapeHtml(String(s.rank))} Best Rate</span>` : "";
+        const agencyBadge = s.scheme_type ? `<span class="badge badge-type">${escapeHtml(s.scheme_type)}</span>` : "";
+        const schemeName = escapeHtml(s.name || "Government Scheme");
+        const schemeDesc = s.description ? escapeHtml(s.description) : "";
+        const reasonText = escapeHtml(s.reason || (isEligible ? "Eligible under NSFDC guidelines" : "Criteria not met"));
+        const interestRateText = s.interest_rate ? `${escapeHtml(String(s.interest_rate))} p.a.` : "—";
+        const repaymentText = s.repayment_years ? `${escapeHtml(String(s.repayment_years))} Yrs` : "—";
+        const loanSupportText = s.estimated_loan != null ? formatINR(s.estimated_loan) : "—";
+        const marginText = s.applicant_contribution != null ? formatINR(s.applicant_contribution) : "—";
         
         html += `
-          <div class="scheme-card ${isEligible ? 'eligible' : 'ineligible'}" onclick="openSchemeModal(${idx}, '${currentFilter}')">
+          <div class="scheme-card ${isEligible ? 'eligible' : 'ineligible'}" onclick="openSchemeModal(${idx}, '${currentFilter}')" tabindex="0" role="button" aria-label="View details and EMI calculator for ${schemeName}">
             <div class="card-top">
               <div class="card-title-group">
                 <div class="card-badges">
                   ${rankBadge}
                   ${agencyBadge}
                 </div>
-                <h3 class="card-name">${s.name}</h3>
-                <p class="card-desc">${s.description || ''}</p>
+                <h3 class="card-name">${schemeName}</h3>
+                ${schemeDesc ? `<p class="card-desc">${schemeDesc}</p>` : ''}
               </div>
             </div>
 
             ${isEligible ? `
               <div class="card-metrics-grid">
                 <div class="metric-cell">
-                  <span class="metric-lbl">Loan Support</span>
-                  <span class="metric-val highlight">${formatINR(s.estimated_loan)}</span>
+                  <span class="metric-lbl">${I18N[currentLang].metricLoanSupport}</span>
+                  <span class="metric-val highlight">${loanSupportText}</span>
                 </div>
                 <div class="metric-cell">
-                  <span class="metric-lbl">Your Margin</span>
-                  <span class="metric-val">${formatINR(s.applicant_contribution)}</span>
+                  <span class="metric-lbl">${I18N[currentLang].metricYourMargin}</span>
+                  <span class="metric-val">${marginText}</span>
                 </div>
                 <div class="metric-cell">
-                  <span class="metric-lbl">Interest Rate</span>
-                  <span class="metric-val highlight">${s.interest_rate} p.a.</span>
+                  <span class="metric-lbl">${I18N[currentLang].metricInterestRate}</span>
+                  <span class="metric-val highlight">${interestRateText}</span>
                 </div>
                 <div class="metric-cell">
-                  <span class="metric-lbl">Repayment</span>
-                  <span class="metric-val">${s.repayment_years} Yrs</span>
+                  <span class="metric-lbl">${I18N[currentLang].metricRepayment}</span>
+                  <span class="metric-val">${repaymentText}</span>
                 </div>
               </div>
             ` : ''}
 
             <div class="card-reason-banner ${isEligible ? 'eligible' : 'ineligible'}">
               ${isEligible ? ICONS.check : ICONS.x}
-              <span>${s.reason}</span>
+              <span>${reasonText}</span>
             </div>
 
             <div class="card-footer">
               <span class="card-footer-cta">
-                ${isEligible ? ICONS.calc + ' <span>Live EMI Calculator & Checklist →</span>' : '<span>View Scheme Details →</span>'}
+                ${isEligible ? ICONS.calc + ` <span>${I18N[currentLang].cardCtaEligible}</span>` : `<span>${I18N[currentLang].cardCtaIneligible}</span>`}
               </span>
-              ${s.moratorium_months ? `<span style="font-size: 11px; color: var(--gray-500); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">${ICONS.clock} ${s.moratorium_months} Mo. Moratorium</span>` : ''}
+              ${s.moratorium_months ? `<span style="font-size: 11px; color: var(--gray-500); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">${ICONS.clock} ${escapeHtml(String(s.moratorium_months))} ${I18N[currentLang].moratoriumSuffix}</span>` : ''}
             </div>
           </div>
         `;
@@ -2318,6 +3438,8 @@
       renderResults({ eligible: true, message: document.getElementById("results-subheadline").textContent });
     }
 
+    let lastFocusedElement = null;
+
     // 6. Modal & Live EMI Calculator
     function openSchemeModal(idx, filterMode) {
       const list = filterMode === "eligible" 
@@ -2327,16 +3449,17 @@
       const scheme = list[idx];
       if (!scheme) return;
       activeScheme = scheme;
+      lastFocusedElement = document.activeElement;
 
-      document.getElementById("modal-scheme-name").textContent = scheme.name;
+      document.getElementById("modal-scheme-name").textContent = scheme.name || "Scheme Details";
       document.getElementById("modal-scheme-desc").textContent = scheme.description || "";
       document.getElementById("modal-official-link").href = scheme.source_url || "https://nsfdc.nic.in/";
       
       const badgeWrap = document.getElementById("modal-badges");
       badgeWrap.innerHTML = `
-        ${scheme.rank ? `<span class="badge badge-rank">${ICONS.award} #${scheme.rank} Ranked</span>` : ''}
-        <span class="badge badge-agency">${scheme.purpose}</span>
-        ${scheme.scheme_type ? `<span class="badge badge-type">${scheme.scheme_type}</span>` : ''}
+        ${scheme.rank ? `<span class="badge badge-rank">${ICONS.award} #${escapeHtml(String(scheme.rank))} Ranked</span>` : ''}
+        ${scheme.purpose ? `<span class="badge badge-agency">${escapeHtml(scheme.purpose)}</span>` : ''}
+        ${scheme.scheme_type ? `<span class="badge badge-type">${escapeHtml(scheme.scheme_type)}</span>` : ''}
       `;
 
       const docs = scheme.documents_required || [];
@@ -2348,13 +3471,21 @@
       loadPartnersForScheme(scheme);
 
       const overlay = document.getElementById("modal-overlay");
-      overlay.classList.add("open");
+      overlay.classList.add("active");
       document.body.style.overflow = "hidden";
+
+      setTimeout(() => {
+        const closeBtn = document.querySelector(".modal-close-btn");
+        if (closeBtn) closeBtn.focus();
+      }, 50);
     }
 
     function closeModal() {
-      document.getElementById("modal-overlay").classList.remove("open");
+      document.getElementById("modal-overlay").classList.remove("active");
       document.body.style.overflow = "";
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
     }
 
     function handleModalOverlayClick(e) {
@@ -2362,7 +3493,42 @@
     }
 
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape") {
+        closeModal();
+        return;
+      }
+
+      // Focus trap within modal
+      const overlay = document.getElementById("modal-overlay");
+      if (overlay && overlay.classList.contains("active") && e.key === "Tab") {
+        const modal = document.getElementById("modal-container");
+        const focusableEls = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const focusable = Array.from(focusableEls).filter(el => !el.disabled && el.offsetParent !== null);
+        if (focusable.length > 0) {
+          const firstEl = focusable[0];
+          const lastEl = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl || document.activeElement === modal) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
+        }
+      }
+
+      // Shared keydown handler for Enter/Space on custom role="button" elements
+      if (e.key === "Enter" || e.key === " ") {
+        const target = document.activeElement;
+        if (target && target.getAttribute("role") === "button" && target.tagName !== "BUTTON" && target.tagName !== "A" && target.tagName !== "INPUT") {
+          e.preventDefault();
+          target.click();
+        }
+      }
     });
 
     function switchModalTab(tabId) {
@@ -2460,9 +3626,12 @@
 
       const morEl = document.getElementById("modal-moratorium-banner");
       if (morMonths > 0) {
-        morEl.innerHTML = `
-          <strong>${morMonths}-Month Moratorium Period:</strong> You do not pay any EMI for the first ${morMonths} months. Monthly repayments of <strong>${formatINR(Math.round(emi))}</strong> start from Month ${morMonths + 1}.
-        `;
+        const bannerTemplate = I18N[currentLang].moratoriumBanner;
+        const formattedEmi = formatINR(Math.round(emi));
+        morEl.innerHTML = bannerTemplate
+          .replaceAll("{months}", morMonths)
+          .replace("{emi}", formattedEmi)
+          .replace("{nextMonth}", morMonths + 1);
         morEl.style.display = "block";
       } else {
         morEl.innerHTML = `
@@ -2482,14 +3651,16 @@
 
       let html = "";
       docs.forEach(d => {
+        const docName = escapeHtml(d.name || "Verification Document");
+        const isMandatory = Boolean(d.mandatory);
         html += `
           <label class="doc-item">
             <input type="checkbox" class="doc-check" />
             <div style="flex: 1;">
               <div class="doc-name">
-                ${d.name}
-                <span class="doc-badge ${d.mandatory ? 'mandatory' : 'optional'}">
-                  ${d.mandatory ? 'Mandatory' : 'Optional'}
+                ${docName}
+                <span class="doc-badge ${isMandatory ? 'mandatory' : 'optional'}">
+                  ${isMandatory ? 'Mandatory' : 'Optional'}
                 </span>
               </div>
               <div style="font-size: 11.5px; color: var(--gray-500); margin-top: 2px;">Required for official verification.</div>
@@ -2654,14 +3825,14 @@
         
         const userIcon = L.divIcon({
           className: 'user-map-pin',
-          html: `<div style="width:16px;height:16px;background:#1d4ed8;border:3px solid #ffffff;border-radius:50%;box-shadow:0 0 0 4px rgba(29,78,216,0.35);"></div>`,
+          html: `<div style="width:16px;height:16px;background:var(--brand-saffron-600);border:3px solid #ffffff;border-radius:50%;box-shadow:0 0 0 4px rgba(217,114,10,0.35);"></div>`,
           iconSize: [16, 16],
           iconAnchor: [8, 8]
         });
 
         userMarker = L.marker([userCoords.latitude, userCoords.longitude], { icon: userIcon })
           .addTo(partnersMap)
-          .bindPopup(`<strong>📍 Your Current Location</strong>`);
+          .bindPopup(`<div style="font-weight:700; display:flex; align-items:center; gap:4px;">${ICONS.pin} Your Current Location</div>`);
 
         bounds.push([userCoords.latitude, userCoords.longitude]);
       }
@@ -2674,7 +3845,7 @@
 
           // Create SVG Pin for Partner
           const isSca = p.partner_type === "State Channelizing Agency";
-          const pinColor = isSca ? "#15396b" : "#1c4a87";
+          const pinColor = isSca ? "var(--brand-navy-700)" : "var(--brand-navy-600)";
           
           const partnerIcon = L.divIcon({
             className: 'partner-map-pin',
@@ -2687,16 +3858,21 @@
             iconAnchor: [14, 14]
           });
 
+          const partnerName = escapeHtml(p.partner_name || "Channel Partner Office");
+          const partnerType = escapeHtml(p.partner_type || "Partner Office");
+          const partnerState = escapeHtml(p.state || "India");
+          const partnerAddress = escapeHtml(p.address || (p.district ? `${p.district}, ${p.state || ''}` : ""));
+
           const popupContent = `
-            <div class="map-popup-title">${p.partner_name}</div>
-            <span class="map-popup-badge">${p.partner_type} &bull; ${p.state || 'India'}</span>
-            <div style="color:var(--gray-700);margin-top:2px;">${p.address ? p.address : (p.district + ', ' + p.state)}</div>
-            ${p.distance_km !== null ? `<div style="font-weight:700;color:var(--brand-navy-700);margin-top:4px;">🚗 ${p.distance_km} km away</div>` : ''}
+            <div class="map-popup-title">${partnerName}</div>
+            <span class="map-popup-badge">${partnerType} &bull; ${partnerState}</span>
+            ${partnerAddress ? `<div style="color:var(--gray-700);margin-top:2px;">${partnerAddress}</div>` : ''}
+            ${p.distance_km !== null && p.distance_km !== undefined ? `<div style="font-weight:700;color:var(--brand-navy-700);margin-top:4px;display:inline-flex;align-items:center;gap:4px;">${ICONS.car} ${p.distance_km} km away</div>` : ''}
             <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
               <a class="map-popup-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}" target="_blank" rel="noopener">
-                <span>🧭 Directions / Navigate</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;">${ICONS.navigate} Directions / Navigate</span>
               </a>
-              ${p.website ? `<a class="map-popup-nav-btn" style="background:var(--gray-200);color:var(--gray-800)!important;" href="${p.website}" target="_blank" rel="noopener">🌐 Portal</a>` : ''}
+              ${p.website ? `<a class="map-popup-nav-btn" style="background:var(--gray-200);color:var(--gray-800)!important;" href="${escapeHtml(p.website)}" target="_blank" rel="noopener"><span style="display:inline-flex;align-items:center;gap:4px;">${ICONS.globe} Portal</span></a>` : ''}
             </div>
           `;
 
@@ -2707,22 +3883,27 @@
           partnerMarkersList.push(marker);
         }
 
+        const partnerName = escapeHtml(p.partner_name || "Channel Partner Office");
+        const partnerType = escapeHtml(p.partner_type || "Partner Office");
+        const partnerState = escapeHtml(p.state || "All India");
+        const partnerAddress = escapeHtml(p.address || "");
+
         html += `
-          <div class="partner-item" id="partner-card-${idx}" onclick="focusPartnerOnMap(${idx})">
+          <div class="partner-item" id="partner-card-${idx}" onclick="focusPartnerOnMap(${idx})" tabindex="0" role="button" aria-label="Focus ${partnerName} on map">
             <div class="partner-title-row">
-              <span class="partner-name"><span style="color:var(--brand-navy-700);font-weight:800;">${idx + 1}.</span> ${p.partner_name}</span>
-              ${p.distance_km !== null ? `<span class="partner-dist">${p.distance_km} km away</span>` : ''}
+              <span class="partner-name"><span style="color:var(--brand-navy-700);font-weight:800;">${idx + 1}.</span> ${partnerName}</span>
+              ${p.distance_km !== null && p.distance_km !== undefined ? `<span class="partner-dist">${p.distance_km} km away</span>` : ''}
             </div>
             <div class="partner-meta">
-              <strong>Type:</strong> ${p.partner_type} &nbsp;|&nbsp; <strong>State:</strong> ${p.state || 'All India'}<br>
-              ${p.address ? `<span style="display:inline-flex; align-items:center; gap:4px; margin-top:2px;">${ICONS.pin} ${p.address}</span><br>` : ''}
+              <strong>Type:</strong> ${partnerType} &nbsp;|&nbsp; <strong>State:</strong> ${partnerState}<br>
+              ${partnerAddress ? `<span style="display:inline-flex; align-items:center; gap:4px; margin-top:2px;">${ICONS.pin} ${partnerAddress}</span><br>` : ''}
               <div style="display:flex; gap:10px; margin-top:6px; align-items:center;">
                 ${hasCoords ? `
-                  <a href="https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:11.5px; font-weight:700; color:var(--brand-navy-700); text-decoration:none; display:inline-flex; align-items:center; gap:3px;">
-                    <span>🧭 Directions / Map</span> ${ICONS.extLink}
+                  <a href="https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:11.5px; font-weight:700; color:var(--brand-navy-700); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                    <span>${ICONS.navigate} Directions / Map</span> ${ICONS.extLink}
                   </a>
                 ` : ''}
-                ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color: var(--accent-blue); font-weight: 600; font-size:11.5px; text-decoration: none; display:inline-flex; align-items:center; gap:3px;"><span>Official Website</span> ${ICONS.extLink}</a>` : ''}
+                ${p.website ? `<a href="${escapeHtml(p.website)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color: var(--accent-blue); font-weight: 600; font-size:11.5px; text-decoration: none; display:inline-flex; align-items:center; gap:4px;"><span>${ICONS.globe} Official Website</span> ${ICONS.extLink}</a>` : ''}
               </div>
             </div>
           </div>

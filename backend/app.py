@@ -482,6 +482,8 @@ def get_partners():
             "district":                row["district"] if pd.notna(row["district"]) else None,
             "website":                 row["website"]  if pd.notna(row["website"])  else None,
             "fund_utilization_status": row["fund_utilization_status"] if pd.notna(row["fund_utilization_status"]) else None,
+            "latitude":                partner_lat,
+            "longitude":               partner_lon,
             "distance_km":             dist_km,
         }
 
@@ -498,4 +500,4 @@ def get_partners():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port=5000, threaded=True)
+    app.run(debug=False, port=5001, threaded=True)
